@@ -823,8 +823,9 @@ __webpack_require__.r(__webpack_exports__);
           return obj;
         });
       } else {
+        console.log(this.functionName);
         this.functionList.push({
-          name: this["function"],
+          name: this.functionName,
           order: listOrderCount + 1,
           fixed: false
         });
