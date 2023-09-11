@@ -9,14 +9,14 @@
 								<h4 class="card-title">IPCR</h4>
 							</div>
 							<div class="col-md-2 mt-4">
-									<h4 style="color: black">Upload Template:</h4>
-								</div>
-								<div class="col-md-2 mt-4">
-									<input type="file" @change="handleFileChange" class="form-control" />
-								</div>
-								<div class="col-md-2 mt-4">
-									<button class="btn btn-sm btn-primary" @click="uploadFiles">Submit</button>
-								</div>
+								<h4 style="color: black">Upload Template:</h4>
+							</div>
+							<div class="col-md-2 mt-4">
+								<input type="file" @change="handleFileChange" class="form-control" />
+							</div>
+							<div class="col-md-2 mt-4">
+								<button class="btn btn-sm btn-primary" @click="uploadFiles">Submit</button>
+							</div>
 						</div>
 					</div>
 
