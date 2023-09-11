@@ -10,7 +10,7 @@
                         <div class="card card-login" style="opacity: 0.9;">
                             @if(session('status'))
                             <div class="card-body" style="padding: .9375rem 20px;">
-                                <p class="alert alert-info">
+                                <p class="alert alert-danger">
                                     {{ session('status') }}
                                 </p>
                             </div>
@@ -28,7 +28,7 @@
                                                 <i class="material-icons">email</i>
                                             </span>
                                         </div>
-                                        <input name="email" type="email" class="form-control" placeholder="{{ __('global.login_email') }}..." value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                        <input name="email" type="text" class="form-control" placeholder="Email Or Generated ID" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                     </div>
                                     @error('email')
                                     <div class="error" for="email">
@@ -56,6 +56,21 @@
                                 <button type="submit" class="btn btn-round btn-success">
                                     {{ __('global.login') }}
                                 </button>
+
+                                <div class="d-flex justify-content-between">
+
+                                    @if(Route::has('password.request'))
+                                    <a class="btn btn-link btn-primary" href="{{ route('password.request') }}">
+                                        {{ __('global.forgot_password') }}
+                                    </a>
+                                    @endif
+
+                                    @if(Route::has('register'))
+                                    <a class="btn btn-link btn-primary" href="{{ route('register') }}">
+                                        {{ __('global.register') }}
+                                    </a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </form>

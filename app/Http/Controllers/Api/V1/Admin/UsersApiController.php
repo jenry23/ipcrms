@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class UsersApiController extends Controller
 {
@@ -46,7 +47,7 @@ class UsersApiController extends Controller
     {
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new UserResource($user->load(['roles']));
+        return new UserResource($user->load(['roles', 'userDetails']));
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -79,4 +80,10 @@ class UsersApiController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    // public function me()
+    // {
+    //     $user = Auth::user();
+    //     dd($user->load('userDetails.role'));
+    // }
 }

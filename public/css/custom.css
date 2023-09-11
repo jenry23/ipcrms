@@ -68,7 +68,7 @@
 }
 
 .register-page {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('/md/img/register.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('/md/img/lspu-background.jpg');
 }
 
 .header-filter::before {

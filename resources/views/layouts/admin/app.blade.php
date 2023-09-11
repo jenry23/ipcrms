@@ -7,6 +7,9 @@
     <link rel="icon" type="image/png" href="{{ url('/md/img/vue.png') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    @if (Auth::check())
+    <meta name="role_title" content="{{ Auth::user()->userDetails ? Auth::user()->userDetails->role->title : null }}">
+    @endif
     <title>
         {{ trans('panel.site_title') }}
     </title>

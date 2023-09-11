@@ -40,6 +40,25 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function login(Request $request)
+    {
+        $input = $request->all();
+
+        $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'ipcr_id';
+
+        if (auth()->attempt(array($fieldType => $input['email'], 'password' => $input['password']))) {
+            return redirect('dashboard');
+        } else {
+            return redirect()->route('login')
+                ->with('status', 'Email-Address And Password Are Wrong.');
+        }
+    }
+
     /**
      * The user has logged out of the application.
      *

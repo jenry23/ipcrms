@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Http\Controllers\Api\V1\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\IpcrResource;
+use App\Models\IpcrFacultyAssesstment;
+use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+class IpcrFacultyAssesstmentApiController extends Controller
+{
+    public function index()
+    {
+        return new IpcrResource(IpcrFacultyAssesstment::get());
+    }
+
+    public function store(Request $request)
+    {
+        $user = Auth::user();
+        $file = $request->templates;
+        $name = $file->getClientOriginalName();
+        Storage::disk('public')->put($name, file_get_contents($file));
+
+        $ipcr = IpcrFacultyAssesstment::where([
+            'faculty_id' => $user->id,
+            'ipcr_template_id' => (int) $request->template_id
+        ])->update([
+            'status_id' => 'Done Assessment',
+            'file_name' => Storage::disk('public')->path($name)
+        ]);
+
+        return response()->json();
+    }
+
+    public function getFacultyAssesstment()
+    {
+        $user_id = Auth::user()->id;
+        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template'])->where('faculty_id', $user_id)->first();
+
+        return new IpcrResource($ipcr_faculty);
+    }
+
+    public function destroy(int $id)
+    {
+        $ipcr_function = IpcrFacultyAssesstment::findOrFail($id);
+        $ipcr_function->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
+}

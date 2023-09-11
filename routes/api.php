@@ -17,6 +17,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::resource('roles', 'RolesApiController');
 
     // Users
+    Route::get('users/me', 'UsersApiController@me')->name('users.me');
     Route::resource('users', 'UsersApiController');
 
     // IPCR
@@ -36,4 +37,14 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Faculty
     Route::resource('faculty', 'FacultyApiController');
+
+    // Templates
+    Route::get('ipcr-templates/download/{id}', 'IpcrTemplateApiController@downloadIPCR');
+    Route::get('ipcr-templates/get-active', 'IpcrTemplateApiController@getActiveIPCR');
+    Route::resource('ipcr-templates', 'IpcrTemplateApiController');
+    Route::post('ipcr-templates/set-active', 'IpcrTemplateApiController@setActive');
+
+    // IPCR faculty Assesstment function
+    Route::get('ipcr-faculty-assesstment/faculty', 'IpcrFacultyAssesstmentApiController@getFacultyAssesstment');
+    Route::resource('ipcr-faculty-assesstment', 'IpcrFacultyAssesstmentApiController');
 });

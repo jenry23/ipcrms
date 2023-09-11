@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Support\HasAdvancedFilter;
 use Carbon\Carbon;
-use Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use \DateTimeInterface;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -41,6 +41,7 @@ class User extends Authenticatable
         'id',
         'name',
         'email',
+        'ipcr_id',
         'email_verified_at',
         'roles.title',
     ];
@@ -48,6 +49,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'ipcr_id',
         'email_verified_at',
         'password',
         'remember_token',
@@ -86,5 +88,10 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function userDetails()
+    {
+        return $this->hasOne(UserDetail::class);
     }
 }

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -53,6 +55,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'contact_no' => ['required', 'numeric', 'digits:11']
         ]);
     }
 
@@ -64,10 +67,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $user = null;
+
+        DB::transaction(function () use ($data, &$user) {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'ipcr_id' => $data['ipcr_id'],
+                'password' => Hash::make($data['password']),
+            ]);
+
+            $role_id = (int) $data['role_id'];
+            $user->roles()->sync($role_id);
+
+            UserDetail::create([
+                'contact_number' => $data['contact_no'],
+                'user_id' => $user->id,
+                'academic_rank_id' => $data['academic_rank'],
+                'department_id' => $data['department_id'],
+                'role_id' => $role_id,
+            ]);
+        });
+
+        return $user;
     }
 }

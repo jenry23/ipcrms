@@ -12,56 +12,56 @@ class DepartmentTableSeeder extends Seeder
         $departments = [
             [
                 'id'    => 1,
-                'name' => 'CCS',
+                'name' => 'College of Computer Studies',
                 'code' => 'CCS',
                 'url'  => '/md/department/CCS.png'
             ],
             [
                 'id'    => 2,
-                'name' => 'CTE',
+                'name' => 'College of Teacher Education',
                 'code' => 'CTE',
                 'url'  => '/md/department/CTE.png'
             ],
             [
                 'id'    => 3,
-                'name' => 'CBMA',
+                'name' => 'College of Business Management Administration',
                 'code' => 'CBMA',
                 'url'  => '/md/department/CBMA.png'
             ],
             [
                 'id'    => 4,
-                'name' => 'CHMT',
+                'name' => 'College of Hospitality Management and Tourism',
                 'code' => 'CHMT',
                 'url'  => '/md/department/CHMT.png'
             ],
             [
                 'id'    => 5,
-                'name' => 'COE',
+                'name' => 'College of Engineering',
                 'code' => 'COE',
                 'url'  => '/md/department/COE.png'
             ],
             [
                 'id'    => 6,
-                'name' => 'CIT',
+                'name' => 'College of Industrial Technology',
                 'code' => 'CIT',
                 'url'  => '/md/department/CIT.png'
             ],
 
             [
                 'id'    => 7,
-                'name' => 'CAS',
+                'name' => 'College of Arts and Sciences',
                 'code' => 'CAS',
                 'url'  => '/md/department/CAS.png'
             ],
             [
                 'id'    => 8,
-                'name' => 'CCJE',
+                'name' => 'College of Criminal Justice Education',
                 'code' => 'CCJE',
                 'url'  => '/md/department/CCJE.png'
             ],
             [
                 'id'    => 9,
-                'name' => 'CONAH',
+                'name' => 'College of Natural and Allied Health',
                 'code' => 'CONAH',
                 'url'  => '/md/department/CONAH.png'
             ]

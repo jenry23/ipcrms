@@ -101,7 +101,7 @@ const routes = [
         path: 'ipcr',
         name: 'ipcr',
         component: () => import('@cruds/IPCR/index.vue'),
-        meta: { title: 'IPCR' }
+        meta: { title: 'IPCR'}
       },
       {
         path: 'upload-files',
@@ -118,6 +118,7 @@ const routes = [
     ]
   }
 ]
+
 
 export default new VueRouter({
   mode: 'history',
