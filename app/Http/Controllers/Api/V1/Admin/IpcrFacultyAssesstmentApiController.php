@@ -24,11 +24,11 @@ class IpcrFacultyAssesstmentApiController extends Controller
         $name = $file->getClientOriginalName();
         Storage::disk('public')->put($name, file_get_contents($file));
 
-        $ipcr = IpcrFacultyAssesstment::where([
-            'faculty_id' => $user->id,
+        IpcrFacultyAssesstment::where([
+            'faculty_id' => (int) $request->faculty_id ?? $user->id,
             'ipcr_template_id' => (int) $request->template_id
         ])->update([
-            'status_id' => 'Done Assessment',
+            'status_id' => $request->status_id ?? null,
             'file_name' => Storage::disk('public')->path($name)
         ]);
 
@@ -42,6 +42,14 @@ class IpcrFacultyAssesstmentApiController extends Controller
 
         return new IpcrResource($ipcr_faculty);
     }
+
+    public function getCampusDirectorAssesstment()
+    {
+        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template'])->get();
+
+        return new IpcrResource($ipcr_faculty);
+    }
+
 
     public function destroy(int $id)
     {

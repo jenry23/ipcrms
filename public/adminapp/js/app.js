@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "adminapp/js/chunks/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"89186e72dfe82190dc08","1":"f7de7d265c9eac6aab45","2":"ef8d38e906bb887b9ad3","3":"a0d2fddcfa05365a52ae","4":"df411b3f1f259ab62ade","5":"786a2a3e60463a277202","6":"be5a381c990bbffa8c42","7":"2d49060ab2840628e881","8":"4004d3e502c1b4c7f69c","9":"faf5e01eb8a0db3dcabc","10":"9967e99c8568a00f1cd5","11":"4eca6b6c6b9e9913ab44","12":"324bde346eb377763f95","13":"24af41d9595fec736e69","14":"18db6f2f46e1657dd159","15":"544ba39f707695ffee97","16":"e92a06b8a1f3a2818384","17":"1a033638889807e354f8","18":"a71aedbff97ddd6b37f9"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "adminapp/js/chunks/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"89186e72dfe82190dc08","1":"f7de7d265c9eac6aab45","2":"21d5e793a3f248d6a4d7","3":"f289c80a24fb17b304c4","4":"3fc6ad1c36e68fa18e39","5":"d7a175db8787bdd63585","6":"87e56fe5561d40b097b3","7":"b3c4addc50b5bba05f46","8":"2b08e86a3067e000133d","9":"d23114ab00c36330889c","10":"68cfedbdd7c49a52d773","11":"df9e4830b45fa4fe8a01","12":"2ad10596d6a19f2a5ab0","13":"e3bc12b34abafc7dd698","14":"010caa6c9f635bef0ea4","15":"544ba39f707695ffee97","16":"e92a06b8a1f3a2818384","17":"1a033638889807e354f8","18":"a71aedbff97ddd6b37f9"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -78496,7 +78496,7 @@ var routes = [{
       path: 'permissions',
       name: 'permissions.index',
       component: function component() {
-        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! @cruds/Permissions/Index.vue */ "./resources/adminapp/js/cruds/Permissions/Index.vue"));
+        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(11)]).then(__webpack_require__.bind(null, /*! @cruds/Permissions/Index.vue */ "./resources/adminapp/js/cruds/Permissions/Index.vue"));
       },
       meta: {
         title: 'cruds.permission.title'
@@ -78505,7 +78505,7 @@ var routes = [{
       path: 'permissions/create',
       name: 'permissions.create',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! @cruds/Permissions/Create.vue */ "./resources/adminapp/js/cruds/Permissions/Create.vue"));
+        return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! @cruds/Permissions/Create.vue */ "./resources/adminapp/js/cruds/Permissions/Create.vue"));
       },
       meta: {
         title: 'cruds.permission.title'
@@ -78514,7 +78514,7 @@ var routes = [{
       path: 'permissions/:id',
       name: 'permissions.show',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! @cruds/Permissions/Show.vue */ "./resources/adminapp/js/cruds/Permissions/Show.vue"));
+        return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! @cruds/Permissions/Show.vue */ "./resources/adminapp/js/cruds/Permissions/Show.vue"));
       },
       meta: {
         title: 'cruds.permission.title'
@@ -78523,7 +78523,7 @@ var routes = [{
       path: 'permissions/:id/edit',
       name: 'permissions.edit',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! @cruds/Permissions/Edit.vue */ "./resources/adminapp/js/cruds/Permissions/Edit.vue"));
+        return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! @cruds/Permissions/Edit.vue */ "./resources/adminapp/js/cruds/Permissions/Edit.vue"));
       },
       meta: {
         title: 'cruds.permission.title'
@@ -78532,7 +78532,7 @@ var routes = [{
       path: 'roles',
       name: 'roles.index',
       component: function component() {
-        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(3)]).then(__webpack_require__.bind(null, /*! @cruds/Roles/Index.vue */ "./resources/adminapp/js/cruds/Roles/Index.vue"));
+        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! @cruds/Roles/Index.vue */ "./resources/adminapp/js/cruds/Roles/Index.vue"));
       },
       meta: {
         title: 'cruds.role.title'
@@ -78541,7 +78541,7 @@ var routes = [{
       path: 'roles/create',
       name: 'roles.create',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! @cruds/Roles/Create.vue */ "./resources/adminapp/js/cruds/Roles/Create.vue"));
+        return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! @cruds/Roles/Create.vue */ "./resources/adminapp/js/cruds/Roles/Create.vue"));
       },
       meta: {
         title: 'cruds.role.title'
@@ -78550,7 +78550,7 @@ var routes = [{
       path: 'roles/:id',
       name: 'roles.show',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! @cruds/Roles/Show.vue */ "./resources/adminapp/js/cruds/Roles/Show.vue"));
+        return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! @cruds/Roles/Show.vue */ "./resources/adminapp/js/cruds/Roles/Show.vue"));
       },
       meta: {
         title: 'cruds.role.title'
@@ -78559,7 +78559,7 @@ var routes = [{
       path: 'roles/:id/edit',
       name: 'roles.edit',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! @cruds/Roles/Edit.vue */ "./resources/adminapp/js/cruds/Roles/Edit.vue"));
+        return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! @cruds/Roles/Edit.vue */ "./resources/adminapp/js/cruds/Roles/Edit.vue"));
       },
       meta: {
         title: 'cruds.role.title'
@@ -78568,7 +78568,7 @@ var routes = [{
       path: 'users',
       name: 'users.index',
       component: function component() {
-        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(5)]).then(__webpack_require__.bind(null, /*! @cruds/Users/Index.vue */ "./resources/adminapp/js/cruds/Users/Index.vue"));
+        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! @cruds/Users/Index.vue */ "./resources/adminapp/js/cruds/Users/Index.vue"));
       },
       meta: {
         title: 'cruds.user.title'
@@ -78586,7 +78586,7 @@ var routes = [{
       path: 'users/:id',
       name: 'users.show',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! @cruds/Users/Show.vue */ "./resources/adminapp/js/cruds/Users/Show.vue"));
+        return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! @cruds/Users/Show.vue */ "./resources/adminapp/js/cruds/Users/Show.vue"));
       },
       meta: {
         title: 'cruds.user.title'
@@ -78614,7 +78614,7 @@ var routes = [{
     path: 'upload-files',
     name: 'upload-files',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! @cruds/UploadFiles/index.vue */ "./resources/adminapp/js/cruds/UploadFiles/index.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! @cruds/UploadFiles/index.vue */ "./resources/adminapp/js/cruds/UploadFiles/index.vue"));
     },
     meta: {
       title: 'Upload Files'
@@ -78623,7 +78623,7 @@ var routes = [{
     path: 'faculty',
     name: 'faculty',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! @cruds/Faculty/index.vue */ "./resources/adminapp/js/cruds/Faculty/index.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! @cruds/Faculty/index.vue */ "./resources/adminapp/js/cruds/Faculty/index.vue"));
     },
     meta: {
       title: 'Faculty'

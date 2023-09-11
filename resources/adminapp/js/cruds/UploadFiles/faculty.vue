@@ -29,7 +29,7 @@
 									role="tablist"
 									aria-expanded="false"
 								>
-									Settings
+								RESEARCH
 								</a>
 							</li>
 							<li class="nav-item">
@@ -40,28 +40,50 @@
 									role="tablist"
 									aria-expanded="false"
 								>
-									Options
+								EXTENSION
+								</a>
+							</li>
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									data-toggle="tab"
+									href="#link4"
+									role="tablist"
+									aria-expanded="false"
+								>
+								SUPPORT FUNCTION
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									data-toggle="tab"
+									href="#link5"
+									role="tablist"
+									aria-expanded="false"
+								>
+								ADMINISTRATIVE FUNCTION
 								</a>
 							</li>
 						</ul>
 						<div class="tab-content tab-space">
 							<div class="tab-pane active" id="link1" aria-expanded="true">
-								Collaboratively administrate empowered markets via plug-and-play networks. Dynamically
-								procrastinate B2C users after installed base benefits.
-								<br /><br />
-								Dramatically visualize customer directed convergence without revolutionary ROI.
+
 							</div>
 							<div class="tab-pane" id="link2" aria-expanded="false">
-								Efficiently unleash cross-media information without cross-media value. Quickly
-								maximize timely deliverables for real-time schemas.
-								<br /><br />Dramatically maintain clicks-and-mortar solutions without functional
-								solutions.
+
 							</div>
 							<div class="tab-pane" id="link3" aria-expanded="false">
-								Completely synergize resource taxing relationships via premier niche markets.
-								Professionally cultivate one-to-one customer service with robust ideas.
-								<br /><br />Dynamically innovate resource-leveling customer service for state of the
-								art customer service.
+
+							</div>
+
+							<div class="tab-pane" id="link4" aria-expanded="false">
+
+							</div>
+
+							<div class="tab-pane" id="link5" aria-expanded="false">
+
 							</div>
 						</div>
 					</div>

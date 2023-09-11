@@ -8,30 +8,26 @@
 							<h4 class="card-title">
 								<div class="row">
 									<div class="col-md-10">
-										<strong>Faculty</strong>
-									</div>
-									<div class="col-md-2">
-										<button class="btn btn-sm btn-warning" @click.prevent="rateYourself">
-											Rate Yourself
-										</button>
+										<strong>Dean</strong>
 									</div>
 								</div>
 							</h4>
 						</div>
 						<div class="card-body">
-							<div class="card" v-if="Object.keys(faculty).length !== 0">
+							<div class="card" v-for="campus in faculty" :key="campus.id">
 								<div class="row">
 									<div class="col-md-4">
-										<h3>Assessment by {{ faculty.faculty_name }}</h3>
+										<h3>Evaludated IPCR {{ campus.faculty_name }}</h3>
 									</div>
 									<div class="col-md-4 mt-4">
-										<h5>Status: {{ faculty.status_id }}</h5>
+										<h5>Status: {{ campus.status_id }}</h5>
 									</div>
 									<div class="col-md-2 mt-3">
 										<input
 											id="fileUpload"
 											type="file"
-											@change="updatedIPCR($event, faculty.ipcr_template.id, faculty.status_id)"
+											@change="updatedIPCR($event, campus.ipcr_template.id, campus.status_id,
+                                            campus.faculty_id)"
 											hidden
 										/>
 										<button class="btn btn-sm btn-primary" @click.prevent="chooseFiles()">
@@ -42,7 +38,7 @@
 									<div class="col-md-1 mt-3">
 										<button
 											class="btn btn-sm btn-success"
-											@click.prevent="downloadIpcr(faculty.ipcr_template, faculty.faculty_name)"
+											@click.prevent="downloadIpcr(campus.ipcr_template, campus.faculty_name)"
 										>
 											Download
 										</button>
@@ -69,7 +65,7 @@
 		},
 
 		mounted () {
-			this.fetchFacultyIPCR();
+			this.fetchDeanIPCR();
 		},
 
 		methods: {
@@ -83,7 +79,7 @@
 
 			rateYourself () {
 				axios.get('ipcr-templates/get-active').then(() => {
-					this.fetchFacultyIPCR();
+					this.fetchDeanIPCR();
 				})
 
 			},
@@ -110,8 +106,8 @@
 					})
 			},
 
-			fetchFacultyIPCR () {
-				axios.get('ipcr-faculty-assesstment/faculty').then((response) => {
+			fetchDeanIPCR () {
+				axios.get('ipcr-faculty-assesstment/campus-director').then((response) => {
 					let data = response.data.data
 					this.faculty = data;
 				})
@@ -121,17 +117,15 @@
 				document.getElementById("fileUpload").click()
 			},
 
-			updatedIPCR (evt, id, status_id) {
+			updatedIPCR (evt, id, status_id, faculty_id) {
 				const files = evt.target.files[0];
-				if (status_id === 'Done Assessment') {
-					this.$toast.error("Files Already Assesst!!");
-				} else {
-
 					if (files) {
 						let form = new FormData();
 						form.append('templates', files);
 						form.append('template_id', id);
-						form.append('status_id', 'Done Assessment')
+                        form.append('status_id', 'Done Evaluate By Dean')
+                        form.append('faculty_id', faculty_id)
+
 						let config = {
 							header: {
 								'Content-Type': 'multipart/form-data'
@@ -140,8 +134,8 @@
 						axios
 							.post(`ipcr-faculty-assesstment`, form, config)
 							.then(response => {
-								this.$toast.success("IPCR Assessment successfully updated!");
-								this.fetchFacultyIPCR();
+								this.$toast.success("IPCR Evaluated successfully updated!");
+								this.fetchDeanIPCR();
 							}).catch(error => {
 								let message = error.response.data.message || error.message
 								this.$toast.error(message);
@@ -149,7 +143,6 @@
 					} else {
 						this.$toast.error("Please insert updated files!!");
 					}
-				}
 			},
 		}
 	}

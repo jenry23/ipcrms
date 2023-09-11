@@ -1208,6 +1208,318 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      status: '',
+      activeField: '',
+      faculty: []
+    };
+  },
+  mounted: function mounted() {
+    this.fetchCampusDirectorIPCR();
+  },
+  methods: {
+    focusField: function focusField(name) {
+      this.activeField = name;
+    },
+    clearFocus: function clearFocus() {
+      this.activeField = '';
+    },
+    rateYourself: function rateYourself() {
+      var _this = this;
+
+      axios.get('ipcr-templates/get-active').then(function () {
+        _this.fetchCampusDirectorIPCR();
+      });
+    },
+    downloadIpcr: function downloadIpcr(ipcr, faculty_name) {
+      var id = ipcr.id;
+      var file = "".concat(ipcr.file_name, " by ").concat(faculty_name);
+      var replace_filename = file.replace('.xlsx', '');
+      var file_name = "".concat(replace_filename, ".xlsx");
+      axios.get("ipcr-templates/download/".concat(id), {
+        headers: {
+          Accept: 'application/octet-stream'
+        },
+        responseType: 'arraybuffer'
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', file_name);
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    fetchCampusDirectorIPCR: function fetchCampusDirectorIPCR() {
+      var _this2 = this;
+
+      axios.get('ipcr-faculty-assesstment/campus-director').then(function (response) {
+        var data = response.data.data;
+        _this2.faculty = data;
+      });
+    },
+    chooseFiles: function chooseFiles() {
+      document.getElementById("fileUpload").click();
+    },
+    updatedIPCR: function updatedIPCR(evt, id, status_id, faculty_id) {
+      var _this3 = this;
+
+      var files = evt.target.files[0];
+
+      if (status_id === 'Done Evaluate') {
+        this.$toast.error("Files Already Assesst!!");
+      } else {
+        if (files) {
+          var form = new FormData();
+          form.append('templates', files);
+          form.append('template_id', id);
+          form.append('status_id', 'Done Evaluate by Campus Director');
+          form.append('faculty_id', faculty_id);
+          var config = {
+            header: {
+              'Content-Type': 'multipart/form-data'
+            }
+          };
+          axios.post("ipcr-faculty-assesstment", form, config).then(function (response) {
+            _this3.$toast.success("IPCR Evaluated successfully updated!");
+
+            _this3.fetchCampusDirectorIPCR();
+          })["catch"](function (error) {
+            var message = error.response.data.message || error.message;
+
+            _this3.$toast.error(message);
+          });
+        } else {
+          this.$toast.error("Please insert updated files!!");
+        }
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      status: '',
+      activeField: '',
+      faculty: []
+    };
+  },
+  mounted: function mounted() {
+    this.fetchDeanIPCR();
+  },
+  methods: {
+    focusField: function focusField(name) {
+      this.activeField = name;
+    },
+    clearFocus: function clearFocus() {
+      this.activeField = '';
+    },
+    rateYourself: function rateYourself() {
+      var _this = this;
+
+      axios.get('ipcr-templates/get-active').then(function () {
+        _this.fetchDeanIPCR();
+      });
+    },
+    downloadIpcr: function downloadIpcr(ipcr, faculty_name) {
+      var id = ipcr.id;
+      var file = "".concat(ipcr.file_name, " by ").concat(faculty_name);
+      var replace_filename = file.replace('.xlsx', '');
+      var file_name = "".concat(replace_filename, ".xlsx");
+      axios.get("ipcr-templates/download/".concat(id), {
+        headers: {
+          Accept: 'application/octet-stream'
+        },
+        responseType: 'arraybuffer'
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', file_name);
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    fetchDeanIPCR: function fetchDeanIPCR() {
+      var _this2 = this;
+
+      axios.get('ipcr-faculty-assesstment/campus-director').then(function (response) {
+        var data = response.data.data;
+        _this2.faculty = data;
+      });
+    },
+    chooseFiles: function chooseFiles() {
+      document.getElementById("fileUpload").click();
+    },
+    updatedIPCR: function updatedIPCR(evt, id, status_id, faculty_id) {
+      var _this3 = this;
+
+      var files = evt.target.files[0];
+
+      if (files) {
+        var form = new FormData();
+        form.append('templates', files);
+        form.append('template_id', id);
+        form.append('status_id', 'Done Evaluate By Dean');
+        form.append('faculty_id', faculty_id);
+        var config = {
+          header: {
+            'Content-Type': 'multipart/form-data'
+          }
+        };
+        axios.post("ipcr-faculty-assesstment", form, config).then(function (response) {
+          _this3.$toast.success("IPCR Evaluated successfully updated!");
+
+          _this3.fetchDeanIPCR();
+        })["catch"](function (error) {
+          var message = error.response.data.message || error.message;
+
+          _this3.$toast.error(message);
+        });
+      } else {
+        this.$toast.error("Please insert updated files!!");
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=script&lang=js& ***!
@@ -1344,6 +1656,7 @@ __webpack_require__.r(__webpack_exports__);
           var form = new FormData();
           form.append('templates', files);
           form.append('template_id', id);
+          form.append('status_id', 'Done Assessment');
           var config = {
             header: {
               'Content-Type': 'multipart/form-data'
@@ -1368,6 +1681,160 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      status: '',
+      activeField: '',
+      faculty: []
+    };
+  },
+  mounted: function mounted() {
+    this.fetchDeanIPCR();
+  },
+  methods: {
+    focusField: function focusField(name) {
+      this.activeField = name;
+    },
+    clearFocus: function clearFocus() {
+      this.activeField = '';
+    },
+    rateYourself: function rateYourself() {
+      var _this = this;
+
+      axios.get('ipcr-templates/get-active').then(function () {
+        _this.fetchDeanIPCR();
+      });
+    },
+    downloadIpcr: function downloadIpcr(ipcr, faculty_name) {
+      var id = ipcr.id;
+      var file = "".concat(ipcr.file_name, " by ").concat(faculty_name);
+      var replace_filename = file.replace('.xlsx', '');
+      var file_name = "".concat(replace_filename, ".xlsx");
+      axios.get("ipcr-templates/download/".concat(id), {
+        headers: {
+          Accept: 'application/octet-stream'
+        },
+        responseType: 'arraybuffer'
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', file_name);
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    fetchDeanIPCR: function fetchDeanIPCR() {
+      var _this2 = this;
+
+      axios.get('ipcr-faculty-assesstment/campus-director').then(function (response) {
+        var data = response.data.data;
+        _this2.faculty = data;
+      });
+    },
+    chooseFiles: function chooseFiles() {
+      document.getElementById("fileUpload").click();
+    },
+    updatedIPCR: function updatedIPCR(evt, id, status_id, faculty_id) {
+      var _this3 = this;
+
+      var files = evt.target.files[0];
+
+      if (files) {
+        var form = new FormData();
+        form.append('templates', files);
+        form.append('template_id', id);
+        form.append('status_id', 'Done Final Rating');
+        form.append('faculty_id', faculty_id);
+        var config = {
+          header: {
+            'Content-Type': 'multipart/form-data'
+          }
+        };
+        axios.post("ipcr-faculty-assesstment", form, config).then(function (response) {
+          _this3.$toast.success("IPCR Evaluated successfully updated!");
+
+          _this3.fetchDeanIPCR();
+        })["catch"](function (error) {
+          var message = error.response.data.message || error.message;
+
+          _this3.$toast.error(message);
+        });
+      } else {
+        this.$toast.error("Please insert updated files!!");
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/index.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/index.vue?vue&type=script&lang=js& ***!
@@ -1379,6 +1846,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin */ "./resources/adminapp/js/cruds/IPCR/admin.vue");
 /* harmony import */ var _faculty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./faculty */ "./resources/adminapp/js/cruds/IPCR/faculty.vue");
+/* harmony import */ var _campus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./campus */ "./resources/adminapp/js/cruds/IPCR/campus.vue");
+/* harmony import */ var _dean__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dean */ "./resources/adminapp/js/cruds/IPCR/dean.vue");
+/* harmony import */ var _hrmo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./hrmo */ "./resources/adminapp/js/cruds/IPCR/hrmo.vue");
 //
 //
 //
@@ -1389,12 +1859,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     AdminTemplate: _admin__WEBPACK_IMPORTED_MODULE_0__["default"],
-    FacultyTemplate: _faculty__WEBPACK_IMPORTED_MODULE_1__["default"]
+    FacultyTemplate: _faculty__WEBPACK_IMPORTED_MODULE_1__["default"],
+    CampusTemplate: _campus__WEBPACK_IMPORTED_MODULE_2__["default"],
+    DeanTemplate: _dean__WEBPACK_IMPORTED_MODULE_3__["default"],
+    HrmoTemplate: _hrmo__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
@@ -3186,6 +3674,272 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=template&id=891f0b66&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=template&id=891f0b66& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("form", [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              _vm._l(_vm.faculty, function(campus) {
+                return _c("div", { key: campus.id, staticClass: "card" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("h3", [
+                        _vm._v("Evaludated IPCR " + _vm._s(campus.faculty_name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 mt-4" }, [
+                      _c("h5", [_vm._v("Status: " + _vm._s(campus.status_id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2 mt-3" }, [
+                      _c("input", {
+                        attrs: { id: "fileUpload", type: "file", hidden: "" },
+                        on: {
+                          change: function($event) {
+                            return _vm.updatedIPCR(
+                              $event,
+                              campus.ipcr_template.id,
+                              campus.status_id,
+                              campus.faculty_id
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-primary",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.chooseFiles()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t\t\tUpload Updated IPCR\n\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-1 mt-3" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.downloadIpcr(
+                                campus.ipcr_template,
+                                campus.faculty_name
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t\t\tDownload\n\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" })
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "card-header card-header-primary card-header-icon" },
+      [
+        _c("h4", { staticClass: "card-title" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-10" }, [
+              _c("strong", [_vm._v("Campus Director")])
+            ])
+          ])
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=template&id=21e5c7dc&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=template&id=21e5c7dc& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("form", [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              _vm._l(_vm.faculty, function(campus) {
+                return _c("div", { key: campus.id, staticClass: "card" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("h3", [
+                        _vm._v("Evaludated IPCR " + _vm._s(campus.faculty_name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 mt-4" }, [
+                      _c("h5", [_vm._v("Status: " + _vm._s(campus.status_id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2 mt-3" }, [
+                      _c("input", {
+                        attrs: { id: "fileUpload", type: "file", hidden: "" },
+                        on: {
+                          change: function($event) {
+                            return _vm.updatedIPCR(
+                              $event,
+                              campus.ipcr_template.id,
+                              campus.status_id,
+                              campus.faculty_id
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-primary",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.chooseFiles()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t\t\tUpload Updated IPCR\n\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-1 mt-3" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.downloadIpcr(
+                                campus.ipcr_template,
+                                campus.faculty_name
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t\t\tDownload\n\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" })
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "card-header card-header-primary card-header-icon" },
+      [
+        _c("h4", { staticClass: "card-title" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-10" }, [
+              _c("strong", [_vm._v("Dean")])
+            ])
+          ])
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=template&id=50b93934&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=template&id=50b93934& ***!
@@ -3341,6 +4095,141 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=template&id=f4b886cc&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=template&id=f4b886cc& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("form", [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              _vm._l(_vm.faculty, function(campus) {
+                return _c("div", { key: campus.id, staticClass: "card" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("h3", [
+                        _vm._v(
+                          "Final Rating IPCR " + _vm._s(campus.faculty_name)
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 mt-4" }, [
+                      _c("h5", [_vm._v("Status: " + _vm._s(campus.status_id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2 mt-3" }, [
+                      _c("input", {
+                        attrs: { id: "fileUpload", type: "file", hidden: "" },
+                        on: {
+                          change: function($event) {
+                            return _vm.updatedIPCR(
+                              $event,
+                              campus.ipcr_template.id,
+                              campus.status_id,
+                              campus.faculty_id
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-primary",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.chooseFiles()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t\t\tUpload Updated IPCR\n\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-1 mt-3" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.downloadIpcr(
+                                campus.ipcr_template,
+                                campus.faculty_name
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t\t\tDownload\n\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" })
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "card-header card-header-primary card-header-icon" },
+      [
+        _c("h4", { staticClass: "card-title" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-10" }, [
+              _c("strong", [_vm._v("HRMO")])
+            ])
+          ])
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/index.vue?vue&type=template&id=3a5d1d54&":
 /*!*****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/index.vue?vue&type=template&id=3a5d1d54& ***!
@@ -3361,7 +4250,19 @@ var render = function() {
     _vm._v(" "),
     _vm.role_title === "Faculty"
       ? _c("div", [_c("faculty-template")], 1)
-      : _vm._e()
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.role_title === "Faculty"
+      ? _c("div", [_c("faculty-template")], 1)
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.role_title === "Campus Director"
+      ? _c("div", [_c("campus-template")], 1)
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.role_title === "Dean" ? _c("div", [_c("dean-template")], 1) : _vm._e(),
+    _vm._v(" "),
+    _vm.role_title === "HRMO" ? _c("div", [_c("hrmo-template")], 1) : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -3458,6 +4359,144 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/adminapp/js/cruds/IPCR/campus.vue":
+/*!*****************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/campus.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _campus_vue_vue_type_template_id_891f0b66___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./campus.vue?vue&type=template&id=891f0b66& */ "./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=template&id=891f0b66&");
+/* harmony import */ var _campus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./campus.vue?vue&type=script&lang=js& */ "./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _campus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _campus_vue_vue_type_template_id_891f0b66___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _campus_vue_vue_type_template_id_891f0b66___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/adminapp/js/cruds/IPCR/campus.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_campus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./campus.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_campus_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=template&id=891f0b66&":
+/*!************************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=template&id=891f0b66& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_campus_vue_vue_type_template_id_891f0b66___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./campus.vue?vue&type=template&id=891f0b66& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/campus.vue?vue&type=template&id=891f0b66&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_campus_vue_vue_type_template_id_891f0b66___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_campus_vue_vue_type_template_id_891f0b66___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/dean.vue":
+/*!***************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/dean.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _dean_vue_vue_type_template_id_21e5c7dc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dean.vue?vue&type=template&id=21e5c7dc& */ "./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=template&id=21e5c7dc&");
+/* harmony import */ var _dean_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dean.vue?vue&type=script&lang=js& */ "./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _dean_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _dean_vue_vue_type_template_id_21e5c7dc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _dean_vue_vue_type_template_id_21e5c7dc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/adminapp/js/cruds/IPCR/dean.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_dean_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./dean.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_dean_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=template&id=21e5c7dc&":
+/*!**********************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=template&id=21e5c7dc& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_dean_vue_vue_type_template_id_21e5c7dc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./dean.vue?vue&type=template&id=21e5c7dc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/dean.vue?vue&type=template&id=21e5c7dc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_dean_vue_vue_type_template_id_21e5c7dc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_dean_vue_vue_type_template_id_21e5c7dc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/adminapp/js/cruds/IPCR/faculty.vue":
 /*!******************************************************!*\
   !*** ./resources/adminapp/js/cruds/IPCR/faculty.vue ***!
@@ -3522,6 +4561,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_template_id_50b93934___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_template_id_50b93934___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/hrmo.vue":
+/*!***************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/hrmo.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _hrmo_vue_vue_type_template_id_f4b886cc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hrmo.vue?vue&type=template&id=f4b886cc& */ "./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=template&id=f4b886cc&");
+/* harmony import */ var _hrmo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hrmo.vue?vue&type=script&lang=js& */ "./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _hrmo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _hrmo_vue_vue_type_template_id_f4b886cc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _hrmo_vue_vue_type_template_id_f4b886cc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/adminapp/js/cruds/IPCR/hrmo.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_hrmo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./hrmo.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_hrmo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=template&id=f4b886cc&":
+/*!**********************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=template&id=f4b886cc& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_hrmo_vue_vue_type_template_id_f4b886cc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./hrmo.vue?vue&type=template&id=f4b886cc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/hrmo.vue?vue&type=template&id=f4b886cc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_hrmo_vue_vue_type_template_id_f4b886cc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_hrmo_vue_vue_type_template_id_f4b886cc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
