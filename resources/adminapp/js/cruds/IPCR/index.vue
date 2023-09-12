@@ -6,9 +6,6 @@
 		<div v-if="role_title === 'Faculty'">
 			<faculty-template />
 		</div>
-		<div v-if="role_title === 'Faculty'">
-			<faculty-template />
-		</div>
 		<div v-if="role_title === 'Campus Director'">
 			<campus-template />
 		</div>

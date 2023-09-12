@@ -85,7 +85,6 @@
 				axios.get('ipcr-templates/get-active').then(() => {
 					this.fetchFacultyIPCR();
 				})
-
 			},
 
 			downloadIpcr (ipcr, faculty_name) {
