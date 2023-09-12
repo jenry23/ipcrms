@@ -25,7 +25,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
         Storage::disk('public')->put($name, file_get_contents($file));
 
         IpcrFacultyAssesstment::where([
-            'faculty_id' => (int) $request->faculty_id ?? $user->id,
+            'faculty_id' =>  $request->faculty_id ? (int) $request->faculty_id :  $user->id,
             'ipcr_template_id' => (int) $request->template_id
         ])->update([
             'status_id' => $request->status_id ?? null,
