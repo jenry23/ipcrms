@@ -82,8 +82,14 @@
 			},
 
 			rateYourself () {
-				axios.get('ipcr-templates/get-active').then(() => {
+				axios.get('ipcr-templates/get-active').then((response) => {
+					let data = response.data;
+  					if (Object.keys(data).length === 0) {
+						this.$toast.error("Please Upload IPCR Template to Admin");
+					}
 					this.fetchFacultyIPCR();
+				}).catch((error) => {
+  						console.log(error);
 				})
 			},
 
@@ -113,7 +119,7 @@
 				axios.get('ipcr-faculty-assesstment/faculty').then((response) => {
 					let data = response.data.data
 					this.faculty = data;
-				})
+  				})
 			},
 
 			chooseFiles: function () {

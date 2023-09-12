@@ -1258,12 +1258,12 @@ __webpack_require__.r(__webpack_exports__);
         _this.fetchCampusDirectorIPCR();
       });
     },
-    downloadIpcr: function downloadIpcr(ipcr, faculty_name) {
-      var id = ipcr.id;
+    downloadIpcr: function downloadIpcr(campus, faculty_name, ipcr) {
+      var id = campus.id;
       var file = "".concat(ipcr.file_name, " by ").concat(faculty_name);
       var replace_filename = file.replace('.xlsx', '');
       var file_name = "".concat(replace_filename, ".xlsx");
-      axios.get("ipcr-templates/download/".concat(id), {
+      axios.get("ipcr-faculty-assesstment/download/".concat(id), {
         headers: {
           Accept: 'application/octet-stream'
         },
@@ -1416,17 +1416,18 @@ __webpack_require__.r(__webpack_exports__);
         _this.fetchDeanIPCR();
       });
     },
-    downloadIpcr: function downloadIpcr(ipcr, faculty_name) {
-      var id = ipcr.id;
+    downloadIpcr: function downloadIpcr(campus, faculty_name, ipcr) {
+      var id = campus.id;
       var file = "".concat(ipcr.file_name, " by ").concat(faculty_name);
       var replace_filename = file.replace('.xlsx', '');
       var file_name = "".concat(replace_filename, ".xlsx");
-      axios.get("ipcr-templates/download/".concat(id), {
+      axios.get("ipcr-faculty-assesstment/download/".concat(id), {
         headers: {
           Accept: 'application/octet-stream'
         },
         responseType: 'arraybuffer'
       }).then(function (response) {
+        console.log(response);
         var url = window.URL.createObjectURL(new Blob([response.data]));
         var link = document.createElement('a');
         link.href = url;
@@ -1570,8 +1571,16 @@ __webpack_require__.r(__webpack_exports__);
     rateYourself: function rateYourself() {
       var _this = this;
 
-      axios.get('ipcr-templates/get-active').then(function () {
+      axios.get('ipcr-templates/get-active').then(function (response) {
+        var data = response.data;
+
+        if (Object.keys(data).length === 0) {
+          _this.$toast.error("Please Upload IPCR Template to Admin");
+        }
+
         _this.fetchFacultyIPCR();
+      })["catch"](function (error) {
+        console.log(error);
       });
     },
     downloadIpcr: function downloadIpcr(ipcr, faculty_name) {
@@ -1731,12 +1740,12 @@ __webpack_require__.r(__webpack_exports__);
         _this.fetchDeanIPCR();
       });
     },
-    downloadIpcr: function downloadIpcr(ipcr, faculty_name) {
-      var id = ipcr.id;
+    downloadIpcr: function downloadIpcr(campus, faculty_name, ipcr) {
+      var id = campus.id;
       var file = "".concat(ipcr.file_name, " by ").concat(faculty_name);
       var replace_filename = file.replace('.xlsx', '');
       var file_name = "".concat(replace_filename, ".xlsx");
-      axios.get("ipcr-templates/download/".concat(id), {
+      axios.get("ipcr-faculty-assesstment/download/".concat(id), {
         headers: {
           Accept: 'application/octet-stream'
         },
@@ -3606,8 +3615,9 @@ var render = function() {
                             click: function($event) {
                               $event.preventDefault()
                               return _vm.downloadIpcr(
-                                campus.ipcr_template,
-                                campus.faculty_name
+                                campus,
+                                campus.faculty_name,
+                                campus.ipcr_template
                               )
                             }
                           }
@@ -3739,8 +3749,9 @@ var render = function() {
                             click: function($event) {
                               $event.preventDefault()
                               return _vm.downloadIpcr(
-                                campus.ipcr_template,
-                                campus.faculty_name
+                                campus,
+                                campus.faculty_name,
+                                campus.ipcr_template
                               )
                             }
                           }
@@ -4029,8 +4040,9 @@ var render = function() {
                             click: function($event) {
                               $event.preventDefault()
                               return _vm.downloadIpcr(
-                                campus.ipcr_template,
-                                campus.faculty_name
+                                campus,
+                                campus.faculty_name,
+                                campus.ipcr_template
                               )
                             }
                           }

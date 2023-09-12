@@ -59,7 +59,6 @@ class IpcrTemplateApiController extends Controller
         $ipcr_active = IpcrTemplates::where('active', true)->first();
 
         if ($ipcr_active) {
-            $ipcr_active_url = Storage::disk('public')->path($ipcr_active->file_name);
             $user = Auth::user();
 
             IpcrFacultyAssesstment::updateOrCreate([
@@ -70,7 +69,7 @@ class IpcrTemplateApiController extends Controller
                 'ipcr_template_id' => $ipcr_active->id,
                 'faculty_id' => $user->id,
                 'department_id' => $user->userDetails->department_id,
-                'file_name' => $ipcr_active_url
+                'file_name' => $ipcr_active->file_name
             ]);
         }
 

@@ -29,7 +29,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
             'ipcr_template_id' => (int) $request->template_id
         ])->update([
             'status_id' => $request->status_id ?? null,
-            'file_name' => Storage::disk('public')->path($name)
+            'file_name' => $name
         ]);
 
         return response()->json();
@@ -57,5 +57,17 @@ class IpcrFacultyAssesstmentApiController extends Controller
         $ipcr_function->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function downloadIPCR($id)
+    {
+        $ipcr_active = IpcrFacultyAssesstment::findOrFail($id);
+        $filename = $ipcr_active->file_name;
+        $ipcr_active_url = Storage::disk('public')->path($ipcr_active->file_name);
+
+        return response()->download($ipcr_active_url, $filename, [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => 'inline; filename="' . $filename . '"'
+        ]);
     }
 }

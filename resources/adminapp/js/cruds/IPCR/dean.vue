@@ -38,7 +38,7 @@
 									<div class="col-md-1 mt-3">
 										<button
 											class="btn btn-sm btn-success"
-											@click.prevent="downloadIpcr(campus.ipcr_template, campus.faculty_name)"
+											@click.prevent="downloadIpcr(campus, campus.faculty_name, campus.ipcr_template)"
 										>
 											Download
 										</button>
@@ -84,19 +84,20 @@
 
 			},
 
-			downloadIpcr (ipcr, faculty_name) {
-				let id = ipcr.id;
+			downloadIpcr (campus, faculty_name, ipcr) {
+				let id = campus.id;
 				let file = `${ipcr.file_name} by ${faculty_name}`;
 				let replace_filename = file.replace('.xlsx', '');
 				let file_name = `${replace_filename}.xlsx`;
 
-				axios.get(`ipcr-templates/download/${id}`, {
+				axios.get(`ipcr-faculty-assesstment/download/${id}`, {
 					headers: {
 						Accept: 'application/octet-stream',
 					},
 					responseType: 'arraybuffer',
 				})
 					.then((response) => {
+						console.log(response);
 						const url = window.URL.createObjectURL(new Blob([response.data]));
 						const link = document.createElement('a');
 						link.href = url;
