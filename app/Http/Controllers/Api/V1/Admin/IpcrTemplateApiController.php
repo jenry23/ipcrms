@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\IpcrResource;
 use App\Models\IpcrFacultyAssesstment;
+use App\Models\IpcrFunction;
+use App\Models\IpcrFunctionTemplate;
+use App\Models\IpcrSignatory;
 use App\Models\IpcrSubFunction;
 use App\Models\IpcrTemplates;
 use Illuminate\Http\Response;
@@ -23,33 +26,30 @@ class IpcrTemplateApiController extends Controller
 
     public function store(Request $request)
     {
-        $file = $request->templates;
-        $ipcr_templates = [];
+        $payload = $request->data;
 
-        DB::transaction(function () use ($file, &$ipcr_templates) {
-            $name = $file->getClientOriginalName();
-            $size = $file->getSize();
+        DB::transaction(function () use ($payload) {
             $year = Carbon::now()->format('Y');
 
-            IpcrTemplates::updateOrCreate(
+            $ipcr_template = IpcrTemplates::updateOrCreate(
                 [
-                    'name' => $name
+                    'year' => $year
                 ],
                 [
-                    'name' => $name,
                     'year' => $year,
                     'active' => false,
-                    'file_name' => $name,
-                    'size' => $size,
                 ]
             );
 
-            $ipcr_templates = ['name' => $name];
-
-            Storage::disk('public')->put($name, file_get_contents($file));
+            foreach ($payload as $data) {
+                IpcrFunctionTemplate::updateOrCreate(
+                    ['ipcr_template_id' => $ipcr_template->id, 'ipcr_function_id' => $data['id']],
+                    ['ipcr_template_id' => $ipcr_template->id, 'ipcr_function_id' => $data['id']]
+                );
+            }
         });
 
-        return (new IpcrResource($ipcr_templates))
+        return (new IpcrResource($payload))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
@@ -58,22 +58,68 @@ class IpcrTemplateApiController extends Controller
     {
         $ipcr_active = IpcrTemplates::where('active', true)->first();
 
-        if ($ipcr_active) {
-            $user = Auth::user();
+        $ipcr_function_id = IpcrFunctionTemplate::where('ipcr_template_id', $ipcr_active->id)->pluck('ipcr_function_id');
 
-            IpcrFacultyAssesstment::updateOrCreate([
-                'ipcr_template_id' => $ipcr_active->id,
-                'faculty_id' => $user->id
-            ], [
-                'status_id' => 'On Going Assesment',
-                'ipcr_template_id' => $ipcr_active->id,
-                'faculty_id' => $user->id,
-                'department_id' => $user->userDetails->department_id,
-                'file_name' => $ipcr_active->file_name
-            ]);
-        }
+        // $ipcr_functions = IpcrFunction::with(['ipcrSubFunction.ipcrPerformance'])
+        //     ->whereIn('id', $ipcr_function_id)
+        //     ->get()
+        //     ->pluck('name')
+        //     ->flatten()
+        //     ->toArray();
 
-        return response()->json($ipcr_active);
+        $relationships = ['ipcrSubFunction'];
+
+        $ipcr_functions = IpcrFunction::whereIn('id', $ipcr_function_id)
+            ->get()
+            ->each(function ($array) use ($relationships) {
+                $sub_function = [];
+                $performance = [];
+                $ipcr_subfunctions = $array->ipcrSubFunction()->get();
+
+                foreach ($ipcr_subfunctions as $sub_function) {
+                    foreach ($sub_function->ipcrPerformance as $performance) {
+                        $performance[] = $performance->name;
+                        dd($performance);
+                    }
+                    $sub_function[] = $sub_function->name;
+                }
+
+                dd($performance);
+                // dd($array->ipcrSubFunction()->ipcrPerformance);
+
+                $ipcr_perforamce = $array->ipcrSubFunction()->get()->ipcrPerformance()->pluck('name');
+                dd($ipcr_perforamce);
+                return [
+                    'name' => $array->name,
+                    'ipcr_subfunctions' => $ipcr_subfunctions,
+                ];
+            });
+
+        // dd($page);
+        //
+        // foreach ($relationships as $rel) {
+        //     dd($page->{$rel}());
+        //     $ipcr_functions[$rel] = $page->{$rel}()->pluck('id');
+        // }
+        // dd($page);
+
+        dd($ipcr_functions);
+        $ipcr_signatories = IpcrSignatory::get();
+        // if ($ipcr_active) {
+        //     $user = Auth::user();
+
+        //     IpcrFacultyAssesstment::updateOrCreate([
+        //         'ipcr_template_id' => $ipcr_active->id,
+        //         'faculty_id' => $user->id
+        //     ], [
+        //         'status_id' => 'On Going Assesment',
+        //         'ipcr_template_id' => $ipcr_active->id,
+        //         'faculty_id' => $user->id,
+        //         'department_id' => $user->userDetails->department_id
+        //     ]);
+        // }
+
+        return response()->json(['ipcr_function' => $ipcr_functions->toArray(), 'ipcr_signatory' => $ipcr_signatories]);
     }
 
     public function downloadIPCR($id)

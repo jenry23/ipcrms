@@ -694,6 +694,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -708,6 +718,7 @@ __webpack_require__.r(__webpack_exports__);
       editable: true,
       delayedDragging: false,
       isDragging: false,
+      template_id: null,
       // For Function variable
       functionName: null,
       functionList: [],
@@ -971,6 +982,8 @@ __webpack_require__.r(__webpack_exports__);
         _this9.isForSubIpcrUpdate = false;
 
         _this9.fetchSubFunctionList();
+
+        _this9.fetchPerformanceFunctionList();
       })["catch"](function (error) {
         var message = error.response.data.message || error.message;
 
@@ -1057,6 +1070,9 @@ __webpack_require__.r(__webpack_exports__);
 
       this.functionName = null;
     },
+    // setTemplate (template) {
+    // 	this.template_id = template.id
+    // },
     saveSignatories: function saveSignatories() {
       var _this15 = this;
 
@@ -1108,55 +1124,42 @@ __webpack_require__.r(__webpack_exports__);
 
       this.signatoryList.splice(index, 1);
     },
-    handleFileChange: function handleFileChange(evt) {
-      var files = evt.target.files[0];
-      this.templates = files;
-    },
-    uploadFiles: function uploadFiles() {
+    fetchIPCRTemplates: function fetchIPCRTemplates() {
       var _this18 = this;
 
-      if (this.templates) {
-        var form = new FormData();
-        form.append('templates', this.templates);
-        var config = {
-          header: {
-            'Content-Type': 'multipart/form-data'
-          }
-        };
-        axios.post("ipcr-templates", form, config).then(function (response) {
-          _this18.$toast.success("IPCR templates successfully saved!");
-
-          _this18.fetchIPCRTemplates();
-        })["catch"](function (error) {
-          var message = error.response.data.message || error.message;
-
-          _this18.$toast.error(message);
-        });
-      } else {
-        this.$toast.error("Please insert files!!");
-      }
-    },
-    fetchIPCRTemplates: function fetchIPCRTemplates() {
-      var _this19 = this;
-
       axios.get('ipcr-templates').then(function (response) {
-        _this19.templateList = response.data.data;
+        _this18.templateList = response.data.data;
       })["catch"](function (error) {
         console.log(error);
         var message = error.response.data.message || error.message;
 
-        _this19.$toast.error(message);
+        _this18.$toast.error(message);
       });
     },
-    setActiveTemplates: function setActiveTemplates(id) {
+    setActiveTemplates: function setActiveTemplates() {
+      var _this19 = this;
+
+      if (this.template_id) {
+        axios.post("ipcr-templates/set-active", {
+          id: this.template_id.id
+        }).then(function (response) {
+          _this19.$toast.success("IPCR templates is now active!");
+        })["catch"](function (error) {
+          var message = error.response.data.message || error.message;
+
+          _this19.$toast.error(message);
+        });
+      } else {
+        this.$toast.error("Please Select IPCR Template!");
+      }
+    },
+    saveTemplates: function saveTemplates() {
       var _this20 = this;
 
-      axios.post("ipcr-templates/set-active", {
-        id: id
+      axios.post("ipcr-templates", {
+        data: this.functionList
       }).then(function (response) {
-        _this20.$toast.success("IPCR templates is now active!");
-
-        _this20.fetchIPCRTemplates();
+        _this20.$toast.success("IPCR templates sucessfully saved!");
       })["catch"](function (error) {
         var message = error.response.data.message || error.message;
 
@@ -1550,12 +1553,210 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       status: '',
       activeField: '',
-      faculty: []
+      faculty: [],
+      forms: [],
+      templates: [{
+        "ipcr_function": [{
+          "id": 1,
+          "name": "INSTRUCTION",
+          "order": 0,
+          "created_at": "2023-09-17 10:00:24",
+          "updated_at": "2023-09-17 10:00:24",
+          "deleted_at": null,
+          "ipcr_sub_function": [{
+            "id": 1,
+            "name": "1. Plan and prepare instructional materials to enhance instruction",
+            "order": 0,
+            "ipcr_function_id": 1,
+            "created_at": "2023-09-17 10:01:02",
+            "updated_at": "2023-09-17 10:01:02",
+            "deleted_at": null,
+            "ipcr_performance": [{
+              "id": 1,
+              "name": "a) No. of Syllabus prepared",
+              "order": 0,
+              "ipcr_sub_function_id": 1,
+              "created_at": "2023-09-17 10:03:13",
+              "updated_at": "2023-09-17 10:03:13",
+              "deleted_at": null
+            }, {
+              "id": 2,
+              "name": "b) No. of Course Guide",
+              "order": 1,
+              "ipcr_sub_function_id": 1,
+              "created_at": "2023-09-17 10:03:13",
+              "updated_at": "2023-09-17 10:03:13",
+              "deleted_at": null
+            }]
+          }, {
+            "id": 2,
+            "name": "2. Organizes classroom instruction",
+            "order": 1,
+            "ipcr_function_id": 1,
+            "created_at": "2023-09-17 10:01:02",
+            "updated_at": "2023-09-17 10:01:02",
+            "deleted_at": null,
+            "ipcr_performance": []
+          }, {
+            "id": 3,
+            "name": "3. Teaching effectiveness",
+            "order": 2,
+            "ipcr_function_id": 1,
+            "created_at": "2023-09-17 10:01:02",
+            "updated_at": "2023-09-17 10:01:02",
+            "deleted_at": null,
+            "ipcr_performance": []
+          }, {
+            "id": 4,
+            "name": "4. Prepare and check Summative\/Evaluate\/Formative Tests",
+            "order": 3,
+            "ipcr_function_id": 1,
+            "created_at": "2023-09-17 10:01:10",
+            "updated_at": "2023-09-17 10:01:10",
+            "deleted_at": null,
+            "ipcr_performance": []
+          }]
+        }, {
+          "id": 2,
+          "name": "RESEARCH",
+          "order": 1,
+          "created_at": "2023-09-17 10:00:24",
+          "updated_at": "2023-09-17 10:00:24",
+          "deleted_at": null,
+          "ipcr_sub_function": []
+        }, {
+          "id": 3,
+          "name": "EXTENSION",
+          "order": 2,
+          "created_at": "2023-09-17 10:00:24",
+          "updated_at": "2023-09-17 10:00:24",
+          "deleted_at": null,
+          "ipcr_sub_function": []
+        }],
+        "ipcr_signatory": [{
+          "id": 1,
+          "name_of_signatories": "Mark Bernardino",
+          "level_of_assestment": "Discussed with",
+          "position": "Ratee",
+          "order": 0,
+          "created_at": "2023-09-17 10:03:56",
+          "updated_at": "2023-09-17 10:03:56",
+          "deleted_at": null
+        }, {
+          "id": 2,
+          "name_of_signatories": "Engr. Beltran P. Pedrigal",
+          "level_of_assestment": "Assessed by",
+          "position": "Campus Director",
+          "order": 1,
+          "created_at": "2023-09-17 10:03:56",
+          "updated_at": "2023-09-17 10:03:56",
+          "deleted_at": null
+        }]
+      }]
     };
   },
   mounted: function mounted() {
@@ -1576,9 +1777,13 @@ __webpack_require__.r(__webpack_exports__);
 
         if (Object.keys(data).length === 0) {
           _this.$toast.error("Please Upload IPCR Template to Admin");
-        }
+        } else {
+          _this.$toast.success("IPCR Create Rate Yourself!");
 
-        _this.fetchFacultyIPCR();
+          _this.templates = data;
+
+          _this.fetchFacultyIPCR();
+        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -1878,6 +2083,25 @@ exports.push([module.i, "\n.alert {\r\n\tpadding: 9px 6px !important;\n}\n.ipcr-
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.remove-space {\r\n\tmargin: 0;\r\n\tpadding: 0;\n}\ntable,\r\nth,\r\ntd {\r\n\tborder: 1px solid !important;\n}\n.two-table th {\r\n\tborder: 1px solid black;\r\n\ttext-align: center;\n}\n.two-table th {\r\n\tvertical-align: middle !important;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/admin.vue?vue&type=style&index=0&lang=css&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/admin.vue?vue&type=style&index=0&lang=css& ***!
@@ -1887,6 +2111,36 @@ exports.push([module.i, "\n.alert {\r\n\tpadding: 9px 6px !important;\n}\n.ipcr-
 
 
 var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./admin.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/admin.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./faculty.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -1934,86 +2188,44 @@ var render = function() {
               _c("div", { staticClass: "row" }, [
                 _vm._m(0),
                 _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-2 mt-4" }, [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: { type: "file" },
-                    on: { change: _vm.handleFileChange }
-                  })
-                ]),
+                _c(
+                  "div",
+                  { staticClass: "col-md-2 mt-4" },
+                  [
+                    _c("v-select", {
+                      key: "template-field",
+                      attrs: {
+                        name: "template",
+                        label: "year",
+                        placeholder: "Templates",
+                        options: _vm.templateList
+                      },
+                      on: { input: _vm.setTemplate },
+                      model: {
+                        value: _vm.template_id,
+                        callback: function($$v) {
+                          _vm.template_id = $$v
+                        },
+                        expression: "template_id"
+                      }
+                    })
+                  ],
+                  1
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-2 mt-4" }, [
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-sm btn-primary",
-                      on: { click: _vm.uploadFiles }
+                      staticClass: "btn btn-sm btn-success",
+                      on: { click: _vm.setActiveTemplates }
                     },
-                    [_vm._v("Submit")]
+                    [_vm._v("Set as Acitve")]
                   )
                 ])
               ])
             ]
           ),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "card" }, [
-              _vm._m(2),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "table-responsive" }, [
-                  _c("table", { staticClass: "table" }, [
-                    _vm._m(3),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.templateList, function(template) {
-                        return _c("tr", { key: template.id }, [
-                          _c("td", [_vm._v(_vm._s(template.id))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(template.year))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(template.name))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(template.size))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(_vm._s(template.active ? "Yes" : "No"))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            !template.active
-                              ? _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-sm btn-success",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.setActiveTemplates(
-                                          template.id
-                                        )
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t\t\tSet As Active\n\t\t\t\t\t\t\t\t\t\t\t\t"
-                                    )
-                                  ]
-                                )
-                              : _vm._e()
-                          ])
-                        ])
-                      }),
-                      0
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
@@ -3468,6 +3680,17 @@ var render = function() {
                     )
                   ])
                 ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2 mt-4 mb-3 float-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-primary",
+                    on: { click: _vm.saveTemplates }
+                  },
+                  [_vm._v("Submit")]
+                )
               ])
             ])
           ])
@@ -3481,50 +3704,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
+    return _c("div", { staticClass: "col-md-8" }, [
       _c("h4", { staticClass: "card-title" }, [_vm._v("IPCR")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2 mt-4" }, [
-      _c("h4", { staticStyle: { color: "black" } }, [
-        _vm._v("Upload Template:")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header card-header-primary" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("IPCR Templates")]),
-      _vm._v(" "),
-      _c("p", { staticClass: "card-category" }, [
-        _vm._v("(Please set one template as active)")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "text-primary" }, [
-      _c("tr", [
-        _c("th", [_vm._v("ID")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Semester / School Year")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Size")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Active")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Actions")])
-      ])
     ])
   }
 ]
@@ -3856,6 +4037,201 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
+            _c("div", { staticClass: "container-fluid" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "card",
+                  staticStyle: {
+                    "background-color": "hsl(40, 100%, 97%)",
+                    width: "90rem",
+                    "margin-left": "43px"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "card-body" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("p", { staticStyle: { "word-wrap": "break-word" } }, [
+                        _vm._v("\n\t\t\t\t\t\t\t\t\t\tI,"),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.forms.name,
+                              expression: "forms.name"
+                            }
+                          ],
+                          attrs: {
+                            type: "text",
+                            size: "15",
+                            placeholder: "Name"
+                          },
+                          domProps: { value: _vm.forms.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.forms, "name", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.forms.academic_rank,
+                              expression: "forms.academic_rank"
+                            }
+                          ],
+                          attrs: {
+                            type: "text",
+                            size: "20",
+                            placeholder: "Academic Rank"
+                          },
+                          domProps: { value: _vm.forms.academic_rank },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.forms,
+                                "academic_rank",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\t\t\tof the Laguna State Polytechnic University, commit to deliver and agree to\n\t\t\t\t\t\t\t\t\t\tthe rated of the following in accordance with the indicated measures for\n\t\t\t\t\t\t\t\t\t\tthe "
+                        ),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.forms.semester,
+                              expression: "forms.semester"
+                            }
+                          ],
+                          attrs: { type: "text", size: "5" },
+                          domProps: { value: _vm.forms.semester },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.forms,
+                                "semester",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(
+                          " Semester of\n\t\t\t\t\t\t\t\t\t\tAcademic Year "
+                        ),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.forms.year,
+                              expression: "forms.year"
+                            }
+                          ],
+                          attrs: { type: "text", size: "5" },
+                          domProps: { value: _vm.forms.year },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.forms, "year", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(".\n\t\t\t\t\t\t\t\t\t")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("table", { staticClass: "table table-border" }, [
+                      _c(
+                        "tr",
+                        _vm._l(_vm.templates[0].ipcr_signatory, function(
+                          signatory
+                        ) {
+                          return _c("th", { key: signatory.id }, [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                _vm._s(signatory.level_of_assestment) +
+                                " :\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                _vm._s(signatory.name_of_signatories) +
+                                "\n\t\t\t\t\t\t\t\t\t\t"
+                            )
+                          ])
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "tr",
+                        _vm._l(_vm.templates[0].ipcr_signatory, function(
+                          signatory
+                        ) {
+                          return _c("th", { key: signatory.id }, [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                _vm._s(signatory.position) +
+                                "\n\t\t\t\t\t\t\t\t\t\t"
+                            )
+                          ])
+                        }),
+                        0
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "table",
+                      { staticClass: "table table-border two-table" },
+                      [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _vm._l(_vm.templates[0].ipcr_function, function(
+                          functions,
+                          index
+                        ) {
+                          return _c("tbody", { key: index }, [
+                            _c("td", { attrs: { colspan: "10" } }, [
+                              _vm._v(_vm._s(functions.name))
+                            ])
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               Object.keys(_vm.faculty).length !== 0
                 ? _c("div", { staticClass: "card" }, [
@@ -3874,34 +4250,20 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-2 mt-3" }, [
-                        _c("input", {
-                          attrs: { id: "fileUpload", type: "file", hidden: "" },
-                          on: {
-                            change: function($event) {
-                              return _vm.updatedIPCR(
-                                $event,
-                                _vm.faculty.ipcr_template.id,
-                                _vm.faculty.status_id
-                              )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1 mt-3" }, [
                         _c(
                           "button",
                           {
                             staticClass: "btn btn-sm btn-primary",
                             on: {
                               click: function($event) {
-                                $event.preventDefault()
-                                return _vm.chooseFiles()
+                                return _vm.viewFiles(_vm.faculty.id)
                               }
                             }
                           },
                           [
                             _vm._v(
-                              "\n\t\t\t\t\t\t\t\t\t\tUpload Updated IPCR\n\t\t\t\t\t\t\t\t\t"
+                              "\n\t\t\t\t\t\t\t\t\t\tView\n\t\t\t\t\t\t\t\t\t"
                             )
                           ]
                         )
@@ -3948,6 +4310,72 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-10" }, [
       _c("strong", [_vm._v("Faculty")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "float-right" }, [
+      _c("p", { staticClass: "remove-space" }, [_vm._v("SPMS Form 02")]),
+      _vm._v(" "),
+      _c("p", { staticClass: "remove-space" }, [
+        _vm._v("Date: September 2021")
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "remove-space" }, [_vm._v("Revised: 03")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex justify-content-center" }, [
+      _c("h4", { staticStyle: { "font-weight": "900" } }, [
+        _vm._v("INDIVIDUAL PERFORMANCE COMMITMENT AND REVIEW")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+        _vm._v("PERFORMANCE INDICATOR")
+      ]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("TARGET")]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+        _vm._v("ACCOMPLISHED")
+      ]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+        _vm._v("DATE OF SUBMISSION/COMPLETION")
+      ]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+        _vm._v("DATE SUBMITTED/ COMPLETED")
+      ]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "1", colspan: "4" } }, [_vm._v("Rating")]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("Remarks")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("QTY")]),
+      _vm._v(" "),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("QL/E")]),
+      _vm._v(" "),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("T")]),
+      _vm._v(" "),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("A")])
     ])
   }
 ]
@@ -4367,7 +4795,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _faculty_vue_vue_type_template_id_50b93934___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./faculty.vue?vue&type=template&id=50b93934& */ "./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=template&id=50b93934&");
 /* harmony import */ var _faculty_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./faculty.vue?vue&type=script&lang=js& */ "./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _faculty_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./faculty.vue?vue&type=style&index=0&lang=css& */ "./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -4375,7 +4805,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _faculty_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _faculty_vue_vue_type_template_id_50b93934___WEBPACK_IMPORTED_MODULE_0__["render"],
   _faculty_vue_vue_type_template_id_50b93934___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -4404,6 +4834,22 @@ component.options.__file = "resources/adminapp/js/cruds/IPCR/faculty.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./faculty.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./faculty.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/faculty.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_faculty_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

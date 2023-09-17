@@ -5,14 +5,13 @@ namespace App\Models;
 use App\Support\HasAdvancedFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class IpcrSubFunction extends Model
+class IpcrFunctionTemplate extends Model
 {
-    use HasAdvancedFilter, SoftDeletes, HasFactory;
+    use HasAdvancedFilter, HasFactory;
 
     protected $guarded = ['id'];
 
@@ -21,13 +20,13 @@ class IpcrSubFunction extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function ipcrFunction(): BelongsTo
+    public function ipcrTemplate(): HasOne
     {
-        return $this->belongsTo(IpcrFunction::class);
+        return $this->hasOne(IpcrTemplates::class);
     }
 
-    public function ipcrPerformance(): HasMany
+    public function ipcrFunction(): HasMany
     {
-        return $this->hasMany(IpcrPerformanceFunction::class);
+        return $this->hasMany(IpcrFunction::class);
     }
 }

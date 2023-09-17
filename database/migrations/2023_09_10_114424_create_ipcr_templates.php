@@ -10,10 +10,10 @@ class CreateIpcrTemplates extends Migration
     {
         Schema::create('ipcr_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('year');
             $table->boolean('active');
-            $table->string('file_name');
+            $table->string('file_name')->nullable();
             $table->string('size')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -5,22 +5,28 @@
 				<div class="card">
 					<div class="card-header card-header-primary card-header-icon">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-8">
 								<h4 class="card-title">IPCR</h4>
 							</div>
 							<div class="col-md-2 mt-4">
-								<h4 style="color: black">Upload Template:</h4>
+								<v-select
+									name="template"
+									label="year"
+									:key="'template-field'"
+									placeholder="Templates"
+									v-model="template_id"
+									:options="templateList"
+									@input="setTemplate"
+								/>
 							</div>
 							<div class="col-md-2 mt-4">
-								<input type="file" @change="handleFileChange" class="form-control" />
-							</div>
-							<div class="col-md-2 mt-4">
-								<button class="btn btn-sm btn-primary" @click="uploadFiles">Submit</button>
+								<button class="btn btn-sm btn-success" @click="setActiveTemplates">Set as Acitve</button>
 							</div>
 						</div>
 					</div>
 
-					<div class="card-body">
+					<!-- Templates -->
+					<!-- <div class="card-body">
 						<div class="card">
 							<div class="card-header card-header-primary">
 								<h4 class="card-title">IPCR Templates</h4>
@@ -61,7 +67,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- Functions -->
 					<div class="row">
 						<div class="col-md-6">
@@ -636,6 +642,10 @@
 									</div>
 								</div>
 							</div>
+
+							<div class="col-md-2 mt-4 mb-3 float-right">
+								<button class="btn btn-sm btn-primary" @click="saveTemplates">Submit</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -697,6 +707,7 @@
 				editable: true,
 				delayedDragging: false,
 				isDragging: false,
+				template_id: null,
 				// For Function variable
 				functionName: null,
 				functionList: [],
@@ -954,6 +965,7 @@
 						this.$toast.success("IPCR Sub Functions successfully saved!");
 						this.isForSubIpcrUpdate = false;
 						this.fetchSubFunctionList();
+						this.fetchPerformanceFunctionList();
 					}).catch(error => {
 						let message = error.response.data.message || error.message
 						this.$toast.error(message);
@@ -1034,6 +1046,10 @@
 				this.functionName = null;
 			},
 
+			// setTemplate (template) {
+			// 	this.template_id = template.id
+			// },
+
 			saveSignatories () {
 				axios
 					.post('ipcr-signatory', this.signatoryList)
@@ -1081,35 +1097,6 @@
 				this.signatoryList.splice(index, 1);
 			},
 
-			handleFileChange (evt) {
-				const files = evt.target.files[0];
-				this.templates = files;
-			},
-
-			uploadFiles () {
-				if (this.templates) {
-					let form = new FormData();
-					form.append('templates', this.templates);
-
-					let config = {
-						header: {
-							'Content-Type': 'multipart/form-data'
-						}
-					}
-					axios
-						.post(`ipcr-templates`, form, config)
-						.then(response => {
-							this.$toast.success("IPCR templates successfully saved!");
-							this.fetchIPCRTemplates();
-						}).catch(error => {
-							let message = error.response.data.message || error.message
-							this.$toast.error(message);
-						})
-				} else {
-					this.$toast.error("Please insert files!!");
-				}
-			},
-
 			fetchIPCRTemplates () {
 				axios.get('ipcr-templates')
 					.then(response => {
@@ -1121,16 +1108,30 @@
 					})
 			},
 
-			setActiveTemplates (id) {
-				axios
-					.post(`ipcr-templates/set-active`, { id: id })
+			setActiveTemplates () {
+				if (this.template_id) {
+					axios
+					.post(`ipcr-templates/set-active`, { id: this.template_id.id })
 					.then(response => {
 						this.$toast.success("IPCR templates is now active!");
-						this.fetchIPCRTemplates();
 					}).catch(error => {
 						let message = error.response.data.message || error.message
 						this.$toast.error(message);
 					})
+				} else {
+					this.$toast.error("Please Select IPCR Template!");
+				}
+
+			},
+
+			saveTemplates () {
+				axios.post(`ipcr-templates`, { data: this.functionList })
+				.then(response => {
+						this.$toast.success("IPCR templates sucessfully saved!");
+				}).catch(error => {
+					let message = error.response.data.message || error.message
+					this.$toast.error(message);
+				})
 			}
 		}
 	}

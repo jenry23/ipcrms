@@ -10,7 +10,7 @@
                         <div class="card card-login" style="opacity: 0.9;">
                             @if(session('status'))
                             <div class="card-body" style="padding: .9375rem 20px;">
-                                <p class="alert alert-danger">
+                                <p class="alert alert-danger" style="color: white !important;">
                                     {{ session('status') }}
                                 </p>
                             </div>
