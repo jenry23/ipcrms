@@ -37,17 +37,17 @@
 									</div>
 									<div>
 										<p style="word-wrap: break-word">
-											I,<input type="text" size="15" v-model="forms.name" placeholder="Name" />
+											I,<input type="text" size="15" v-model="form.name" placeholder="Name" />
 											<input
 												type="text"
 												size="20"
-												v-model="forms.academic_rank"
+												v-model="form.academic_rank"
 												placeholder="Academic Rank"
 											/>
 											of the Laguna State Polytechnic University, commit to deliver and agree to
 											the rated of the following in accordance with the indicated measures for
-											the <input type="text" size="5" v-model="forms.semester" /> Semester of
-											Academic Year <input type="text" size="5" v-model="forms.year" />.
+											the <input type="text" size="5" v-model="form.semester" /> Semester of
+											Academic Year <input type="text" size="5" v-model="form.year" />.
 										</p>
 									</div>
 									<table class="table table-border">
@@ -81,27 +81,43 @@
 										</tr>
 										<tbody v-for="(functions, index) in templates[0].ipcr_function" :key="index">
 											<td colspan="10">{{ functions.name }}</td>
-											<!-- <tr
-												v-for="(subFunction, subIndex) in functions.ipcr_sub_function"
-												:key="subIndex"
+											<tr
+												v-for="(subFunction, index1) in functions.ipcr_subfunctions"
+												:key="index1"
 											>
 												<td colspan="10">{{ subFunction.name }}</td>
 											</tr>
 											<tr
-												v-for="(ipcr_performance, ipcrPerformanceIndex) in functions
-													.ipcr_sub_function[index]"
-												:key="ipcrPerformanceIndex"
+												v-for="(performance, index2) in functions.ipcr_performance"
+												:key="index2+performance"
 											>
-											{{ ipcr_performance.name }}
-												<tr
-													v-if="
-														ipcr_performance instanceof Array && ipcr_performance[index]
-													"
-												>
-												{{ ipcr_performance[index].name }}
-												</tr>
-											</tr> -->
+												<td>{{ performance.name }}</td>
+												<td><input type="date" v-model="performance.target" /></td>
+												<td><input type="date" v-model="performance.accomplished" /></td>
+												<td><input type="date" v-model="performance.date_of_submission" /></td>
+												<td><input type="date" v-model="performance.date_completed" /></td>
+												<td><input type="number" v-model="performance.quality" style="width: 50px" /></td>
+												<td>
+													<input type="number" v-model="performance.qle" style="width: 50px" disabled />
+												</td>
+												<td>
+													<input type="number" v-model="performance.tar" style="width: 50px" disabled />
+												</td>
+												<td>
+													<input type="number" v-model="performance.asc" style="width: 50px" disabled />
+												</td>
+												<td><input type="text" v-model="performance.remarks" /></td>
+											</tr>
 										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="5">
+													Comments and Recommendations for Development Purposes:
+													<input type="text" v-model="form.recommendation" size="70" />
+												</td>
+												<td>Numerical Rating: {{ numericalRating }}</td>
+											</tr>
+										</tfoot>
 									</table>
 								</div>
 							</div>
@@ -147,6 +163,7 @@ table,
 th,
 td {
 	border: 1px solid !important;
+	font-weight: 500;
 }
 .two-table th {
 	border: 1px solid black;
@@ -154,6 +171,9 @@ td {
 }
 .two-table th {
 	vertical-align: middle !important;
+}
+.two-table tbody {
+	border: 1px solid !important;
 }
 </style>
 
@@ -164,125 +184,77 @@ td {
 				status: '',
 				activeField: '',
 				faculty: [],
-				forms: [],
+				form: [],
 				templates: [{
-					"ipcr_function": [
-						{
-							"id": 1,
-							"name": "INSTRUCTION",
-							"order": 0,
-							"created_at": "2023-09-17 10:00:24",
-							"updated_at": "2023-09-17 10:00:24",
-							"deleted_at": null,
-							"ipcr_sub_function": [
-								{
-									"id": 1,
-									"name": "1. Plan and prepare instructional materials to enhance instruction",
-									"order": 0,
-									"ipcr_function_id": 1,
-									"created_at": "2023-09-17 10:01:02",
-									"updated_at": "2023-09-17 10:01:02",
-									"deleted_at": null,
-									"ipcr_performance": [
-										{
-											"id": 1,
-											"name": "a) No. of Syllabus prepared",
-											"order": 0,
-											"ipcr_sub_function_id": 1,
-											"created_at": "2023-09-17 10:03:13",
-											"updated_at": "2023-09-17 10:03:13",
-											"deleted_at": null
-										},
-										{
-											"id": 2,
-											"name": "b) No. of Course Guide",
-											"order": 1,
-											"ipcr_sub_function_id": 1,
-											"created_at": "2023-09-17 10:03:13",
-											"updated_at": "2023-09-17 10:03:13",
-											"deleted_at": null
-										}
-									]
-								},
-								{
-									"id": 2,
-									"name": "2. Organizes classroom instruction",
-									"order": 1,
-									"ipcr_function_id": 1,
-									"created_at": "2023-09-17 10:01:02",
-									"updated_at": "2023-09-17 10:01:02",
-									"deleted_at": null,
-									"ipcr_performance": []
-								},
-								{
-									"id": 3,
-									"name": "3. Teaching effectiveness",
-									"order": 2,
-									"ipcr_function_id": 1,
-									"created_at": "2023-09-17 10:01:02",
-									"updated_at": "2023-09-17 10:01:02",
-									"deleted_at": null,
-									"ipcr_performance": []
-								},
-								{
-									"id": 4,
-									"name": "4. Prepare and check Summative\/Evaluate\/Formative Tests",
-									"order": 3,
-									"ipcr_function_id": 1,
-									"created_at": "2023-09-17 10:01:10",
-									"updated_at": "2023-09-17 10:01:10",
-									"deleted_at": null,
-									"ipcr_performance": []
-								}
-							]
-						},
-						{
-							"id": 2,
-							"name": "RESEARCH",
-							"order": 1,
-							"created_at": "2023-09-17 10:00:24",
-							"updated_at": "2023-09-17 10:00:24",
-							"deleted_at": null,
-							"ipcr_sub_function": []
-						},
-						{
-							"id": 3,
-							"name": "EXTENSION",
-							"order": 2,
-							"created_at": "2023-09-17 10:00:24",
-							"updated_at": "2023-09-17 10:00:24",
-							"deleted_at": null,
-							"ipcr_sub_function": []
-						}
-					],
-					"ipcr_signatory": [
-						{
-							"id": 1,
-							"name_of_signatories": "Mark Bernardino",
-							"level_of_assestment": "Discussed with",
-							"position": "Ratee",
-							"order": 0,
-							"created_at": "2023-09-17 10:03:56",
-							"updated_at": "2023-09-17 10:03:56",
-							"deleted_at": null
-						},
-						{
-							"id": 2,
-							"name_of_signatories": "Engr. Beltran P. Pedrigal",
-							"level_of_assestment": "Assessed by",
-							"position": "Campus Director",
-							"order": 1,
-							"created_at": "2023-09-17 10:03:56",
-							"updated_at": "2023-09-17 10:03:56",
-							"deleted_at": null
-						}
-					]
-				}],
+    "ipcr_function": [
+        {
+            "name": "INSTRUCTIONS",
+            "ipcr_subfunctions": [
+                {
+                    "name": "1. Test"
+                },
+                {
+                    "name": "2. Test2"
+                },
+                {
+                    "name": "3. Test3"
+                }
+            ],
+            "ipcr_performance": [
+                {
+                    "name": "a.) Test"
+                },
+                {
+                    "name": "b.) Test2"
+                }
+            ]
+        },
+        {
+            "name": "RESEARCH",
+            "ipcr_subfunctions": [],
+            "ipcr_performance": []
+        },
+        {
+            "name": "TEST",
+            "ipcr_subfunctions": [],
+            "ipcr_performance": []
+        }
+    ],
+    "ipcr_signatory": [
+        {
+            "id": 1,
+            "name_of_signatories": "Jhenrie Bargola",
+            "level_of_assestment": "Dean",
+            "position": "Ratee",
+            "order": 0,
+            "created_at": "2023-09-17 15:43:57",
+            "updated_at": "2023-09-17 15:43:57",
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name_of_signatories": "Nicole Alarva",
+            "level_of_assestment": "Campus Director",
+            "position": "Campus Director",
+            "order": 1,
+            "created_at": "2023-09-17 15:44:53",
+            "updated_at": "2023-09-17 15:44:53",
+            "deleted_at": null
+        }
+    ]
+}],
+			}
+		},
+
+		computed: {
+			numericalRating () {
+				return 0;
 			}
 		},
 
 		mounted () {
 			this.fetchFacultyIPCR();
+			console.log(this.templates[0].ipcr_function.ipcr_performance);
 		},
 
 		methods: {

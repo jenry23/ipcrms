@@ -7,6 +7,7 @@ use App\Http\Resources\Admin\IpcrResource;
 use App\Models\IpcrFacultyAssesstment;
 use App\Models\IpcrFunction;
 use App\Models\IpcrFunctionTemplate;
+use App\Models\IpcrPerformanceFunction;
 use App\Models\IpcrSignatory;
 use App\Models\IpcrSubFunction;
 use App\Models\IpcrTemplates;
@@ -59,51 +60,24 @@ class IpcrTemplateApiController extends Controller
         $ipcr_active = IpcrTemplates::where('active', true)->first();
 
         $ipcr_function_id = IpcrFunctionTemplate::where('ipcr_template_id', $ipcr_active->id)->pluck('ipcr_function_id');
-
-        // $ipcr_functions = IpcrFunction::with(['ipcrSubFunction.ipcrPerformance'])
-        //     ->whereIn('id', $ipcr_function_id)
-        //     ->get()
-        //     ->pluck('name')
-        //     ->flatten()
-        //     ->toArray();
-
-        $relationships = ['ipcrSubFunction'];
-
         $ipcr_functions = IpcrFunction::whereIn('id', $ipcr_function_id)
             ->get()
-            ->each(function ($array) use ($relationships) {
-                $sub_function = [];
-                $performance = [];
+            ->map(function ($array) {
+                $performance = collect();
                 $ipcr_subfunctions = $array->ipcrSubFunction()->get();
+                $ipcr_subfunctions_id = $ipcr_subfunctions->pluck('id');
+                $sub_function = $ipcr_subfunctions->map(fn ($array) => ['name' => $array->name]);;
+                $performance = IpcrPerformanceFunction::whereIn('ipcr_sub_function_id', $ipcr_subfunctions_id)
+                    ->get()
+                    ->map(fn ($array) => ['name' => $array->name]);
 
-                foreach ($ipcr_subfunctions as $sub_function) {
-                    foreach ($sub_function->ipcrPerformance as $performance) {
-                        $performance[] = $performance->name;
-                        dd($performance);
-                    }
-                    $sub_function[] = $sub_function->name;
-                }
-
-                dd($performance);
-                // dd($array->ipcrSubFunction()->ipcrPerformance);
-
-                $ipcr_perforamce = $array->ipcrSubFunction()->get()->ipcrPerformance()->pluck('name');
-                dd($ipcr_perforamce);
                 return [
                     'name' => $array->name,
-                    'ipcr_subfunctions' => $ipcr_subfunctions,
+                    'ipcr_subfunctions' => $sub_function->toArray(),
+                    'ipcr_performance' => $performance->toArray(),
                 ];
             });
 
-        // dd($page);
-        //
-        // foreach ($relationships as $rel) {
-        //     dd($page->{$rel}());
-        //     $ipcr_functions[$rel] = $page->{$rel}()->pluck('id');
-        // }
-        // dd($page);
-
-        dd($ipcr_functions);
         $ipcr_signatories = IpcrSignatory::get();
         // if ($ipcr_active) {
         //     $user = Auth::user();

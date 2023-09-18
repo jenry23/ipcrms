@@ -208,7 +208,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active[data-v-3b48bf40],\n.fade-leave-active[data-v-3b48bf40] {\n  transition: opacity 0.1s;\n}\n.fade-enter[data-v-3b48bf40],\n.fade-leave-to[data-v-3b48bf40] {\n  opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.fade-enter-active[data-v-3b48bf40],\r\n.fade-leave-active[data-v-3b48bf40] {\r\n  transition: opacity 0.1s;\n}\n.fade-enter[data-v-3b48bf40],\r\n.fade-leave-to[data-v-3b48bf40] {\r\n  opacity: 0;\n}\r\n", ""]);
 
 // exports
 
@@ -227,7 +227,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.ipcrms-navbar-color[data-v-040163ec]{\n    background-color: #228B22 !important;\n    color: white;\n}\n", ""]);
+exports.push([module.i, "\n.ipcrms-navbar-color[data-v-040163ec]{\r\n    background-color: #228B22 !important;\r\n    color: white;\n}\r\n", ""]);
 
 // exports
 
