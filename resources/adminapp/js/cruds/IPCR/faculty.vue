@@ -11,7 +11,7 @@
 										<strong>Faculty</strong>
 									</div>
 									<div class="col-md-2">
-										<button class="btn btn-sm btn-warning" @click.prevent="rateYourself">
+										<button class="btn btn-sm btn-warning" @click.prevent="rateYourself" v-if="availableRate">
 											Rate Yourself
 										</button>
 									</div>
@@ -22,11 +22,13 @@
 							<div
 								class="card"
 								style="background-color: hsl(40, 100%, 97%); width: 90rem; margin-left: 43px"
+								v-if="templates.ipcr_function"
 							>
+							<form @submit.prevent="submitForm">
 								<div class="card-body">
 									<div class="float-right">
 										<p class="remove-space">SPMS Form 02</p>
-										<p class="remove-space">Date: September 2021</p>
+										<p class="remove-space">Date: {{ dateToday }}</p>
 										<p class="remove-space">Revised: 03</p>
 									</div>
 									<br />
@@ -37,28 +39,23 @@
 									</div>
 									<div>
 										<p style="word-wrap: break-word">
-											I,<input type="text" size="15" v-model="form.name" placeholder="Name" />
-											<input
-												type="text"
-												size="20"
-												v-model="form.academic_rank"
-												placeholder="Academic Rank"
-											/>
+											I,<input type="text" size="15" :value="$t('auth.name')" disabled />
+											<input type="text" size="20" :value="$t('auth.role_name')" disabled />
 											of the Laguna State Polytechnic University, commit to deliver and agree to
 											the rated of the following in accordance with the indicated measures for
-											the <input type="text" size="5" v-model="form.semester" /> Semester of
-											Academic Year <input type="text" size="5" v-model="form.year" />.
+											the <input type="text" size="5" v-model="templates.semester" /> Semester of
+											Academic Year <input type="text" size="5" v-model="templates.year" />.
 										</p>
 									</div>
 									<table class="table table-border">
 										<tr>
-											<th v-for="signatory in templates[0].ipcr_signatory" :key="signatory.id">
+											<th v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
 												{{ signatory.level_of_assestment }} :
 												{{ signatory.name_of_signatories }}
 											</th>
 										</tr>
 										<tr>
-											<th v-for="signatory in templates[0].ipcr_signatory" :key="signatory.id">
+											<th v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
 												{{ signatory.position }}
 											</th>
 										</tr>
@@ -79,7 +76,7 @@
 											<th scope="col">T</th>
 											<th scope="col">A</th>
 										</tr>
-										<tbody v-for="(functions, index) in templates[0].ipcr_function" :key="index">
+										<tbody v-for="(functions, index) in templates.ipcr_function" :key="index">
 											<td colspan="10">{{ functions.name }}</td>
 											<tr
 												v-for="(subFunction, index1) in functions.ipcr_subfunctions"
@@ -89,22 +86,46 @@
 											</tr>
 											<tr
 												v-for="(performance, index2) in functions.ipcr_performance"
-												:key="index2+performance"
+												:key="index2 + performance"
 											>
 												<td>{{ performance.name }}</td>
-												<td><input type="date" v-model="performance.target" /></td>
-												<td><input type="date" v-model="performance.accomplished" /></td>
-												<td><input type="date" v-model="performance.date_of_submission" /></td>
+												<td style="display: none;"><input type="text" v-model="performance.id"></td>
+												<td><input type="number" v-model="performance.target" /></td>
+												<td><input type="number" v-model="performance.accomplished" /></td>
+												<td>
+													<input type="date" v-model="performance.date_of_submission" />
+												</td>
 												<td><input type="date" v-model="performance.date_completed" /></td>
-												<td><input type="number" v-model="performance.quality" style="width: 50px" /></td>
 												<td>
-													<input type="number" v-model="performance.qle" style="width: 50px" disabled />
+													<input
+														type="number"
+														v-model="performance.quality"
+														style="width: 50px"
+													/>
 												</td>
 												<td>
-													<input type="number" v-model="performance.tar" style="width: 50px" disabled />
+													<input
+														type="number"
+														v-model="performance.qle"
+														style="width: 50px"
+														disabled
+													/>
 												</td>
 												<td>
-													<input type="number" v-model="performance.asc" style="width: 50px" disabled />
+													<input
+														type="number"
+														v-model="performance.tar"
+														style="width: 50px"
+														disabled
+													/>
+												</td>
+												<td>
+													<input
+														type="number"
+														v-model="performance.asc"
+														style="width: 50px"
+														disabled
+													/>
 												</td>
 												<td><input type="text" v-model="performance.remarks" /></td>
 											</tr>
@@ -113,14 +134,32 @@
 											<tr>
 												<td colspan="5">
 													Comments and Recommendations for Development Purposes:
-													<input type="text" v-model="form.recommendation" size="70" />
+													<input type="text" v-model="templates.recommendation" size="70" />
 												</td>
 												<td>Numerical Rating: {{ numericalRating }}</td>
+												<td colspan="4">Adjectival Rating: {{ adjectivalRating }}</td>
+											</tr>
+											<tr>
+												<td colspan="2">Discuss with:</td>
+												<td colspan="2">Assessed by:</td>
+												<td colspan="2">Checked by:</td>
+												<td colspan="4">Final Rating:</td>
+											</tr>
+											<tr>
+												<th colspan="2">RATEE</th>
+												<th colspan="2">CAMPUS DIRECTOR</th>
+												<th colspan="2">HRMO</th>
+												<th colspan="4">VICE PRESIDENT FOR ACADEMIC AFFAIRS</th>
 											</tr>
 										</tfoot>
 									</table>
 								</div>
-							</div>
+								<div>
+									<button class="btn btn-primary mb-4 btn-sm float-right">Submit</button>
+									<button class="btn btn-danger mb-4 btn-sm float-right">Cancel</button>
+								</div>
+							</form>
+						</div>
 						</div>
 						<div class="card-body">
 							<div class="card" v-if="Object.keys(faculty).length !== 0">
@@ -132,22 +171,14 @@
 										<h5>Status: {{ faculty.status_id }}</h5>
 									</div>
 									<div class="col-md-1 mt-3">
-										<button class="btn btn-sm btn-primary" @click="viewFiles(faculty.id)">
+										<button class="btn btn-sm btn-primary" @click.prevent="viewFiles(faculty.data)">
 											View
-										</button>
-									</div>
-									<div class="col-md-1 mt-3">
-										<button
-											class="btn btn-sm btn-success"
-											@click.prevent="downloadIpcr(faculty.ipcr_template, faculty.faculty_name)"
-										>
-											Download
 										</button>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="card-footer"></div>
+						<facultytemplate :templates="json"></facultytemplate>
 					</div>
 				</div>
 			</div>
@@ -176,85 +207,57 @@ td {
 	border: 1px solid !important;
 }
 </style>
+<script>
+	import _ from 'lodash';
+	import facultytemplate from './facultytemplate.vue'
 
-  <script>
 	export default {
+		components: {
+			facultytemplate,
+		},
+
 		data () {
 			return {
 				status: '',
 				activeField: '',
 				faculty: [],
 				form: [],
-				templates: [{
-    "ipcr_function": [
-        {
-            "name": "INSTRUCTIONS",
-            "ipcr_subfunctions": [
-                {
-                    "name": "1. Test"
-                },
-                {
-                    "name": "2. Test2"
-                },
-                {
-                    "name": "3. Test3"
-                }
-            ],
-            "ipcr_performance": [
-                {
-                    "name": "a.) Test"
-                },
-                {
-                    "name": "b.) Test2"
-                }
-            ]
-        },
-        {
-            "name": "RESEARCH",
-            "ipcr_subfunctions": [],
-            "ipcr_performance": []
-        },
-        {
-            "name": "TEST",
-            "ipcr_subfunctions": [],
-            "ipcr_performance": []
-        }
-    ],
-    "ipcr_signatory": [
-        {
-            "id": 1,
-            "name_of_signatories": "Jhenrie Bargola",
-            "level_of_assestment": "Dean",
-            "position": "Ratee",
-            "order": 0,
-            "created_at": "2023-09-17 15:43:57",
-            "updated_at": "2023-09-17 15:43:57",
-            "deleted_at": null
-        },
-        {
-            "id": 2,
-            "name_of_signatories": "Nicole Alarva",
-            "level_of_assestment": "Campus Director",
-            "position": "Campus Director",
-            "order": 1,
-            "created_at": "2023-09-17 15:44:53",
-            "updated_at": "2023-09-17 15:44:53",
-            "deleted_at": null
-        }
-    ]
-}],
+				templates: [],
+				availableRate: true,
+				json: [],
 			}
 		},
 
 		computed: {
 			numericalRating () {
-				return 0;
-			}
+				let result = 0;
+				_.each(this.templates.ipcr_function, (value, key) => {
+					if (value.ipcr_performance.length > 0) {
+						let sum = 0;
+						_.each(value.ipcr_performance, (value2, key2) => {
+							if (value2.quality) {
+								sum += parseInt(value2.quality);
+							}
+						})
+						result = sum;
+					}
+				});
+				return result;
+			},
+
+			adjectivalRating () {
+				return this.numericalRating / 100;
+			},
+
+			dateToday () {
+				let date = new Date();
+				this.templates.date_today = `${date.getMonth()}, ${date.getFullYear()}`;
+				return this.templates.date_today;
+			},
 		},
 
 		mounted () {
 			this.fetchFacultyIPCR();
-			console.log(this.templates[0].ipcr_function.ipcr_performance);
 		},
 
 		methods: {
@@ -306,44 +309,27 @@ td {
 			fetchFacultyIPCR () {
 				axios.get('ipcr-faculty-assesstment/faculty').then((response) => {
 					let data = response.data.data
-					this.faculty = data;
+					if (Object.keys(data).length !== 0) {
+						this.faculty = response.data;
+						this.availableRate = false
+						this.templates = []
+					}
 				})
 			},
 
-			chooseFiles: function () {
-				document.getElementById("fileUpload").click()
+			submitForm () {
+				axios.post(`ipcr-faculty-assesstment`, this.templates).then(response => {
+					this.$toast.success("IPCR Assessment successfully saved!");
+					this.fetchFacultyIPCR();
+				}).catch(error => {
+					let message = error.response.data.message || error.message
+					this.$toast.error(message);
+				})
 			},
 
-			updatedIPCR (evt, id, status_id) {
-				const files = evt.target.files[0];
-				if (status_id === 'Done Assessment') {
-					this.$toast.error("Files Already Assesst!!");
-				} else {
-
-					if (files) {
-						let form = new FormData();
-						form.append('templates', files);
-						form.append('template_id', id);
-						form.append('status_id', 'Done Assessment')
-						let config = {
-							header: {
-								'Content-Type': 'multipart/form-data'
-							}
-						}
-						axios
-							.post(`ipcr-faculty-assesstment`, form, config)
-							.then(response => {
-								this.$toast.success("IPCR Assessment successfully updated!");
-								this.fetchFacultyIPCR();
-							}).catch(error => {
-								let message = error.response.data.message || error.message
-								this.$toast.error(message);
-							})
-					} else {
-						this.$toast.error("Please insert updated files!!");
-					}
-				}
-			},
+			viewFiles (data) {
+				this.json = JSON.parse(data);
+			}
 		}
 	}
   </script>

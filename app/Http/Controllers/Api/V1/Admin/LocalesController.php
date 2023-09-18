@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LocalesController extends Controller
 {
@@ -18,7 +19,7 @@ class LocalesController extends Controller
     public function messages()
     {
         return response()->json([
-            'auth'       => trans('auth'),
+            'auth'       => Auth::user(),
             'cruds'      => trans('cruds'),
             'global'     => trans('global'),
             'pagination' => trans('pagination'),

@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\IpcrTemplates;
 
 class IpcrFacultyAssesstmentApiController extends Controller
 {
@@ -20,16 +21,19 @@ class IpcrFacultyAssesstmentApiController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $file = $request->templates;
-        $name = $file->getClientOriginalName();
-        Storage::disk('public')->put($name, file_get_contents($file));
+        $ipcr_active = IpcrTemplates::where('active', true)->first();
 
-        IpcrFacultyAssesstment::where([
-            'faculty_id' =>  $request->faculty_id ? (int) $request->faculty_id :  $user->id,
-            'ipcr_template_id' => (int) $request->template_id
-        ])->update([
-            'status_id' => $request->status_id ?? null,
-            'file_name' => $name
+        $data = json_encode($request->all(), true);
+
+        IpcrFacultyAssesstment::updateOrCreate([
+            'ipcr_template_id' => $ipcr_active->id,
+            'faculty_id' => $user->id
+        ], [
+            'status_id' => 'On Going Assesment',
+            'ipcr_template_id' => $ipcr_active->id,
+            'faculty_id' => $user->id,
+            'department_id' => $user->userDetails->department_id,
+            'data' => $data
         ]);
 
         return response()->json();

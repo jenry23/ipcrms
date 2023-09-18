@@ -13,6 +13,8 @@ use App\Models\IpcrSubFunction;
 use App\Models\IpcrTemplates;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -66,10 +68,10 @@ class IpcrTemplateApiController extends Controller
                 $performance = collect();
                 $ipcr_subfunctions = $array->ipcrSubFunction()->get();
                 $ipcr_subfunctions_id = $ipcr_subfunctions->pluck('id');
-                $sub_function = $ipcr_subfunctions->map(fn ($array) => ['name' => $array->name]);;
+                $sub_function = $ipcr_subfunctions->map(fn ($array) => ['id' => $array->id, 'name' => $array->name]);
                 $performance = IpcrPerformanceFunction::whereIn('ipcr_sub_function_id', $ipcr_subfunctions_id)
                     ->get()
-                    ->map(fn ($array) => ['name' => $array->name]);
+                    ->map(fn ($array) => ['id' => $array->id, 'name' => $array->name]);
 
                 return [
                     'name' => $array->name,
@@ -79,21 +81,10 @@ class IpcrTemplateApiController extends Controller
             });
 
         $ipcr_signatories = IpcrSignatory::get();
-        // if ($ipcr_active) {
-        //     $user = Auth::user();
-
-        //     IpcrFacultyAssesstment::updateOrCreate([
-        //         'ipcr_template_id' => $ipcr_active->id,
-        //         'faculty_id' => $user->id
-        //     ], [
-        //         'status_id' => 'On Going Assesment',
-        //         'ipcr_template_id' => $ipcr_active->id,
-        //         'faculty_id' => $user->id,
-        //         'department_id' => $user->userDetails->department_id
-        //     ]);
-        // }
-
-        return response()->json(['ipcr_function' => $ipcr_functions->toArray(), 'ipcr_signatory' => $ipcr_signatories]);
+        return response()->json([
+            'ipcr_function' => $ipcr_functions->toArray(),
+            'ipcr_signatory' => $ipcr_signatories,
+        ]);
     }
 
     public function downloadIPCR($id)

@@ -48,6 +48,8 @@
     {{-- Datetime Picker --}}
     <script src="{{ url('/md/js/plugins/bootstrap-datetimepicker.min.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
     <script src="{{ mix('/adminapp/js/app.js') }}" type="text/javascript" charset="utf-8"></script>
 </body>
 

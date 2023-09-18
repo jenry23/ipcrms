@@ -18,6 +18,10 @@ class User extends Authenticatable
 
     public $table = 'users';
 
+    protected $appends = [
+        'role_name',
+    ];
+
     protected $hidden = [
         'remember_token',
         'password',
@@ -83,6 +87,11 @@ class User extends Authenticatable
         if ($input) {
             $this->attributes['password'] = Hash::needsRehash($input) ? Hash::make($input) : $input;
         }
+    }
+
+    public function getRoleNameAttribute()
+    {
+        return $this->roles->first()->title;
     }
 
     public function roles()

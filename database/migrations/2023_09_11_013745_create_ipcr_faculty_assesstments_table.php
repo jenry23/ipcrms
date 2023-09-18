@@ -16,8 +16,10 @@ class CreateIpcrFacultyAssesstmentsTable extends Migration
             $table->foreignId('dean_id')->nullable()->constrained('users');
             $table->foreignId('hrmo_id')->nullable()->constrained('users');
             $table->foreignId('campus_director_id')->nullable()->constrained('users');
+            $table->foreignId('vp_id')->nullable()->constrained('users');
+            $table->string('semester')->nullable();
+            $table->json('data')->nullable();
             $table->foreignId('department_id')->constrained('departments');
-            $table->string('file_name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
