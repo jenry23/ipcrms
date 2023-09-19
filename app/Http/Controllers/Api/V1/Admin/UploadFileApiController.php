@@ -68,7 +68,7 @@ class UploadFileApiController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->roles()->first() === 'Faculty') {
+        if ($user->roles()->first()->title === 'Faculty') {
             $ipcr_files = IpcrUploadFiles::with(['ipcrFunction', 'uploader'])->where('faculty_id', $user->id)
                 ->where('ipcr_function_id', $id)
                 ->get();

@@ -24,7 +24,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
         $user = Auth::user();
         $roles = $user->roles()->first();
 
-        if ($user->roles()->first() === 'Faculty') {
+        if ($user->roles()->first()->title === 'Faculty') {
             $ipcr_active = IpcrTemplates::where('active', true)->first();
 
             $request['faculty_name'] = $user->name;
