@@ -110,6 +110,18 @@ const routes = [
         meta: { title: 'Upload Files' }
       },
       {
+        path: 'upload-files/create',
+        name: 'upload-files.create',
+        component: () => import('@cruds/UploadFiles/Create.vue'),
+        meta: { title: 'Upload FIles' }
+      },
+      {
+        path: 'announcement/create',
+        name: 'announcement.create',
+        component: () => import('@cruds/Announcement/Create.vue'),
+        meta: { title: 'Announcement' }
+      },
+      {
         path: 'faculty',
         name: 'faculty',
         component: () => import('@cruds/Faculty/index.vue'),

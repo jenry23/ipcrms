@@ -49,4 +49,13 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::get('ipcr-faculty-assesstment/campus-director', 'IpcrFacultyAssesstmentApiController@getCampusDirectorAssesstment');
     Route::get('ipcr-faculty-assesstment/download/{id}', 'IpcrFacultyAssesstmentApiController@downloadIPCR');
     Route::resource('ipcr-faculty-assesstment', 'IpcrFacultyAssesstmentApiController');
+
+    // Upload Files
+    Route::get('upload-file/download/{id}', 'UploadFileApiController@downloadFile');
+    Route::get('upload-file/ipcr-function', 'UploadFileApiController@getActiveFunctions');
+    Route::resource('upload-file', 'UploadFileApiController');
+
+    // Announcement
+    Route::get('announcement/faculty', 'AnnouncementApiController@getFaculty');
+    Route::resource('announcement', 'AnnouncementApiController');
 });

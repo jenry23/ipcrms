@@ -12,7 +12,7 @@
 		<div v-if="role_title === 'Dean'">
 			<dean-template />
 		</div>
-		<div v-if="role_title === 'HRMO'">
+		<div v-if="role_title === 'Hrmo'">
 			<hrmo-template />
 		</div>
 	</div>

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\IpcrTemplates;
+use Illuminate\Support\Str;
 
 class IpcrFacultyAssesstmentApiController extends Controller
 {
@@ -21,20 +22,38 @@ class IpcrFacultyAssesstmentApiController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $ipcr_active = IpcrTemplates::where('active', true)->first();
+        $roles = $user->roles()->first();
 
-        $data = json_encode($request->all(), true);
+        if ($user->roles()->first() === 'Faculty') {
+            $ipcr_active = IpcrTemplates::where('active', true)->first();
 
-        IpcrFacultyAssesstment::updateOrCreate([
-            'ipcr_template_id' => $ipcr_active->id,
-            'faculty_id' => $user->id
-        ], [
-            'status_id' => 'On Going Assesment',
-            'ipcr_template_id' => $ipcr_active->id,
-            'faculty_id' => $user->id,
-            'department_id' => $user->userDetails->department_id,
-            'data' => $data
-        ]);
+            $request['faculty_name'] = $user->name;
+            $data = json_encode($request->all(), true);
+
+            IpcrFacultyAssesstment::updateOrCreate([
+                'ipcr_template_id' => $ipcr_active->id,
+                'faculty_id' => $user->id
+            ], [
+                'status_id' => 'On Going Assesment',
+                'ipcr_template_id' => $ipcr_active->id,
+                'faculty_id' => $user->id,
+                'department_id' => $user->userDetails->department_id,
+                'data' => $data
+            ]);
+        } else {
+            $roles_id = Str::snake($roles->title) . "_id";
+            $roles_name = Str::snake($roles->title) . "_name";
+            $request[$roles_name] = $user->name;
+            $data = json_encode($request->all(), true);
+
+            $ipcr_faculty_assement = IpcrFacultyAssesstment::findOrFail($request->id);
+
+            $ipcr_faculty_assement->update([
+                'status_id' => $request->status_id,
+                'data' => $data,
+                $roles_id => $user->id
+            ]);
+        }
 
         return response()->json();
     }

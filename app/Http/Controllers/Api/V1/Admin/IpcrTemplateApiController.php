@@ -13,12 +13,9 @@ use App\Models\IpcrSubFunction;
 use App\Models\IpcrTemplates;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\UserDetail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class IpcrTemplateApiController extends Controller
 {
@@ -80,10 +77,10 @@ class IpcrTemplateApiController extends Controller
                 ];
             });
 
-        $ipcr_signatories = IpcrSignatory::get();
+
         return response()->json([
             'ipcr_function' => $ipcr_functions->toArray(),
-            'ipcr_signatory' => $ipcr_signatories,
+            'ipcr_signatory' => IpcrSignatory::get(),
         ]);
     }
 

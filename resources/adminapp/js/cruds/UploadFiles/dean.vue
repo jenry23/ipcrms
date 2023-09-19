@@ -7,9 +7,6 @@
 						<h4 class="card-title">
 							<strong>Upload Your Document</strong>
 						</h4>
-						<router-link class="btn btn-primary btn-sm mt-3" to='upload-files/create'>
-							Add Files
-						</router-link>
 					</div>
 					<div class="card-body">
 						<ul class="nav nav-pills nav-pills-primary" role="tablist">

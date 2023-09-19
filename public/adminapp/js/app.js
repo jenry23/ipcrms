@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "adminapp/js/chunks/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"89186e72dfe82190dc08","1":"f260716cf3a4776a1dae","2":"c541aeef1e3ead1ce5b5","3":"60ff4c244644534d1517","4":"0476b52e0a93dc1f170b","5":"76913867f04951372eba","6":"f5b6108716b9755f1bbb","7":"316e374b2e9a8867da19","8":"995bb2c2bfd5300d8ea7","9":"a13435039c25a1e002a3","10":"b2f0b37b897be2bb5b2e","11":"96cd4dc8b79f4eed5e0a","12":"06d88a5e7e7a0817f993","13":"18913f7b6be9b546b972","14":"2bc60f73ddfb4d82d83d","15":"170e71d48ab73e5f9592","16":"521aa5ee8d1b96ad6f93","17":"6ccdbadb5c617029bed3","18":"2bb3b2f9429e2d809122","19":"a3c1f0f8a3fec9fe9a21","20":"3f9f7875e143c9a823d4","21":"75de7d65588554e5775d"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "adminapp/js/chunks/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"65025625d1af6d8a70c0","1":"9301025f622a6aa64bed","2":"b58ff308d5516efbd48b","3":"fc56fd20b3c17b191443","4":"fa97f67a82807112f7a6","5":"454279742a80680c2610","6":"eef4f1be0554cecb94b8","7":"212ae22eae629bcabd20","8":"8f9e11378c823ae06f17","9":"0ac8e7d43cae5922a548","10":"b7cb5dcc75a2e05223ed","11":"6d90de6882e9b34d5578","12":"106ff04270741559d848","13":"532bbb784257729a4352","14":"6b4dd96b52d10d6e934d","15":"a15ba6801a8311154953","16":"560281442fc2bd7b93cd","17":"4c190ba0d1b59b621387","18":"1bd32f79778af92c361f","19":"57dd5cf19337ba5b6ab8","20":"b2c4b1582cfcd14e4728"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -4240,7 +4240,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.fixed-width[data-v-78ea0fdf] {\n  width: 1.3em;\n  text-align: center;\n  display: inline-block;\n}\n", ""]);
+exports.push([module.i, "\n.fixed-width[data-v-78ea0fdf] {\r\n  width: 1.3em;\r\n  text-align: center;\r\n  display: inline-block;\n}\r\n", ""]);
 
 // exports
 
@@ -4259,7 +4259,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n@media screen and (min-width: 991px) {\n.nav-mobile-menu {\n    display: none;\n}\n}\n", ""]);
+exports.push([module.i, "\n@media screen and (min-width: 991px) {\n.nav-mobile-menu {\r\n    display: none;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -4278,7 +4278,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.checkbox-radios[data-v-aed33b06] {\n  padding-top: 7px;\n  padding-bottom: 7px;\n}\n", ""]);
+exports.push([module.i, "\n.checkbox-radios[data-v-aed33b06] {\r\n  padding-top: 7px;\r\n  padding-bottom: 7px;\n}\r\n", ""]);
 
 // exports
 
@@ -78473,14 +78473,14 @@ var View = {
 var routes = [{
   path: '/',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! @pages/Layout/DashboardLayout.vue */ "./resources/adminapp/js/pages/Layout/DashboardLayout.vue"));
+    return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! @pages/Layout/DashboardLayout.vue */ "./resources/adminapp/js/pages/Layout/DashboardLayout.vue"));
   },
   redirect: 'dashboard',
   children: [{
     path: 'dashboard',
     name: 'dashboard',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! @pages/Dashboard.vue */ "./resources/adminapp/js/pages/Dashboard.vue"));
+      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! @pages/Dashboard.vue */ "./resources/adminapp/js/pages/Dashboard.vue"));
     },
     meta: {
       title: 'global.dashboard'
@@ -78532,7 +78532,7 @@ var routes = [{
       path: 'roles',
       name: 'roles.index',
       component: function component() {
-        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(5)]).then(__webpack_require__.bind(null, /*! @cruds/Roles/Index.vue */ "./resources/adminapp/js/cruds/Roles/Index.vue"));
+        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! @cruds/Roles/Index.vue */ "./resources/adminapp/js/cruds/Roles/Index.vue"));
       },
       meta: {
         title: 'cruds.role.title'
@@ -78550,7 +78550,7 @@ var routes = [{
       path: 'roles/:id',
       name: 'roles.show',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! @cruds/Roles/Show.vue */ "./resources/adminapp/js/cruds/Roles/Show.vue"));
+        return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! @cruds/Roles/Show.vue */ "./resources/adminapp/js/cruds/Roles/Show.vue"));
       },
       meta: {
         title: 'cruds.role.title'
@@ -78568,7 +78568,7 @@ var routes = [{
       path: 'users',
       name: 'users.index',
       component: function component() {
-        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(7)]).then(__webpack_require__.bind(null, /*! @cruds/Users/Index.vue */ "./resources/adminapp/js/cruds/Users/Index.vue"));
+        return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! @cruds/Users/Index.vue */ "./resources/adminapp/js/cruds/Users/Index.vue"));
       },
       meta: {
         title: 'cruds.user.title'
@@ -78577,7 +78577,7 @@ var routes = [{
       path: 'users/create',
       name: 'users.create',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! @cruds/Users/Create.vue */ "./resources/adminapp/js/cruds/Users/Create.vue"));
+        return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! @cruds/Users/Create.vue */ "./resources/adminapp/js/cruds/Users/Create.vue"));
       },
       meta: {
         title: 'cruds.user.title'
@@ -78586,7 +78586,7 @@ var routes = [{
       path: 'users/:id',
       name: 'users.show',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! @cruds/Users/Show.vue */ "./resources/adminapp/js/cruds/Users/Show.vue"));
+        return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! @cruds/Users/Show.vue */ "./resources/adminapp/js/cruds/Users/Show.vue"));
       },
       meta: {
         title: 'cruds.user.title'
@@ -78595,7 +78595,7 @@ var routes = [{
       path: 'users/:id/edit',
       name: 'users.edit',
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! @cruds/Users/Edit.vue */ "./resources/adminapp/js/cruds/Users/Edit.vue"));
+        return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! @cruds/Users/Edit.vue */ "./resources/adminapp/js/cruds/Users/Edit.vue"));
       },
       meta: {
         title: 'cruds.user.title'
@@ -78605,7 +78605,7 @@ var routes = [{
     path: 'ipcr',
     name: 'ipcr',
     component: function component() {
-      return Promise.all(/*! import() */[__webpack_require__.e(10), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! @cruds/IPCR/index.vue */ "./resources/adminapp/js/cruds/IPCR/index.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(8), __webpack_require__.e(1)]).then(__webpack_require__.bind(null, /*! @cruds/IPCR/index.vue */ "./resources/adminapp/js/cruds/IPCR/index.vue"));
     },
     meta: {
       title: 'IPCR'
@@ -78614,10 +78614,28 @@ var routes = [{
     path: 'upload-files',
     name: 'upload-files',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! @cruds/UploadFiles/index.vue */ "./resources/adminapp/js/cruds/UploadFiles/index.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! @cruds/UploadFiles/index.vue */ "./resources/adminapp/js/cruds/UploadFiles/index.vue"));
     },
     meta: {
       title: 'Upload Files'
+    }
+  }, {
+    path: 'upload-files/create',
+    name: 'upload-files.create',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! @cruds/UploadFiles/Create.vue */ "./resources/adminapp/js/cruds/UploadFiles/Create.vue"));
+    },
+    meta: {
+      title: 'Upload FIles'
+    }
+  }, {
+    path: 'announcement/create',
+    name: 'announcement.create',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! @cruds/Announcement/Create.vue */ "./resources/adminapp/js/cruds/Announcement/Create.vue"));
+    },
+    meta: {
+      title: 'Announcement'
     }
   }, {
     path: 'faculty',
@@ -79750,8 +79768,8 @@ var debug = "development" !== 'production';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\ipcrms\resources\adminapp\js\app.js */"./resources/adminapp/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\ipcrms\resources\adminapp\sass\app.scss */"./resources/adminapp/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\ipcrms\resources\adminapp\js\app.js */"./resources/adminapp/js/app.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\ipcrms\resources\adminapp\sass\app.scss */"./resources/adminapp/sass/app.scss");
 
 
 /***/ })

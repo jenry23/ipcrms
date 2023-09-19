@@ -16,7 +16,6 @@
 									placeholder="Templates"
 									v-model="template_id"
 									:options="templateList"
-									@input="setTemplate"
 								/>
 							</div>
 							<div class="col-md-2 mt-4">
