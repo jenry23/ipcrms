@@ -6444,9 +6444,7 @@ var render = function() {
                                 ]),
                                 _vm._v(" "),
                                 _c("p", { staticClass: "remove-space" }, [
-                                  _vm._v(
-                                    "Date: " + _vm._s(_vm.templates.dateToday)
-                                  )
+                                  _vm._v("Date: " + _vm._s(_vm.dateToday))
                                 ]),
                                 _vm._v(" "),
                                 _c("p", { staticClass: "remove-space" }, [
