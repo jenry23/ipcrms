@@ -11,7 +11,9 @@ use App\Models\IpcrFunctionTemplate;
 use App\Models\IpcrTemplates;
 use App\Models\IpcrUploadFiles;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
 
 class UploadFileApiController extends Controller
 {
@@ -28,6 +30,7 @@ class UploadFileApiController extends Controller
         Storage::disk('public')->put($filename, file_get_contents($file));
 
         $data = [
+            'ipcr_performance_function_id' => $request->ipcr_performance_function_id,
             'ipcr_function_id' => $request->ipcr_function_id,
             'description' => $request->description,
             'faculty_id' => Auth::user()->id,
@@ -46,7 +49,8 @@ class UploadFileApiController extends Controller
         $ipcr_template_id = IpcrFunctionTemplate::where('ipcr_template_id', $ipcr_active->id)
             ->pluck('ipcr_function_id');
 
-        $ipcr_functions = IpcrFunction::whereIn('id', $ipcr_template_id)
+        $ipcr_functions = IpcrFunction::with(['ipcrSubFunction.ipcrPerformance'])
+            ->whereIn('id', $ipcr_template_id)
             ->get();
 
         return response()->json($ipcr_functions);
@@ -64,6 +68,50 @@ class UploadFileApiController extends Controller
         ]);
     }
 
+    public function remarks($id, $value)
+    {
+        $remarks = IpcrUploadFiles::findOrFail($id)->update(['remarks' => $value]);
+
+        return response()->json($remarks);
+    }
+
+    public function approvedFile($id)
+    {
+        DB::transaction(function () use ($id) {
+            $upload_files = IpcrUploadFiles::findOrFail($id);
+
+            $upload_files->update(['is_approved' => true]);
+
+            $ipcr_active_assessment = IpcrFacultyAssesstment::where('faculty_id', $upload_files->faculty_id)
+                ->latest()
+                ->first();
+
+            if ($ipcr_active_assessment) {
+                $json_data = json_decode($ipcr_active_assessment->data, true);
+
+                foreach ($json_data['ipcr_function'] as $key => $data) {
+                    if ($data['ipcr_performance']) {
+                        foreach ($data['ipcr_performance'] as $key2 => $ipcr_performance) {
+                            if ($ipcr_performance['id'] === $upload_files->ipcr_performance_function_id) {
+                                $total_approved_ipcr = IpcrUploadFiles::where('faculty_id', $upload_files->faculty_id)
+                                    ->where('ipcr_performance_function_id',  $upload_files->ipcr_performance_function_id)
+                                    ->count();
+
+                                $json_data['ipcr_function'][$key]['ipcr_performance'][$key2]['date_of_submission'] =
+                                    !$ipcr_performance['date_of_submission'] ? Carbon::now()->format('Y-m-d') : null;
+                                $json_data['ipcr_function'][$key]['ipcr_performance'][$key2]['accomplished']  = $total_approved_ipcr;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $ipcr_active_assessment->update(['data' => json_encode($json_data, true)]);
+        });
+
+        return response()->json();
+    }
+
     public function show($id)
     {
         $user = Auth::user();
@@ -76,7 +124,6 @@ class UploadFileApiController extends Controller
             $ipcr_files = IpcrUploadFiles::with(['ipcrFunction', 'uploader'])->where('ipcr_function_id', $id)
                 ->get();
         }
-
 
         return response()->json($ipcr_files);
     }

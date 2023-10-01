@@ -69,6 +69,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -77,11 +101,14 @@ __webpack_require__.r(__webpack_exports__);
       activeField: '',
       form: {
         ipcr_function_id: null,
+        ipcr_performance_function_id: null,
         files: null,
         description: null
       },
       loading: false,
-      functionList: []
+      functionList: [],
+      subFunctionList: [],
+      performanceFunctionList: []
     };
   },
   mounted: function mounted() {
@@ -91,6 +118,12 @@ __webpack_require__.r(__webpack_exports__);
     updateFiles: function updateFiles(event) {
       var events = event.target.files[0];
       this.form.files = events;
+    },
+    selectFunction: function selectFunction(value) {
+      this.subFunctionList = value.ipcr_sub_function;
+    },
+    selectSubFunctionList: function selectSubFunctionList(value) {
+      this.performanceFunctionList = value.ipcr_performance;
     },
     fetchCreateData: function fetchCreateData() {
       var _this = this;
@@ -109,7 +142,7 @@ __webpack_require__.r(__webpack_exports__);
       var form = new FormData();
 
       lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(this.form, function (value, key) {
-        if (key.includes(['ipcr_function_id'])) {
+        if (['ipcr_function_id', 'ipcr_performance_function_id'].includes(key)) {
           form.append(key, value.id);
         } else {
           form.append(key, value);
@@ -225,12 +258,64 @@ var render = function() {
                             "item-value": "id",
                             options: _vm.functionList
                           },
+                          on: { input: _vm.selectFunction },
                           model: {
                             value: _vm.form.ipcr_function_id,
                             callback: function($$v) {
                               _vm.$set(_vm.form, "ipcr_function_id", $$v)
                             },
                             expression: "form.ipcr_function_id"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-md-12 mt-4" },
+                      [
+                        _c("label", [_vm._v("IPCR Sub Functions")]),
+                        _vm._v(" "),
+                        _c("v-select", {
+                          key: "ipcr-function-id-field",
+                          attrs: {
+                            name: "ipcr_sub_function_id",
+                            label: "name",
+                            "item-value": "id",
+                            options: _vm.subFunctionList
+                          },
+                          on: { input: _vm.selectSubFunctionList }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-md-12 mt-4" },
+                      [
+                        _c("label", [_vm._v("IPCR Performance Functions")]),
+                        _vm._v(" "),
+                        _c("v-select", {
+                          key: "ipcr-function-id-field",
+                          attrs: {
+                            name: "ipcr_sub_function_id",
+                            label: "name",
+                            "item-value": "id",
+                            options: _vm.performanceFunctionList,
+                            required: ""
+                          },
+                          model: {
+                            value: _vm.form.ipcr_performance_function_id,
+                            callback: function($$v) {
+                              _vm.$set(
+                                _vm.form,
+                                "ipcr_performance_function_id",
+                                $$v
+                              )
+                            },
+                            expression: "form.ipcr_performance_function_id"
                           }
                         })
                       ],

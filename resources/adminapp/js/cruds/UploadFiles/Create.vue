@@ -32,6 +32,30 @@
 										item-value="id"
 										v-model="form.ipcr_function_id"
 										:options="functionList"
+										@input="selectFunction"
+									/>
+								</div>
+								<div class="col-md-12 mt-4">
+									<label>IPCR Sub Functions</label>
+									<v-select
+										name="ipcr_sub_function_id"
+										label="name"
+										:key="'ipcr-function-id-field'"
+										item-value="id"
+										:options="subFunctionList"
+										@input="selectSubFunctionList"
+									/>
+								</div>
+								<div class="col-md-12 mt-4">
+									<label>IPCR Performance Functions</label>
+									<v-select
+										name="ipcr_sub_function_id"
+										label="name"
+										:key="'ipcr-function-id-field'"
+										item-value="id"
+										v-model="form.ipcr_performance_function_id"
+										:options="performanceFunctionList"
+										required
 									/>
 								</div>
 								<div class="col-md-12 mt-4">
@@ -65,11 +89,14 @@
 				activeField: '',
 				form: {
 					ipcr_function_id: null,
+					ipcr_performance_function_id: null,
 					files: null,
 					description: null
 				},
 				loading: false,
 				functionList: [],
+				subFunctionList: [],
+				performanceFunctionList: [],
 			}
 		},
 
@@ -83,6 +110,13 @@
 				this.form.files = events;
 			},
 
+  			selectFunction (value) {
+				this.subFunctionList = value.ipcr_sub_function;
+			},
+
+  			selectSubFunctionList (value) {
+				this.performanceFunctionList = value.ipcr_performance;
+			},
 
 			fetchCreateData () {
 				axios.get('upload-file/ipcr-function')
@@ -97,7 +131,7 @@
 			submitForm () {
 				let form = new FormData();
 				_.each(this.form, (value, key) => {
-					if (key.includes(['ipcr_function_id'])) {
+					if (['ipcr_function_id', 'ipcr_performance_function_id'].includes(key)) {
 						form.append(key, value.id);
 					} else {
 						form.append(key, value);

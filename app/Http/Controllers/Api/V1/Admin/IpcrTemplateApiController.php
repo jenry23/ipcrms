@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class IpcrTemplateApiController extends Controller
 {
@@ -66,10 +68,23 @@ class IpcrTemplateApiController extends Controller
                 $ipcr_subfunctions = $array->ipcrSubFunction()->get();
                 $ipcr_subfunctions_id = $ipcr_subfunctions->pluck('id');
                 $sub_function = $ipcr_subfunctions->map(fn ($array) => ['id' => $array->id, 'name' => $array->name]);
-                $performance = IpcrPerformanceFunction::whereIn('ipcr_sub_function_id', $ipcr_subfunctions_id)
+                $performance = IpcrPerformanceFunction::with(['uploadFiles'])->whereIn('ipcr_sub_function_id', $ipcr_subfunctions_id)
                     ->get()
-                    ->map(fn ($array) => ['id' => $array->id, 'name' => $array->name]);
+                    ->map(function ($array) {
+                        if ($array->has('uploadFiles')) {
+                            $user_id = Auth::user()->id;
+                            $faculty_date = $array->uploadFiles->where('faculty_id', $user_id)->first();
+                            $date_of_submission = $faculty_date ? Carbon::parse($faculty_date->created_at)->format('Y-m-d') : null;
+                            $total_approved = $array->uploadFiles()->where('faculty_id', $user_id)->where('is_approved', true)->count();
+                        }
 
+                        return [
+                            'id' => $array->id,
+                            'name' => $array->name,
+                            'date_of_submission' => $date_of_submission,
+                            'total_approved' => $total_approved
+                        ];
+                    });
                 return [
                     'name' => $array->name,
                     'ipcr_subfunctions' => $sub_function->toArray(),

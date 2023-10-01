@@ -52,6 +52,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Upload Files
     Route::get('upload-file/download/{id}', 'UploadFileApiController@downloadFile');
+    Route::get('upload-file/approved/{id}', 'UploadFileApiController@approvedFile');
+    Route::get('upload-file/remarks/{id}/{value}', 'UploadFileApiController@remarks');
     Route::get('upload-file/ipcr-function', 'UploadFileApiController@getActiveFunctions');
     Route::resource('upload-file', 'UploadFileApiController');
 

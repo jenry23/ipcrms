@@ -28,4 +28,9 @@ class IpcrUploadFiles extends Model
     {
         return $this->belongsTo(IpcrFunction::class);
     }
+
+    public function ipcrPerformanceFunction()
+    {
+        return $this->belongsTo(IpcrPerformanceFunction::class);
+    }
 }

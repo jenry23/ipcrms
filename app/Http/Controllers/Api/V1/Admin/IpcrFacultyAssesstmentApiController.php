@@ -28,6 +28,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
             $ipcr_active = IpcrTemplates::where('active', true)->first();
 
             $request['faculty_name'] = $user->name;
+
             $data = json_encode($request->all(), true);
 
             IpcrFacultyAssesstment::updateOrCreate([

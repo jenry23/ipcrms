@@ -132,6 +132,21 @@
 													<input
 														type="date"
 														v-model="performance.date_completed"
+														@input="computedTarget(performance, index2 ,index)"
+													/>
+												</td>
+												<td>
+													<input
+														type="number"
+														v-model="performance.quantity"
+														style="width: 50px"
+														v-if="performance.quantity"
+														disabled
+													/>
+													<input
+														v-else
+														:value="setQuantity(performance, index2 ,index)"
+														style="width: 50px"
 														disabled
 													/>
 												</td>
@@ -140,14 +155,7 @@
 														type="number"
 														v-model="performance.quality"
 														style="width: 50px"
-														disabled
-													/>
-												</td>
-												<td>
-													<input
-														type="number"
-														v-model="performance.qle"
-														style="width: 50px"
+														@input="computeAverage(performance, index2,index)"
 													/>
 												</td>
 												<td>
@@ -167,7 +175,7 @@
 													/>
 												</td>
 												<td>
-													<input type="text" v-model="performance.remarks" disabled />
+													<input type="text" v-model="performance.remarks" />
 												</td>
 											</tr>
 										</tbody>
@@ -179,7 +187,6 @@
 														type="text"
 														v-model="templates.recommendation"
 														size="70"
-														disabled
 													/>
 												</td>
 												<td>Numerical Rating: {{ numericalRating }}</td>
@@ -260,8 +267,8 @@
 					if (value.ipcr_performance.length > 0) {
 						let sum = 0;
 						_.each(value.ipcr_performance, (value2, key2) => {
-							if (value2.quality) {
-								sum += parseInt(value2.quality);
+							if (value2.asc) {
+								sum += parseInt(value2.asc);
 							}
 						})
 						result = sum;
@@ -277,6 +284,7 @@
 			dateToday () {
 				let date = new Date();
 				this.templates.date_today = `${date.getMonth()}, ${date.getFullYear()}`;
+
 				return this.templates.date_today;
 			},
 		},
@@ -295,6 +303,36 @@
 					let data = response.data.data
 					this.faculty = data;
 				})
+			},
+
+  			setQuantity (value, index2, index) {
+				let sum = 0;
+
+				if (value.target) {
+					sum = parseInt(value.accomplished) / parseInt(value.target)
+				}
+
+				this.templates.ipcr_function[index].ipcr_performance[index2].quantity = sum;
+
+				return sum;
+			},
+
+  			setTarget (value) {
+
+			},
+
+  			computeAverage (value, index2, index) {
+				let sum = (parseInt(value.quantity) +  parseInt(value.quality) +  parseInt(value.tar));
+
+				this.templates.ipcr_function[index].ipcr_performance[index2].asc = sum
+			},
+
+  			computedTarget (value, index2, index) {
+				const date1 = new Date(value.date_of_submission);
+				const date2 = new Date(value.date_completed);
+				const timeDifferenceInHours = Math.abs((date1 - date2) / (1000 * 60 * 60));
+
+				this.templates.ipcr_function[index].ipcr_performance[index2].tar = timeDifferenceInHours
 			},
 
 			editFiles (data) {

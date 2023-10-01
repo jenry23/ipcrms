@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class IpcrPerformanceFunction extends Model
 {
@@ -23,5 +25,10 @@ class IpcrPerformanceFunction extends Model
     public function ipcrSubFunction(): BelongsTo
     {
         return $this->belongsTo(IpcrSubFunction::class);
+    }
+
+    public function uploadFiles(): HasMany
+    {
+        return $this->hasMany(IpcrUploadFiles::class);
     }
 }

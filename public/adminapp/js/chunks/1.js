@@ -1743,6 +1743,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1772,8 +1779,8 @@ __webpack_require__.r(__webpack_exports__);
           var sum = 0;
 
           _.each(value.ipcr_performance, function (value2, key2) {
-            if (value2.quality) {
-              sum += parseInt(value2.quality);
+            if (value2.asc) {
+              sum += parseInt(value2.asc);
             }
           });
 
@@ -1806,6 +1813,27 @@ __webpack_require__.r(__webpack_exports__);
         var data = response.data.data;
         _this.faculty = data;
       });
+    },
+    setQuantity: function setQuantity(value, index2, index) {
+      var sum = 0;
+
+      if (value.target) {
+        sum = parseInt(value.accomplished) / parseInt(value.target);
+      }
+
+      this.templates.ipcr_function[index].ipcr_performance[index2].quantity = sum;
+      return sum;
+    },
+    setTarget: function setTarget(value) {},
+    computeAverage: function computeAverage(value, index2, index) {
+      var sum = parseInt(value.quantity) + parseInt(value.quality) + parseInt(value.tar);
+      this.templates.ipcr_function[index].ipcr_performance[index2].asc = sum;
+    },
+    computedTarget: function computedTarget(value, index2, index) {
+      var date1 = new Date(value.date_of_submission);
+      var date2 = new Date(value.date_completed);
+      var timeDifferenceInHours = Math.abs((date1 - date2) / (1000 * 60 * 60));
+      this.templates.ipcr_function[index].ipcr_performance[index2].tar = timeDifferenceInHours;
     },
     editFiles: function editFiles(data) {
       this.templates = JSON.parse(data.data);
@@ -2096,6 +2124,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2124,8 +2154,8 @@ __webpack_require__.r(__webpack_exports__);
           var sum = 0;
 
           lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(value.ipcr_performance, function (value2, key2) {
-            if (value2.quality) {
-              sum += parseInt(value2.quality);
+            if (value2.quantity) {
+              sum += parseInt(value2.quantity);
             }
           });
 
@@ -2153,6 +2183,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearFocus: function clearFocus() {
       this.activeField = '';
+    },
+    setQuantity: function setQuantity(value) {
+      var sum = 0;
+
+      if (value.target) {
+        sum = parseInt(value.accomplished) / parseInt(value.target);
+      }
+
+      return sum;
     },
     rateYourself: function rateYourself() {
       var _this = this;
@@ -2192,6 +2231,7 @@ __webpack_require__.r(__webpack_exports__);
         link.click();
       });
     },
+    fetchFacultyIPCRFiles: function fetchFacultyIPCRFiles() {},
     fetchFacultyIPCR: function fetchFacultyIPCR() {
       var _this2 = this;
 
@@ -5899,29 +5939,93 @@ var render = function() {
                                                         "performance.date_completed"
                                                     }
                                                   ],
-                                                  attrs: {
-                                                    type: "date",
-                                                    disabled: ""
-                                                  },
+                                                  attrs: { type: "date" },
                                                   domProps: {
                                                     value:
                                                       performance.date_completed
                                                   },
                                                   on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
+                                                    input: [
+                                                      function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          performance,
+                                                          "date_completed",
+                                                          $event.target.value
+                                                        )
+                                                      },
+                                                      function($event) {
+                                                        return _vm.computedTarget(
+                                                          performance,
+                                                          index2,
+                                                          index
+                                                        )
                                                       }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "date_completed",
-                                                        $event.target.value
-                                                      )
-                                                    }
+                                                    ]
                                                   }
                                                 })
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("td", [
+                                                performance.quantity
+                                                  ? _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            performance.quantity,
+                                                          expression:
+                                                            "performance.quantity"
+                                                        }
+                                                      ],
+                                                      staticStyle: {
+                                                        width: "50px"
+                                                      },
+                                                      attrs: {
+                                                        type: "number",
+                                                        disabled: ""
+                                                      },
+                                                      domProps: {
+                                                        value:
+                                                          performance.quantity
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            performance,
+                                                            "quantity",
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  : _c("input", {
+                                                      staticStyle: {
+                                                        width: "50px"
+                                                      },
+                                                      attrs: { disabled: "" },
+                                                      domProps: {
+                                                        value: _vm.setQuantity(
+                                                          performance,
+                                                          index2,
+                                                          index
+                                                        )
+                                                      }
+                                                    })
                                               ]),
                                               _vm._v(" "),
                                               _c("td", [
@@ -5939,61 +6043,33 @@ var render = function() {
                                                   staticStyle: {
                                                     width: "50px"
                                                   },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
+                                                  attrs: { type: "number" },
                                                   domProps: {
                                                     value: performance.quality
                                                   },
                                                   on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
+                                                    input: [
+                                                      function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          performance,
+                                                          "quality",
+                                                          $event.target.value
+                                                        )
+                                                      },
+                                                      function($event) {
+                                                        return _vm.computeAverage(
+                                                          performance,
+                                                          index2,
+                                                          index
+                                                        )
                                                       }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "quality",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.qle,
-                                                      expression:
-                                                        "performance.qle"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: { type: "number" },
-                                                  domProps: {
-                                                    value: performance.qle
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "qle",
-                                                        $event.target.value
-                                                      )
-                                                    }
+                                                    ]
                                                   }
                                                 })
                                               ]),
@@ -6086,10 +6162,7 @@ var render = function() {
                                                         "performance.remarks"
                                                     }
                                                   ],
-                                                  attrs: {
-                                                    type: "text",
-                                                    disabled: ""
-                                                  },
+                                                  attrs: { type: "text" },
                                                   domProps: {
                                                     value: performance.remarks
                                                   },
@@ -6134,11 +6207,7 @@ var render = function() {
                                               "templates.recommendation"
                                           }
                                         ],
-                                        attrs: {
-                                          type: "text",
-                                          size: "70",
-                                          disabled: ""
-                                        },
+                                        attrs: { type: "text", size: "70" },
                                         domProps: {
                                           value: _vm.templates.recommendation
                                         },
@@ -6733,7 +6802,10 @@ var render = function() {
                                                           "performance.accomplished"
                                                       }
                                                     ],
-                                                    attrs: { type: "number" },
+                                                    attrs: {
+                                                      type: "number",
+                                                      disabled: ""
+                                                    },
                                                     domProps: {
                                                       value:
                                                         performance.accomplished
@@ -6768,7 +6840,10 @@ var render = function() {
                                                           "performance.date_of_submission"
                                                       }
                                                     ],
-                                                    attrs: { type: "date" },
+                                                    attrs: {
+                                                      type: "date",
+                                                      disabled: ""
+                                                    },
                                                     domProps: {
                                                       value:
                                                         performance.date_of_submission
@@ -6803,7 +6878,10 @@ var render = function() {
                                                           "performance.date_completed"
                                                       }
                                                     ],
-                                                    attrs: { type: "date" },
+                                                    attrs: {
+                                                      type: "date",
+                                                      disabled: ""
+                                                    },
                                                     domProps: {
                                                       value:
                                                         performance.date_completed
@@ -6833,6 +6911,47 @@ var render = function() {
                                                         name: "model",
                                                         rawName: "v-model",
                                                         value:
+                                                          performance.quantity,
+                                                        expression:
+                                                          "performance.quantity"
+                                                      }
+                                                    ],
+                                                    staticStyle: {
+                                                      width: "50px"
+                                                    },
+                                                    attrs: {
+                                                      type: "number",
+                                                      disabled: ""
+                                                    },
+                                                    domProps: {
+                                                      value:
+                                                        performance.quantity
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          performance,
+                                                          "quantity",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("td", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
                                                           performance.quality,
                                                         expression:
                                                           "performance.quality"
@@ -6841,7 +6960,10 @@ var render = function() {
                                                     staticStyle: {
                                                       width: "50px"
                                                     },
-                                                    attrs: { type: "number" },
+                                                    attrs: {
+                                                      type: "number",
+                                                      disabled: ""
+                                                    },
                                                     domProps: {
                                                       value: performance.quality
                                                     },
@@ -6856,45 +6978,6 @@ var render = function() {
                                                         _vm.$set(
                                                           performance,
                                                           "quality",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: performance.qle,
-                                                        expression:
-                                                          "performance.qle"
-                                                      }
-                                                    ],
-                                                    staticStyle: {
-                                                      width: "50px"
-                                                    },
-                                                    attrs: {
-                                                      type: "number",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value: performance.qle
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "qle",
                                                           $event.target.value
                                                         )
                                                       }
@@ -6992,7 +7075,10 @@ var render = function() {
                                                           "performance.remarks"
                                                       }
                                                     ],
-                                                    attrs: { type: "text" },
+                                                    attrs: {
+                                                      type: "text",
+                                                      disabled: ""
+                                                    },
                                                     domProps: {
                                                       value: performance.remarks
                                                     },
@@ -7039,7 +7125,11 @@ var render = function() {
                                                 "templates.recommendation"
                                             }
                                           ],
-                                          attrs: { type: "text", size: "70" },
+                                          attrs: {
+                                            type: "text",
+                                            size: "70",
+                                            disabled: ""
+                                          },
                                           domProps: {
                                             value: _vm.templates.recommendation
                                           },

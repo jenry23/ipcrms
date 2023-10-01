@@ -12,19 +12,27 @@
 										<th>Filename</th>
 										<th>Performance Indicator</th>
 										<th>Description</th>
+										<th>Is Approved</th>
 										<th>Date Of Submitted</th>
+										<th v-if="role_title === 'Dean'">Remarks</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody >
-									<tr v-for="functions in ipcrFunction" :key="functions.id">
+									<tr v-for="(functions, index) in ipcrFunction" :key="index">
 										<td>{{ functions.uploader.name }}</td>
 										<td>{{ functions.file_name }}</td>
 										<td>{{ functions.ipcr_function.name }}</td>
 										<td>{{ functions.description }}</td>
+										<td>{{ functions.is_approved ? 'Yes' : 'No' }}</td>
 										<td>{{ functions.created_at }}</td>
+										<td v-if="role_title === 'Dean'">
+											<textarea v-model="functions.remarks"></textarea>
+										</td>
 										<td>
+											<button v-if="role_title === 'Dean'" class="btn btn-sm btn-primary" @click="updateRemarks(functions.id, functions.remarks)">Update Remarks</button>
 											<button class="btn btn-sm btn-primary" @click="downloadFiles(functions.id, functions.file_name)">Download</button>
+											<button  v-if="role_title === 'Dean' && functions.is_approved === 0" class="btn btn-sm btn-primary" @click="approvedFiles(functions.id)">Approved</button>
 										</td>
 									</tr>
 								</tbody>
@@ -46,6 +54,8 @@
 		data () {
 			return {
 				ipcrFunction: [],
+				remarks: [],
+				role_title: document.querySelector("meta[name='role_title']").getAttribute('content')
 			}
 		},
 
@@ -76,6 +86,20 @@
 					link.click();
 				})
 			},
+
+			updateRemarks (id, value) {
+				axios.get(`upload-file/remarks/${id}/${value}`).then((response) => {
+					this.$toast.success("Upload Remarks successfully update!");
+					this.fetchFunctionFiles();
+				 })
+			},
+
+			approvedFiles (id) {
+				axios.get(`upload-file/approved/${id}`).then((response) => {
+					this.$toast.success("Upload Files successfully approved!");
+					this.fetchFunctionFiles();
+				 })
+			}
 		}
 	}
 </script>

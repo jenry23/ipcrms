@@ -47,6 +47,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     uploadedId: {
@@ -55,7 +63,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      ipcrFunction: []
+      ipcrFunction: [],
+      remarks: [],
+      role_title: document.querySelector("meta[name='role_title']").getAttribute('content')
     };
   },
   created: function created() {
@@ -82,6 +92,24 @@ __webpack_require__.r(__webpack_exports__);
         link.setAttribute('download', file_name);
         document.body.appendChild(link);
         link.click();
+      });
+    },
+    updateRemarks: function updateRemarks(id, value) {
+      var _this2 = this;
+
+      axios.get("upload-file/remarks/".concat(id, "/").concat(value)).then(function (response) {
+        _this2.$toast.success("Upload Remarks successfully update!");
+
+        _this2.fetchFunctionFiles();
+      });
+    },
+    approvedFiles: function approvedFiles(id) {
+      var _this3 = this;
+
+      axios.get("upload-file/approved/".concat(id)).then(function (response) {
+        _this3.$toast.success("Upload Files successfully approved!");
+
+        _this3.fetchFunctionFiles();
       });
     }
   }
@@ -395,12 +423,32 @@ var render = function() {
                 "table",
                 { staticClass: "table table-response table-border" },
                 [
-                  _vm._m(0),
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", [_vm._v("Uploader")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Filename")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Performance Indicator")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Description")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Is Approved")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Date Of Submitted")]),
+                      _vm._v(" "),
+                      _vm.role_title === "Dean"
+                        ? _c("th", [_vm._v("Remarks")])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Action")])
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(_vm.ipcrFunction, function(functions) {
-                      return _c("tr", { key: functions.id }, [
+                    _vm._l(_vm.ipcrFunction, function(functions, index) {
+                      return _c("tr", { key: index }, [
                         _c("td", [_vm._v(_vm._s(functions.uploader.name))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(functions.file_name))]),
@@ -411,9 +459,59 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(functions.description))]),
                         _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(functions.is_approved ? "Yes" : "No"))
+                        ]),
+                        _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(functions.created_at))]),
                         _vm._v(" "),
+                        _vm.role_title === "Dean"
+                          ? _c("td", [
+                              _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: functions.remarks,
+                                    expression: "functions.remarks"
+                                  }
+                                ],
+                                domProps: { value: functions.remarks },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      functions,
+                                      "remarks",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
                         _c("td", [
+                          _vm.role_title === "Dean"
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm btn-primary",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.updateRemarks(
+                                        functions.id,
+                                        functions.remarks
+                                      )
+                                    }
+                                  }
+                                },
+                                [_vm._v("Update Remarks")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c(
                             "button",
                             {
@@ -428,7 +526,23 @@ var render = function() {
                               }
                             },
                             [_vm._v("Download")]
-                          )
+                          ),
+                          _vm._v(" "),
+                          _vm.role_title === "Dean" &&
+                          functions.is_approved === 0
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm btn-primary",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.approvedFiles(functions.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Approved")]
+                              )
+                            : _vm._e()
                         ])
                       ])
                     }),
@@ -443,28 +557,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Uploader")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Filename")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Performance Indicator")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Description")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Date Of Submitted")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Action")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

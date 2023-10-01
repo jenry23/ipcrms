@@ -102,25 +102,26 @@
 													</td>
 													<td><input type="number" v-model="performance.target" /></td>
 													<td>
-														<input type="number" v-model="performance.accomplished" />
+														<input type="number" v-model="performance.accomplished" disabled/>
 													</td>
 													<td>
-														<input type="date" v-model="performance.date_of_submission" />
+														<input type="date" v-model="performance.date_of_submission" disabled/>
 													</td>
 													<td>
-														<input type="date" v-model="performance.date_completed" />
+														<input type="date" v-model="performance.date_completed" disabled/>
 													</td>
 													<td>
 														<input
 															type="number"
-															v-model="performance.quality"
+															v-model="performance.quantity"
 															style="width: 50px"
+															disabled
 														/>
 													</td>
 													<td>
 														<input
 															type="number"
-															v-model="performance.qle"
+															v-model="performance.quality"
 															style="width: 50px"
 															disabled
 														/>
@@ -141,7 +142,7 @@
 															disabled
 														/>
 													</td>
-													<td><input type="text" v-model="performance.remarks" /></td>
+													<td><input type="text" v-model="performance.remarks" disabled/></td>
 												</tr>
 											</tbody>
 											<tfoot>
@@ -152,6 +153,7 @@
 															type="text"
 															v-model="templates.recommendation"
 															size="70"
+															disabled
 														/>
 													</td>
 													<td>Numerical Rating: {{ numericalRating }}</td>
@@ -277,8 +279,8 @@ td {
 					if (value.ipcr_performance.length > 0) {
 						let sum = 0;
 						_.each(value.ipcr_performance, (value2, key2) => {
-							if (value2.quality) {
-								sum += parseInt(value2.quality);
+							if (value2.quantity) {
+								sum += parseInt(value2.quantity);
 							}
 						})
 						result = sum;
@@ -309,6 +311,16 @@ td {
 
 			clearFocus () {
 				this.activeField = ''
+			},
+
+			setQuantity (value) {
+				let sum = 0;
+
+				if (value.target) {
+					sum = parseInt(value.accomplished) / parseInt(value.target)
+				}
+
+				return sum;
 			},
 
 			rateYourself () {
@@ -346,6 +358,10 @@ td {
 						document.body.appendChild(link);
 						link.click();
 					})
+			},
+
+			fetchFacultyIPCRFiles () {
+
 			},
 
 			fetchFacultyIPCR () {
