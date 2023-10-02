@@ -14,7 +14,7 @@
 										<th>Description</th>
 										<th>Is Approved</th>
 										<th>Date Of Submitted</th>
-										<th v-if="role_title === 'Dean'">Remarks</th>
+										<th>Remarks</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -28,6 +28,9 @@
 										<td>{{ functions.created_at }}</td>
 										<td v-if="role_title === 'Dean'">
 											<textarea v-model="functions.remarks"></textarea>
+										</td>
+										<td v-else >
+											{{ functions.remarks }}
 										</td>
 										<td>
 											<button v-if="role_title === 'Dean'" class="btn btn-sm btn-primary" @click="updateRemarks(functions.id, functions.remarks)">Update Remarks</button>

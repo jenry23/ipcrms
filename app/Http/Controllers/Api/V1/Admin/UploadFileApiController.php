@@ -97,8 +97,8 @@ class UploadFileApiController extends Controller
                                     ->where('ipcr_performance_function_id',  $upload_files->ipcr_performance_function_id)
                                     ->count();
 
-                                $json_data['ipcr_function'][$key]['ipcr_performance'][$key2]['date_of_submission'] =
-                                    !$ipcr_performance['date_of_submission'] ? Carbon::now()->format('Y-m-d') : null;
+                                // $json_data['ipcr_function'][$key]['ipcr_performance'][$key2]['date_of_submission'] =
+                                //     !$ipcr_performance['date_of_submission'] ? Carbon::now()->format('Y-m-d') : null;
                                 $json_data['ipcr_function'][$key]['ipcr_performance'][$key2]['accomplished']  = $total_approved_ipcr;
                             }
                         }

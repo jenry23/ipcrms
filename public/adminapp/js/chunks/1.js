@@ -1818,7 +1818,7 @@ __webpack_require__.r(__webpack_exports__);
       var sum = 0;
 
       if (value.target) {
-        sum = parseInt(value.accomplished) / parseInt(value.target);
+        sum = parseInt(value.accomplished) / parseInt(value.target) * 5;
       }
 
       this.templates.ipcr_function[index].ipcr_performance[index2].quantity = sum;
@@ -1826,14 +1826,39 @@ __webpack_require__.r(__webpack_exports__);
     },
     setTarget: function setTarget(value) {},
     computeAverage: function computeAverage(value, index2, index) {
-      var sum = parseInt(value.quantity) + parseInt(value.quality) + parseInt(value.tar);
+      var sum = 0;
+      this.number1 = Math.min(5, Math.max(1, parseInt(value.quantity)));
+      this.number2 = Math.min(5, Math.max(1, parseInt(value.quality)));
+      this.number3 = Math.min(5, Math.max(1, parseInt(value.tar))); // Calculate the average of the three numbers
+
+      sum = (this.number1 + this.number2 + this.number3) / 3;
       this.templates.ipcr_function[index].ipcr_performance[index2].asc = sum;
     },
     computedTarget: function computedTarget(value, index2, index) {
-      var date1 = new Date(value.date_of_submission);
-      var date2 = new Date(value.date_completed);
-      var timeDifferenceInHours = Math.abs((date1 - date2) / (1000 * 60 * 60));
-      this.templates.ipcr_function[index].ipcr_performance[index2].tar = timeDifferenceInHours;
+      var startDate = new Date(value.date_completed);
+      var endDate = new Date(value.date_of_submission);
+      var timeDifference = endDate - startDate;
+      var rating = 0; // Calculate the number of days late or early (assuming 24 hours per day)
+
+      var daysDifference = timeDifference / (1000 * 60 * 60 * 24); // Define your rating scale based on your criteria
+
+      if (daysDifference >= -3 && daysDifference <= 3) {
+        rating = 3; // On time
+      } else if (daysDifference < -3) {
+        rating = 1; // Extremely late
+      } else {
+        rating = 5; // Completed well ahead of schedule
+      } // Assign a timeliness value based on your criteria
+      // if (daysDifference < -3) {
+      // 	this.timeliness = 'Extremely late';
+      // } else if (daysDifference >= -3 && daysDifference <= 3) {
+      // 	this.timeliness = 'On time';
+      // } else {
+      // 	this.timeliness = 'Completed well ahead of schedule';
+      // }
+
+
+      this.templates.ipcr_function[index].ipcr_performance[index2].tar = rating;
     },
     editFiles: function editFiles(data) {
       this.templates = JSON.parse(data.data);
@@ -5902,27 +5927,34 @@ var render = function() {
                                                         "performance.date_of_submission"
                                                     }
                                                   ],
-                                                  attrs: {
-                                                    type: "date",
-                                                    disabled: ""
-                                                  },
+                                                  attrs: { type: "date" },
                                                   domProps: {
                                                     value:
                                                       performance.date_of_submission
                                                   },
                                                   on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
+                                                    input: [
+                                                      function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          performance,
+                                                          "date_of_submission",
+                                                          $event.target.value
+                                                        )
+                                                      },
+                                                      function($event) {
+                                                        return _vm.computedTarget(
+                                                          performance,
+                                                          index2,
+                                                          index
+                                                        )
                                                       }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "date_of_submission",
-                                                        $event.target.value
-                                                      )
-                                                    }
+                                                    ]
                                                   }
                                                 })
                                               ]),
@@ -5939,34 +5971,27 @@ var render = function() {
                                                         "performance.date_completed"
                                                     }
                                                   ],
-                                                  attrs: { type: "date" },
+                                                  attrs: {
+                                                    type: "date",
+                                                    disabled: ""
+                                                  },
                                                   domProps: {
                                                     value:
                                                       performance.date_completed
                                                   },
                                                   on: {
-                                                    input: [
-                                                      function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "date_completed",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                      function($event) {
-                                                        return _vm.computedTarget(
-                                                          performance,
-                                                          index2,
-                                                          index
-                                                        )
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
                                                       }
-                                                    ]
+                                                      _vm.$set(
+                                                        performance,
+                                                        "date_completed",
+                                                        $event.target.value
+                                                      )
+                                                    }
                                                   }
                                                 })
                                               ]),

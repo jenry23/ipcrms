@@ -125,14 +125,14 @@
 													<input
 														type="date"
 														v-model="performance.date_of_submission"
-														disabled
+														@input="computedTarget(performance, index2 ,index)"
 													/>
 												</td>
 												<td>
 													<input
 														type="date"
 														v-model="performance.date_completed"
-														@input="computedTarget(performance, index2 ,index)"
+														disabled
 													/>
 												</td>
 												<td>
@@ -309,7 +309,7 @@
 				let sum = 0;
 
 				if (value.target) {
-					sum = parseInt(value.accomplished) / parseInt(value.target)
+					sum = parseInt(value.accomplished) / parseInt(value.target) * 5;
 				}
 
 				this.templates.ipcr_function[index].ipcr_performance[index2].quantity = sum;
@@ -322,17 +322,46 @@
 			},
 
   			computeAverage (value, index2, index) {
-				let sum = (parseInt(value.quantity) +  parseInt(value.quality) +  parseInt(value.tar));
+				let sum = 0;
+
+				this.number1 = Math.min(5, Math.max(1, parseInt(value.quantity)));
+				this.number2 = Math.min(5, Math.max(1, parseInt(value.quality)));
+				this.number3 = Math.min(5, Math.max(1, parseInt(value.tar)));
+
+				// Calculate the average of the three numbers
+				sum = (this.number1 + this.number2 + this.number3) / 3;
 
 				this.templates.ipcr_function[index].ipcr_performance[index2].asc = sum
 			},
 
   			computedTarget (value, index2, index) {
-				const date1 = new Date(value.date_of_submission);
-				const date2 = new Date(value.date_completed);
-				const timeDifferenceInHours = Math.abs((date1 - date2) / (1000 * 60 * 60));
+				const startDate = new Date(value.date_completed);
+				const endDate = new Date(value.date_of_submission);
 
-				this.templates.ipcr_function[index].ipcr_performance[index2].tar = timeDifferenceInHours
+				const timeDifference = endDate - startDate;
+				let rating = 0;
+				// Calculate the number of days late or early (assuming 24 hours per day)
+				const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+				// Define your rating scale based on your criteria
+				if (daysDifference >= -3 && daysDifference <= 3) {
+					rating = 3; // On time
+				} else if (daysDifference < -3) {
+					rating = 1; // Extremely late
+				} else {
+					rating = 5; // Completed well ahead of schedule
+				}
+
+				// Assign a timeliness value based on your criteria
+				// if (daysDifference < -3) {
+				// 	this.timeliness = 'Extremely late';
+				// } else if (daysDifference >= -3 && daysDifference <= 3) {
+				// 	this.timeliness = 'On time';
+				// } else {
+				// 	this.timeliness = 'Completed well ahead of schedule';
+				// }
+
+				this.templates.ipcr_function[index].ipcr_performance[index2].tar = rating
 			},
 
 			editFiles (data) {

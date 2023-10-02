@@ -74,14 +74,14 @@ class IpcrTemplateApiController extends Controller
                         if ($array->has('uploadFiles')) {
                             $user_id = Auth::user()->id;
                             $faculty_date = $array->uploadFiles->where('faculty_id', $user_id)->first();
-                            $date_of_submission = $faculty_date ? Carbon::parse($faculty_date->created_at)->format('Y-m-d') : null;
+                            $date_completed = $faculty_date ? Carbon::parse($faculty_date->created_at)->format('Y-m-d') : null;
                             $total_approved = $array->uploadFiles()->where('faculty_id', $user_id)->where('is_approved', true)->count();
                         }
 
                         return [
                             'id' => $array->id,
                             'name' => $array->name,
-                            'date_of_submission' => $date_of_submission,
+                            'date_completed' => $date_completed,
                             'total_approved' => $total_approved
                         ];
                     });

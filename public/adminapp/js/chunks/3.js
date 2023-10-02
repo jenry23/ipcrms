@@ -55,6 +55,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     uploadedId: {
@@ -423,27 +426,7 @@ var render = function() {
                 "table",
                 { staticClass: "table table-response table-border" },
                 [
-                  _c("thead", [
-                    _c("tr", [
-                      _c("th", [_vm._v("Uploader")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Filename")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Performance Indicator")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Description")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Is Approved")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Date Of Submitted")]),
-                      _vm._v(" "),
-                      _vm.role_title === "Dean"
-                        ? _c("th", [_vm._v("Remarks")])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Action")])
-                    ])
-                  ]),
+                  _vm._m(0),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -491,7 +474,13 @@ var render = function() {
                                 }
                               })
                             ])
-                          : _vm._e(),
+                          : _c("td", [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t\t\t\t" +
+                                  _vm._s(functions.remarks) +
+                                  "\n\t\t\t\t\t\t\t\t\t"
+                              )
+                            ]),
                         _vm._v(" "),
                         _c("td", [
                           _vm.role_title === "Dean"
@@ -557,7 +546,32 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Uploader")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Filename")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Performance Indicator")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Is Approved")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date Of Submitted")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
