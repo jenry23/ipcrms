@@ -7,7 +7,7 @@
 						<h4 class="card-title">
 							<div class="row">
 								<div class="col-md-10">
-									<strong>Campus Director</strong>
+									<strong>HRMO</strong>
 								</div>
 							</div>
 						</h4>
@@ -16,7 +16,7 @@
 						<div class="card" v-for="fac in faculty" :key="fac.id">
 							<div class="row">
 								<div class="col-md-4">
-									<h3>Assessed IPCR of {{ fac.faculty.name }}</h3>
+									<h3>Final Check IPCR of {{ fac.faculty.name }}</h3>
 								</div>
 								<div class="col-md-4 mt-4">
 									<h5>Status: {{ fac.status_id }}</h5>
@@ -222,11 +222,13 @@ export default {
 			templates: [],
 			json: [],
 			assestment_id: '',
+			template_id: '',
+			signatures: [],
 		}
 	},
 
 	mounted () {
-		this.fetchCampusIPCR();
+		this.fetchVPIPCR();
 	},
 
 	computed: {
@@ -248,6 +250,7 @@ export default {
 			return result;
 		},
 
+
 		adjectivalRating () {
 			return this.numericalRating / 100;
 		},
@@ -268,7 +271,7 @@ export default {
 			this.activeField = ''
 		},
 
-		fetchCampusIPCR () {
+		fetchVPIPCR () {
 			axios.get('ipcr-faculty-assesstment/campus-director').then((response) => {
 				let data = response.data.data
 				this.faculty = data;
@@ -278,6 +281,7 @@ export default {
 		editFiles (data) {
 			this.templates = JSON.parse(data.data);
 			this.templates.id = data.id;
+			// this.templates.status_id = "Done Evaluate By Campus Director";
 
 			this.signatures = [{
 				'title': 'Discuss with:',
@@ -317,6 +321,7 @@ export default {
 		},
 
 		openFileInput () {
+			// Trigger a click event on the hidden file input when the button is clicked
 			this.$refs.fileInput.click();
 		},
 
@@ -328,7 +333,7 @@ export default {
 			let data = {
 				'assessment_id': this.templates.id,
 				'files': selectedFile,
-				'is_campus_director': 1
+				'is_vp': 1
 			}
 
 			_.each(data, (value, key) => {
@@ -344,13 +349,14 @@ export default {
 			axios.post(`ipcr-faculty-assesstment/upload-signature`, form, config).then(response => {
 				this.$toast.success("Signature Sucessfully Saved!");
 				window.location.reload();
-				this.fetchCampusIPCR();
+				this.fetchVPIPCR();
 			}).catch(error => {
 				let message = error.response.data.message || error.message
 				this.$toast.error(message);
 			})
 			// You can now use the selectedFile object as needed
 		},
+
 	}
 }
 </script>

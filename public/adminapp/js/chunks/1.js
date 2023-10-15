@@ -1387,30 +1387,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1436,17 +1412,21 @@ __webpack_require__.r(__webpack_exports__);
       var result = 0;
 
       _.each(this.templates.ipcr_function, function (value, key) {
-        if (value.ipcr_performance.length > 0) {
+        var sum1 = 0;
+
+        _.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
 
-          _.each(value.ipcr_performance, function (value2, key2) {
-            if (value2.quality) {
-              sum += parseInt(value2.quality);
+          _.each(value2.ipcr_performance, function (value3, key4) {
+            if (value3.quality) {
+              sum += parseInt(value3.quality);
             }
           });
 
-          result = sum;
-        }
+          sum1 += sum;
+        });
+
+        result += sum1;
       });
 
       return result;
@@ -1476,9 +1456,27 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editFiles: function editFiles(data) {
+      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+
       this.templates = JSON.parse(data.data);
       this.templates.id = data.id;
-      this.templates.status_id = "Done Evaluate By Campus Director";
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+      }];
     },
     submitForm: function submitForm() {
       var _this2 = this;
@@ -1496,6 +1494,42 @@ __webpack_require__.r(__webpack_exports__);
     downloadFiles: function downloadFiles(data) {
       this.json = JSON.parse(data);
       this.$refs.html2Pdf.generatePdf();
+    },
+    openFileInput: function openFileInput() {
+      this.$refs.fileInput.click();
+    },
+    handleFileUpload: function handleFileUpload(event) {
+      var _this3 = this;
+
+      var form = new FormData();
+      var selectedFile = event.target.files[0];
+      console.log(this.templates.id);
+      var data = {
+        'assessment_id': this.templates.id,
+        'files': selectedFile,
+        'is_campus_director': 1
+      };
+
+      _.each(data, function (value, key) {
+        form.append(key, value);
+      });
+
+      var config = {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post("ipcr-faculty-assesstment/upload-signature", form, config).then(function (response) {
+        _this3.$toast.success("Signature Sucessfully Saved!");
+
+        window.location.reload();
+
+        _this3.fetchCampusIPCR();
+      })["catch"](function (error) {
+        var message = error.response.data.message || error.message;
+
+        _this3.$toast.error(message);
+      }); // You can now use the selectedFile object as needed
     }
   }
 });
@@ -1513,6 +1547,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _facultytemplate_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./facultytemplate.vue */ "./resources/adminapp/js/cruds/IPCR/facultytemplate.vue");
 /* harmony import */ var vue_html2pdf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html2pdf */ "./node_modules/vue-html2pdf/dist/vue-html2pdf.esm.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -1719,37 +1755,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1764,7 +1770,8 @@ __webpack_require__.r(__webpack_exports__);
       faculty: [],
       templates: [],
       json: [],
-      assestment_id: ''
+      assestment_id: '',
+      signatures: []
     };
   },
   mounted: function mounted() {
@@ -1774,18 +1781,22 @@ __webpack_require__.r(__webpack_exports__);
     numericalRating: function numericalRating() {
       var result = 0;
 
-      _.each(this.templates.ipcr_function, function (value, key) {
-        if (value.ipcr_performance.length > 0) {
+      lodash__WEBPACK_IMPORTED_MODULE_2___default.a.each(this.templates.ipcr_function, function (value, key) {
+        var sum1 = 0;
+
+        lodash__WEBPACK_IMPORTED_MODULE_2___default.a.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
 
-          _.each(value.ipcr_performance, function (value2, key2) {
-            if (value2.asc) {
-              sum += parseInt(value2.asc);
+          lodash__WEBPACK_IMPORTED_MODULE_2___default.a.each(value2.ipcr_performance, function (value3, key4) {
+            if (value3.quality) {
+              sum += parseInt(value3.quality);
             }
           });
 
-          result = sum;
-        }
+          sum1 += sum;
+        });
+
+        result += sum1;
       });
 
       return result;
@@ -1814,27 +1825,27 @@ __webpack_require__.r(__webpack_exports__);
         _this.faculty = data;
       });
     },
-    setQuantity: function setQuantity(value, index2, index) {
+    setQuantity: function setQuantity(value, index2, index1, index) {
       var sum = 0;
 
       if (value.target) {
         sum = parseInt(value.accomplished) / parseInt(value.target) * 5;
       }
 
-      this.templates.ipcr_function[index].ipcr_performance[index2].quantity = sum;
+      this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].quantity = sum;
       return sum;
     },
     setTarget: function setTarget(value) {},
-    computeAverage: function computeAverage(value, index2, index) {
+    computeAverage: function computeAverage(value, index2, index1, index) {
       var sum = 0;
       this.number1 = Math.min(5, Math.max(1, parseInt(value.quantity)));
       this.number2 = Math.min(5, Math.max(1, parseInt(value.quality)));
       this.number3 = Math.min(5, Math.max(1, parseInt(value.tar))); // Calculate the average of the three numbers
 
       sum = (this.number1 + this.number2 + this.number3) / 3;
-      this.templates.ipcr_function[index].ipcr_performance[index2].asc = sum;
+      this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].asc = sum;
     },
-    computedTarget: function computedTarget(value, index2, index) {
+    computedTarget: function computedTarget(value, index2, index1, index) {
       var startDate = new Date(value.date_completed);
       var endDate = new Date(value.date_of_submission);
       var timeDifference = endDate - startDate;
@@ -1848,22 +1859,32 @@ __webpack_require__.r(__webpack_exports__);
         rating = 1; // Extremely late
       } else {
         rating = 5; // Completed well ahead of schedule
-      } // Assign a timeliness value based on your criteria
-      // if (daysDifference < -3) {
-      // 	this.timeliness = 'Extremely late';
-      // } else if (daysDifference >= -3 && daysDifference <= 3) {
-      // 	this.timeliness = 'On time';
-      // } else {
-      // 	this.timeliness = 'Completed well ahead of schedule';
-      // }
+      }
 
-
-      this.templates.ipcr_function[index].ipcr_performance[index2].tar = rating;
+      this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].tar = rating;
     },
     editFiles: function editFiles(data) {
+      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+
       this.templates = JSON.parse(data.data);
       this.templates.id = data.id;
-      this.templates.status_id = "Done Evaluate By Dean";
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+      }];
     },
     submitForm: function submitForm() {
       var _this2 = this;
@@ -1881,6 +1902,42 @@ __webpack_require__.r(__webpack_exports__);
     downloadFiles: function downloadFiles(data) {
       this.json = JSON.parse(data);
       this.$refs.html2Pdf.generatePdf();
+    },
+    openFileInput: function openFileInput() {
+      // Trigger a click event on the hidden file input when the button is clicked
+      this.$refs.fileInput.click();
+    },
+    handleFileUpload: function handleFileUpload(event) {
+      var _this3 = this;
+
+      var form = new FormData();
+      var selectedFile = event.target.files[0];
+      var data = {
+        'assessment_id': this.templates.id,
+        'files': selectedFile,
+        'is_dean': 1
+      };
+
+      lodash__WEBPACK_IMPORTED_MODULE_2___default.a.each(data, function (value, key) {
+        form.append(key, value);
+      });
+
+      var config = {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post("ipcr-faculty-assesstment/upload-signature", form, config).then(function (response) {
+        _this3.$toast.success("Signature Sucessfully Saved!");
+
+        _this3.fetchDeanIPCR();
+
+        window.location.reload();
+      })["catch"](function (error) {
+        var message = error.response.data.message || error.message;
+
+        _this3.$toast.error(message);
+      }); // You can now use the selectedFile object as needed
     }
   }
 });
@@ -2143,14 +2200,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2167,7 +2216,12 @@ __webpack_require__.r(__webpack_exports__);
       form: [],
       templates: [],
       availableRate: true,
-      json: []
+      signatures: [],
+      json: [],
+      dean: [],
+      campus_director: [],
+      hrmo: [],
+      vp: []
     };
   },
   computed: {
@@ -2175,17 +2229,21 @@ __webpack_require__.r(__webpack_exports__);
       var result = 0;
 
       lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(this.templates.ipcr_function, function (value, key) {
-        if (value.ipcr_performance.length > 0) {
+        var sum1 = 0;
+
+        lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
 
-          lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(value.ipcr_performance, function (value2, key2) {
-            if (value2.quantity) {
-              sum += parseInt(value2.quantity);
+          lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(value2.ipcr_performance, function (value3, key4) {
+            if (value3.quality) {
+              sum += parseInt(value3.quality);
             }
           });
 
-          result = sum;
-        }
+          sum1 += sum;
+        });
+
+        result += sum1;
       });
 
       return result;
@@ -2284,7 +2342,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     viewFiles: function viewFiles(data) {
-      this.json = JSON.parse(data);
+      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+
+      this.json = JSON.parse(data.data);
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+      }];
     },
     downloadFiles: function downloadFiles(data) {
       this.json = JSON.parse(data);
@@ -2442,26 +2519,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    templates: {}
+    templates: {},
+    signatures: {}
   },
   computed: {
     numericalRating: function numericalRating() {
       var result = 0;
 
       _.each(this.templates.ipcr_function, function (value, key) {
-        if (value.ipcr_performance.length > 0) {
+        var sum1 = 0;
+
+        _.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
 
-          _.each(value.ipcr_performance, function (value2, key2) {
-            if (value2.quality) {
-              sum += parseInt(value2.quality);
+          _.each(value2.ipcr_performance, function (value3, key4) {
+            if (value3.quality) {
+              sum += parseInt(value3.quality);
             }
           });
 
-          result = sum;
-        }
+          sum1 += sum;
+        });
+
+        result += sum1;
       });
 
       return result;
@@ -2696,6 +2795,413 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    facultytemplate: _facultytemplate_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    VueHtml2pdf: vue_html2pdf__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      status: '',
+      activeField: '',
+      faculty: [],
+      templates: [],
+      json: [],
+      assestment_id: '',
+      template_id: '',
+      signatures: []
+    };
+  },
+  mounted: function mounted() {
+    this.fetchHRMOIPCR();
+  },
+  computed: {
+    numericalRating: function numericalRating() {
+      var result = 0;
+
+      _.each(this.templates.ipcr_function, function (value, key) {
+        var sum1 = 0;
+
+        _.each(value.ipcr_subfunctions, function (value2, key2) {
+          var sum = 0;
+
+          _.each(value2.ipcr_performance, function (value3, key4) {
+            if (value3.quality) {
+              sum += parseInt(value3.quality);
+            }
+          });
+
+          sum1 += sum;
+        });
+
+        result += sum1;
+      });
+
+      return result;
+    },
+    adjectivalRating: function adjectivalRating() {
+      return this.numericalRating / 100;
+    },
+    dateToday: function dateToday() {
+      var date = new Date();
+      this.templates.date_today = "".concat(date.getMonth(), ", ").concat(date.getFullYear());
+      return this.templates.date_today;
+    }
+  },
+  methods: {
+    focusField: function focusField(name) {
+      this.activeField = name;
+    },
+    clearFocus: function clearFocus() {
+      this.activeField = '';
+    },
+    fetchHRMOIPCR: function fetchHRMOIPCR() {
+      var _this = this;
+
+      axios.get('ipcr-faculty-assesstment/campus-director').then(function (response) {
+        var data = response.data.data;
+        _this.faculty = data;
+      });
+    },
+    editFiles: function editFiles(data) {
+      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+
+      this.templates = JSON.parse(data.data);
+      this.templates.id = data.id; // this.templates.status_id = "Done Evaluate By Campus Director";
+
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+      }];
+    },
+    submitForm: function submitForm() {
+      var _this2 = this;
+
+      axios.post("ipcr-faculty-assesstment", this.templates).then(function (response) {
+        _this2.$toast.success("IPCR Evaluate successfully saved!");
+
+        window.location.reload();
+      })["catch"](function (error) {
+        var message = error.response.data.message || error.message;
+
+        _this2.$toast.error(message);
+      });
+    },
+    downloadFiles: function downloadFiles(data) {
+      this.json = JSON.parse(data);
+      this.$refs.html2Pdf.generatePdf();
+    },
+    openFileInput: function openFileInput() {
+      // Trigger a click event on the hidden file input when the button is clicked
+      this.$refs.fileInput.click();
+    },
+    handleFileUpload: function handleFileUpload(event) {
+      var _this3 = this;
+
+      var form = new FormData();
+      var selectedFile = event.target.files[0];
+      console.log(this.templates.id);
+      var data = {
+        'assessment_id': this.templates.id,
+        'files': selectedFile,
+        'is_hrmo': 1
+      };
+
+      _.each(data, function (value, key) {
+        form.append(key, value);
+      });
+
+      var config = {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post("ipcr-faculty-assesstment/upload-signature", form, config).then(function (response) {
+        _this3.$toast.success("Signature Sucessfully Saved!");
+
+        window.location.reload();
+
+        _this3.fetchHRMOIPCR();
+      })["catch"](function (error) {
+        var message = error.response.data.message || error.message;
+
+        _this3.$toast.error(message);
+      }); // You can now use the selectedFile object as needed
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/index.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/index.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin */ "./resources/adminapp/js/cruds/IPCR/admin.vue");
+/* harmony import */ var _faculty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./faculty */ "./resources/adminapp/js/cruds/IPCR/faculty.vue");
+/* harmony import */ var _campus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./campus */ "./resources/adminapp/js/cruds/IPCR/campus.vue");
+/* harmony import */ var _dean__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dean */ "./resources/adminapp/js/cruds/IPCR/dean.vue");
+/* harmony import */ var _hrmo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./hrmo */ "./resources/adminapp/js/cruds/IPCR/hrmo.vue");
+/* harmony import */ var _vp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./vp */ "./resources/adminapp/js/cruds/IPCR/vp.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    AdminTemplate: _admin__WEBPACK_IMPORTED_MODULE_0__["default"],
+    FacultyTemplate: _faculty__WEBPACK_IMPORTED_MODULE_1__["default"],
+    CampusTemplate: _campus__WEBPACK_IMPORTED_MODULE_2__["default"],
+    DeanTemplate: _dean__WEBPACK_IMPORTED_MODULE_3__["default"],
+    HrmoTemplate: _hrmo__WEBPACK_IMPORTED_MODULE_4__["default"],
+    VpTemplate: _vp__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  data: function data() {
+    return {
+      role_title: document.querySelector("meta[name='role_title']").getAttribute('content')
+    };
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _facultytemplate_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./facultytemplate.vue */ "./resources/adminapp/js/cruds/IPCR/facultytemplate.vue");
+/* harmony import */ var vue_html2pdf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html2pdf */ "./node_modules/vue-html2pdf/dist/vue-html2pdf.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2734,28 +3240,34 @@ __webpack_require__.r(__webpack_exports__);
       faculty: [],
       templates: [],
       json: [],
-      assestment_id: ''
+      assestment_id: '',
+      template_id: '',
+      signatures: []
     };
   },
   mounted: function mounted() {
-    this.fetchHRMOIPCR();
+    this.fetchVPIPCR();
   },
   computed: {
     numericalRating: function numericalRating() {
       var result = 0;
 
       _.each(this.templates.ipcr_function, function (value, key) {
-        if (value.ipcr_performance.length > 0) {
+        var sum1 = 0;
+
+        _.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
 
-          _.each(value.ipcr_performance, function (value2, key2) {
-            if (value2.quality) {
-              sum += parseInt(value2.quality);
+          _.each(value2.ipcr_performance, function (value3, key4) {
+            if (value3.quality) {
+              sum += parseInt(value3.quality);
             }
           });
 
-          result = sum;
-        }
+          sum1 += sum;
+        });
+
+        result += sum1;
       });
 
       return result;
@@ -2776,7 +3288,7 @@ __webpack_require__.r(__webpack_exports__);
     clearFocus: function clearFocus() {
       this.activeField = '';
     },
-    fetchHRMOIPCR: function fetchHRMOIPCR() {
+    fetchVPIPCR: function fetchVPIPCR() {
       var _this = this;
 
       axios.get('ipcr-faculty-assesstment/campus-director').then(function (response) {
@@ -2785,9 +3297,28 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editFiles: function editFiles(data) {
+      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+
       this.templates = JSON.parse(data.data);
-      this.templates.id = data.id;
-      this.templates.status_id = "Done Evaluate By Campus Director";
+      this.templates.id = data.id; // this.templates.status_id = "Done Evaluate By Campus Director";
+
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+      }];
     },
     submitForm: function submitForm() {
       var _this2 = this;
@@ -2805,62 +3336,44 @@ __webpack_require__.r(__webpack_exports__);
     downloadFiles: function downloadFiles(data) {
       this.json = JSON.parse(data);
       this.$refs.html2Pdf.generatePdf();
+    },
+    openFileInput: function openFileInput() {
+      // Trigger a click event on the hidden file input when the button is clicked
+      this.$refs.fileInput.click();
+    },
+    handleFileUpload: function handleFileUpload(event) {
+      var _this3 = this;
+
+      var form = new FormData();
+      var selectedFile = event.target.files[0];
+      console.log(this.templates.id);
+      var data = {
+        'assessment_id': this.templates.id,
+        'files': selectedFile,
+        'is_vp': 1
+      };
+
+      _.each(data, function (value, key) {
+        form.append(key, value);
+      });
+
+      var config = {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post("ipcr-faculty-assesstment/upload-signature", form, config).then(function (response) {
+        _this3.$toast.success("Signature Sucessfully Saved!");
+
+        window.location.reload();
+
+        _this3.fetchVPIPCR();
+      })["catch"](function (error) {
+        var message = error.response.data.message || error.message;
+
+        _this3.$toast.error(message);
+      }); // You can now use the selectedFile object as needed
     }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/index.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/index.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin */ "./resources/adminapp/js/cruds/IPCR/admin.vue");
-/* harmony import */ var _faculty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./faculty */ "./resources/adminapp/js/cruds/IPCR/faculty.vue");
-/* harmony import */ var _campus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./campus */ "./resources/adminapp/js/cruds/IPCR/campus.vue");
-/* harmony import */ var _dean__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dean */ "./resources/adminapp/js/cruds/IPCR/dean.vue");
-/* harmony import */ var _hrmo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./hrmo */ "./resources/adminapp/js/cruds/IPCR/hrmo.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    AdminTemplate: _admin__WEBPACK_IMPORTED_MODULE_0__["default"],
-    FacultyTemplate: _faculty__WEBPACK_IMPORTED_MODULE_1__["default"],
-    CampusTemplate: _campus__WEBPACK_IMPORTED_MODULE_2__["default"],
-    DeanTemplate: _dean__WEBPACK_IMPORTED_MODULE_3__["default"],
-    HrmoTemplate: _hrmo__WEBPACK_IMPORTED_MODULE_4__["default"]
-  },
-  data: function data() {
-    return {
-      role_title: document.querySelector("meta[name='role_title']").getAttribute('content')
-    };
   }
 });
 
@@ -4599,7 +5112,7 @@ var render = function() {
                         _c("div", { staticClass: "col-md-4" }, [
                           _c("h3", [
                             _vm._v(
-                              "Assessed IPCR of " + _vm._s(fac.faculty_name)
+                              "Assessed IPCR of " + _vm._s(fac.faculty.name)
                             )
                           ])
                         ]),
@@ -4654,9 +5167,25 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "container-fluid" }, [
-              _vm.templates.ipcr_function
-                ? _c(
+            _vm.templates.ipcr_function
+              ? _c("div", { staticClass: "container-fluid" }, [
+                  _c("input", {
+                    ref: "fileInput",
+                    staticStyle: { display: "none" },
+                    attrs: { type: "file" },
+                    on: { change: _vm.handleFileUpload }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary ml-5",
+                      on: { click: _vm.openFileInput }
+                    },
+                    [_vm._v("Upload Signature")]
+                  ),
+                  _vm._v(" "),
+                  _c(
                     "div",
                     {
                       staticClass: "card",
@@ -4708,22 +5237,62 @@ var render = function() {
                                 [
                                   _vm._v("\n\t\t\t\t\t\t\t\t\t\tI,"),
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.name,
+                                        expression: "templates.name"
+                                      }
+                                    ],
                                     attrs: {
                                       type: "text",
                                       size: "15",
                                       disabled: ""
                                     },
-                                    domProps: { value: _vm.$t("auth.name") }
+                                    domProps: { value: _vm.templates.name },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
                                   }),
                                   _vm._v(" "),
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.roles_name,
+                                        expression: "templates.roles_name"
+                                      }
+                                    ],
                                     attrs: {
                                       type: "text",
                                       size: "20",
                                       disabled: ""
                                     },
                                     domProps: {
-                                      value: _vm.$t("auth.role_name")
+                                      value: _vm.templates.roles_name
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "roles_name",
+                                          $event.target.value
+                                        )
+                                      }
                                     }
                                   }),
                                   _vm._v(
@@ -4837,422 +5406,514 @@ var render = function() {
                                 _vm._v(" "),
                                 _vm._m(3),
                                 _vm._v(" "),
-                                _vm._l(_vm.templates.ipcr_function, function(
-                                  functions,
-                                  index
-                                ) {
-                                  return _c(
-                                    "tbody",
-                                    { key: index },
-                                    [
-                                      _c("td", { attrs: { colspan: "10" } }, [
-                                        _vm._v(_vm._s(functions.name))
-                                      ]),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        functions.ipcr_subfunctions,
-                                        function(subFunction, index1) {
-                                          return _c("tr", { key: index1 }, [
+                                _c(
+                                  "tbody",
+                                  [
+                                    _vm._l(
+                                      _vm.templates.ipcr_function,
+                                      function(ipcrFunction, index) {
+                                        return [
+                                          _c("tr", [
                                             _c(
                                               "td",
                                               { attrs: { colspan: "10" } },
-                                              [_vm._v(_vm._s(subFunction.name))]
+                                              [
+                                                _vm._v(
+                                                  _vm._s(ipcrFunction.name)
+                                                )
+                                              ]
                                             )
-                                          ])
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        functions.ipcr_performance,
-                                        function(performance, index2) {
-                                          return _c(
-                                            "tr",
-                                            { key: index2 + performance },
-                                            [
-                                              _c("td", [
-                                                _vm._v(_vm._s(performance.name))
-                                              ]),
-                                              _vm._v(" "),
-                                              _c(
-                                                "td",
-                                                {
-                                                  staticStyle: {
-                                                    display: "none"
-                                                  }
-                                                },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: performance.id,
-                                                        expression:
-                                                          "performance.id"
-                                                      }
-                                                    ],
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value: performance.id
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._l(
+                                            ipcrFunction.ipcr_subfunctions,
+                                            function(ipcrSubfunction, index1) {
+                                              return [
+                                                _c("tr", [
+                                                  _c(
+                                                    "td",
+                                                    {
+                                                      attrs: { colspan: "10" }
                                                     },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "id",
-                                                          $event.target.value
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          ipcrSubfunction.name
                                                         )
-                                                      }
-                                                    }
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.target,
-                                                      expression:
-                                                        "performance.target"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.target
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "target",
-                                                        $event.target.value
                                                       )
-                                                    }
+                                                    ]
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _vm._l(
+                                                  ipcrSubfunction.ipcr_performance,
+                                                  function(
+                                                    performance,
+                                                    index2
+                                                  ) {
+                                                    return [
+                                                      _c("tr", [
+                                                        _c("td", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              performance.name
+                                                            )
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "td",
+                                                          {
+                                                            staticStyle: {
+                                                              display: "none"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.id,
+                                                                  expression:
+                                                                    "performance.id"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "text"
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.id
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "id",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.target,
+                                                                expression:
+                                                                  "performance.target"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.target
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "target",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.accomplished,
+                                                                expression:
+                                                                  "performance.accomplished"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.accomplished
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "accomplished",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.date_of_submission,
+                                                                expression:
+                                                                  "performance.date_of_submission"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "date",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.date_of_submission
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "date_of_submission",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.date_completed,
+                                                                expression:
+                                                                  "performance.date_completed"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "date",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.date_completed
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "date_completed",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.quality,
+                                                                expression:
+                                                                  "performance.quality"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.quality
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "quality",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.qle,
+                                                                expression:
+                                                                  "performance.qle"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.qle
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "qle",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.tar,
+                                                                expression:
+                                                                  "performance.tar"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.tar
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "tar",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.asc,
+                                                                expression:
+                                                                  "performance.asc"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.asc
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "asc",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.remarks,
+                                                                expression:
+                                                                  "performance.remarks"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "text",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.remarks
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "remarks",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ])
+                                                      ])
+                                                    ]
                                                   }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.accomplished,
-                                                      expression:
-                                                        "performance.accomplished"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value:
-                                                      performance.accomplished
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "accomplished",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.date_of_submission,
-                                                      expression:
-                                                        "performance.date_of_submission"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "date",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value:
-                                                      performance.date_of_submission
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "date_of_submission",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.date_completed,
-                                                      expression:
-                                                        "performance.date_completed"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "date",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value:
-                                                      performance.date_completed
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "date_completed",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.quality,
-                                                      expression:
-                                                        "performance.quality"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.quality
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "quality",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.qle,
-                                                      expression:
-                                                        "performance.qle"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.qle
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "qle",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.tar,
-                                                      expression:
-                                                        "performance.tar"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: { type: "number" },
-                                                  domProps: {
-                                                    value: performance.tar
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "tar",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.asc,
-                                                      expression:
-                                                        "performance.asc"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.asc
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "asc",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.remarks,
-                                                      expression:
-                                                        "performance.remarks"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "text",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.remarks
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "remarks",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ])
-                                            ]
+                                                )
+                                              ]
+                                            }
                                           )
-                                        }
-                                      )
-                                    ],
-                                    2
-                                  )
-                                }),
+                                        ]
+                                      }
+                                    )
+                                  ],
+                                  2
+                                ),
                                 _vm._v(" "),
                                 _c("tfoot", [
                                   _c("tr", [
@@ -5308,39 +5969,58 @@ var render = function() {
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _c("tr", [
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "Discuss with: " +
-                                          _vm._s(_vm.templates.faculty_name)
+                                  _c(
+                                    "tr",
+                                    _vm._l(_vm.signatures, function(
+                                      signatory,
+                                      index
+                                    ) {
+                                      return _c(
+                                        "td",
+                                        {
+                                          key: index,
+                                          attrs: {
+                                            colspan:
+                                              signatory.title ===
+                                              "Final Rating:"
+                                                ? "4"
+                                                : "2"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                              _vm._s(signatory.title) +
+                                              "\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                          ),
+                                          signatory.name
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                    _vm._s(signatory.name) +
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                                ),
+                                                _c("img", {
+                                                  staticStyle: {
+                                                    width: "128px",
+                                                    height: "50px"
+                                                  },
+                                                  attrs: {
+                                                    src: signatory.signature,
+                                                    alt: "My Image"
+                                                  }
+                                                })
+                                              ])
+                                            : _vm._e()
+                                        ]
                                       )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "Assessed by: " +
-                                          _vm._s(_vm.templates.dean_name)
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "Checked by:  " +
-                                          _vm._s(
-                                            _vm.templates.campus_director_name
-                                          )
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "4" } }, [
-                                      _vm._v("Final Rating:")
-                                    ])
-                                  ]),
+                                    }),
+                                    0
+                                  ),
                                   _vm._v(" "),
                                   _vm._m(4)
                                 ])
-                              ],
-                              2
+                              ]
                             )
                           ]),
                           _vm._v(" "),
@@ -5349,8 +6029,8 @@ var render = function() {
                       )
                     ]
                   )
-                : _vm._e()
-            ]),
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "VueHtml2pdf",
@@ -5528,7 +6208,7 @@ var render = function() {
                         _c("div", { staticClass: "col-md-4" }, [
                           _c("h3", [
                             _vm._v(
-                              "Evaluated IPCR of " + _vm._s(fac.faculty_name)
+                              "Evaluated IPCR of " + _vm._s(fac.faculty.name)
                             )
                           ])
                         ]),
@@ -5583,9 +6263,25 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "container-fluid" }, [
-              _vm.templates.ipcr_function
-                ? _c(
+            _vm.templates.ipcr_function
+              ? _c("div", { staticClass: "container-fluid" }, [
+                  _c("input", {
+                    ref: "fileInput",
+                    staticStyle: { display: "none" },
+                    attrs: { type: "file" },
+                    on: { change: _vm.handleFileUpload }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary ml-5",
+                      on: { click: _vm.openFileInput }
+                    },
+                    [_vm._v("Upload Signature")]
+                  ),
+                  _vm._v(" "),
+                  _c(
                     "div",
                     {
                       staticClass: "card",
@@ -5637,22 +6333,62 @@ var render = function() {
                                 [
                                   _vm._v("\n\t\t\t\t\t\t\t\t\t\tI,"),
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.name,
+                                        expression: "templates.name"
+                                      }
+                                    ],
                                     attrs: {
                                       type: "text",
                                       size: "15",
                                       disabled: ""
                                     },
-                                    domProps: { value: _vm.$t("auth.name") }
+                                    domProps: { value: _vm.templates.name },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
                                   }),
                                   _vm._v(" "),
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.roles_name,
+                                        expression: "templates.roles_name"
+                                      }
+                                    ],
                                     attrs: {
                                       type: "text",
                                       size: "20",
                                       disabled: ""
                                     },
                                     domProps: {
-                                      value: _vm.$t("auth.role_name")
+                                      value: _vm.templates.roles_name
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "roles_name",
+                                          $event.target.value
+                                        )
+                                      }
                                     }
                                   }),
                                   _vm._v(
@@ -5766,455 +6502,560 @@ var render = function() {
                                 _vm._v(" "),
                                 _vm._m(3),
                                 _vm._v(" "),
-                                _vm._l(_vm.templates.ipcr_function, function(
-                                  functions,
-                                  index
-                                ) {
-                                  return _c(
-                                    "tbody",
-                                    { key: index },
-                                    [
-                                      _c("td", { attrs: { colspan: "10" } }, [
-                                        _vm._v(_vm._s(functions.name))
-                                      ]),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        functions.ipcr_subfunctions,
-                                        function(subFunction, index1) {
-                                          return _c("tr", { key: index1 }, [
+                                _c(
+                                  "tbody",
+                                  [
+                                    _vm._l(
+                                      _vm.templates.ipcr_function,
+                                      function(ipcrFunction, index) {
+                                        return [
+                                          _c("tr", [
                                             _c(
                                               "td",
                                               { attrs: { colspan: "10" } },
-                                              [_vm._v(_vm._s(subFunction.name))]
+                                              [
+                                                _vm._v(
+                                                  _vm._s(ipcrFunction.name)
+                                                )
+                                              ]
                                             )
-                                          ])
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        functions.ipcr_performance,
-                                        function(performance, index2) {
-                                          return _c(
-                                            "tr",
-                                            { key: index2 + performance },
-                                            [
-                                              _c("td", [
-                                                _vm._v(_vm._s(performance.name))
-                                              ]),
-                                              _vm._v(" "),
-                                              _c(
-                                                "td",
-                                                {
-                                                  staticStyle: {
-                                                    display: "none"
-                                                  }
-                                                },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: performance.id,
-                                                        expression:
-                                                          "performance.id"
-                                                      }
-                                                    ],
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value: performance.id
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._l(
+                                            ipcrFunction.ipcr_subfunctions,
+                                            function(ipcrSubfunction, index1) {
+                                              return [
+                                                _c("tr", [
+                                                  _c(
+                                                    "td",
+                                                    {
+                                                      attrs: { colspan: "10" }
                                                     },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "id",
-                                                          $event.target.value
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          ipcrSubfunction.name
                                                         )
-                                                      }
-                                                    }
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.target,
-                                                      expression:
-                                                        "performance.target"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.target
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "target",
-                                                        $event.target.value
                                                       )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.accomplished,
-                                                      expression:
-                                                        "performance.accomplished"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value:
-                                                      performance.accomplished
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "accomplished",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.date_of_submission,
-                                                      expression:
-                                                        "performance.date_of_submission"
-                                                    }
-                                                  ],
-                                                  attrs: { type: "date" },
-                                                  domProps: {
-                                                    value:
-                                                      performance.date_of_submission
-                                                  },
-                                                  on: {
-                                                    input: [
-                                                      function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "date_of_submission",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                      function($event) {
-                                                        return _vm.computedTarget(
-                                                          performance,
-                                                          index2,
-                                                          index
-                                                        )
-                                                      }
                                                     ]
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.date_completed,
-                                                      expression:
-                                                        "performance.date_completed"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "date",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value:
-                                                      performance.date_completed
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "date_completed",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                performance.quantity
-                                                  ? _c("input", {
-                                                      directives: [
-                                                        {
-                                                          name: "model",
-                                                          rawName: "v-model",
-                                                          value:
-                                                            performance.quantity,
-                                                          expression:
-                                                            "performance.quantity"
-                                                        }
-                                                      ],
-                                                      staticStyle: {
-                                                        width: "50px"
-                                                      },
-                                                      attrs: {
-                                                        type: "number",
-                                                        disabled: ""
-                                                      },
-                                                      domProps: {
-                                                        value:
-                                                          performance.quantity
-                                                      },
-                                                      on: {
-                                                        input: function(
-                                                          $event
-                                                        ) {
-                                                          if (
-                                                            $event.target
-                                                              .composing
-                                                          ) {
-                                                            return
-                                                          }
-                                                          _vm.$set(
-                                                            performance,
-                                                            "quantity",
-                                                            $event.target.value
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _vm._l(
+                                                  ipcrSubfunction.ipcr_performance,
+                                                  function(
+                                                    performance,
+                                                    index2
+                                                  ) {
+                                                    return [
+                                                      _c("tr", [
+                                                        _c("td", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              performance.name
+                                                            )
                                                           )
-                                                        }
-                                                      }
-                                                    })
-                                                  : _c("input", {
-                                                      staticStyle: {
-                                                        width: "50px"
-                                                      },
-                                                      attrs: { disabled: "" },
-                                                      domProps: {
-                                                        value: _vm.setQuantity(
-                                                          performance,
-                                                          index2,
-                                                          index
-                                                        )
-                                                      }
-                                                    })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.quality,
-                                                      expression:
-                                                        "performance.quality"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: { type: "number" },
-                                                  domProps: {
-                                                    value: performance.quality
-                                                  },
-                                                  on: {
-                                                    input: [
-                                                      function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "quality",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                      function($event) {
-                                                        return _vm.computeAverage(
-                                                          performance,
-                                                          index2,
-                                                          index
-                                                        )
-                                                      }
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "td",
+                                                          {
+                                                            staticStyle: {
+                                                              display: "none"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.id,
+                                                                  expression:
+                                                                    "performance.id"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "text"
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.id
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "id",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.target,
+                                                                expression:
+                                                                  "performance.target"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.target
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "target",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.accomplished,
+                                                                expression:
+                                                                  "performance.accomplished"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.accomplished
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "accomplished",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.date_of_submission,
+                                                                expression:
+                                                                  "performance.date_of_submission"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "date"
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.date_of_submission
+                                                            },
+                                                            on: {
+                                                              input: [
+                                                                function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "date_of_submission",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                },
+                                                                function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.computedTarget(
+                                                                    performance,
+                                                                    index2,
+                                                                    index1,
+                                                                    index
+                                                                  )
+                                                                }
+                                                              ]
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.date_completed,
+                                                                expression:
+                                                                  "performance.date_completed"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "date",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.date_completed
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "date_completed",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          performance.quantity
+                                                            ? _c("input", {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "model",
+                                                                    rawName:
+                                                                      "v-model",
+                                                                    value:
+                                                                      performance.quantity,
+                                                                    expression:
+                                                                      "performance.quantity"
+                                                                  }
+                                                                ],
+                                                                staticStyle: {
+                                                                  width: "50px"
+                                                                },
+                                                                attrs: {
+                                                                  type:
+                                                                    "number",
+                                                                  disabled: ""
+                                                                },
+                                                                domProps: {
+                                                                  value:
+                                                                    performance.quantity
+                                                                },
+                                                                on: {
+                                                                  input: function(
+                                                                    $event
+                                                                  ) {
+                                                                    if (
+                                                                      $event
+                                                                        .target
+                                                                        .composing
+                                                                    ) {
+                                                                      return
+                                                                    }
+                                                                    _vm.$set(
+                                                                      performance,
+                                                                      "quantity",
+                                                                      $event
+                                                                        .target
+                                                                        .value
+                                                                    )
+                                                                  }
+                                                                }
+                                                              })
+                                                            : _c("input", {
+                                                                staticStyle: {
+                                                                  width: "50px"
+                                                                },
+                                                                attrs: {
+                                                                  disabled: ""
+                                                                },
+                                                                domProps: {
+                                                                  value: _vm.setQuantity(
+                                                                    performance,
+                                                                    index2,
+                                                                    index1,
+                                                                    index
+                                                                  )
+                                                                }
+                                                              })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.quality,
+                                                                expression:
+                                                                  "performance.quality"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number"
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.quality
+                                                            },
+                                                            on: {
+                                                              input: [
+                                                                function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "quality",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                },
+                                                                function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.computeAverage(
+                                                                    performance,
+                                                                    index2,
+                                                                    index1,
+                                                                    index
+                                                                  )
+                                                                }
+                                                              ]
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.tar,
+                                                                expression:
+                                                                  "performance.tar"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.tar
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "tar",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.asc,
+                                                                expression:
+                                                                  "performance.asc"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.asc
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "asc",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.remarks,
+                                                                expression:
+                                                                  "performance.remarks"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "text"
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.remarks
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "remarks",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ])
+                                                      ])
                                                     ]
                                                   }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.tar,
-                                                      expression:
-                                                        "performance.tar"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.tar
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "tar",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.asc,
-                                                      expression:
-                                                        "performance.asc"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.asc
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "asc",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.remarks,
-                                                      expression:
-                                                        "performance.remarks"
-                                                    }
-                                                  ],
-                                                  attrs: { type: "text" },
-                                                  domProps: {
-                                                    value: performance.remarks
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "remarks",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ])
-                                            ]
+                                                )
+                                              ]
+                                            }
                                           )
-                                        }
-                                      )
-                                    ],
-                                    2
-                                  )
-                                }),
+                                        ]
+                                      }
+                                    )
+                                  ],
+                                  2
+                                ),
                                 _vm._v(" "),
                                 _c("tfoot", [
                                   _c("tr", [
@@ -6266,34 +7107,58 @@ var render = function() {
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _c("tr", [
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "Discuss with: " +
-                                          _vm._s(_vm.templates.faculty_name)
+                                  _c(
+                                    "tr",
+                                    _vm._l(_vm.signatures, function(
+                                      signatory,
+                                      index
+                                    ) {
+                                      return _c(
+                                        "td",
+                                        {
+                                          key: index,
+                                          attrs: {
+                                            colspan:
+                                              signatory.title ===
+                                              "Final Rating:"
+                                                ? "4"
+                                                : "2"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                              _vm._s(signatory.title) +
+                                              "\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                          ),
+                                          signatory.name
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                    _vm._s(signatory.name) +
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                                ),
+                                                _c("img", {
+                                                  staticStyle: {
+                                                    width: "128px",
+                                                    height: "50px"
+                                                  },
+                                                  attrs: {
+                                                    src: signatory.signature,
+                                                    alt: "My Image"
+                                                  }
+                                                })
+                                              ])
+                                            : _vm._e()
+                                        ]
                                       )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "Assessed by: " +
-                                          _vm._s(_vm.templates.dean_name)
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v("Checked by:")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "4" } }, [
-                                      _vm._v("Final Rating:")
-                                    ])
-                                  ]),
+                                    }),
+                                    0
+                                  ),
                                   _vm._v(" "),
                                   _vm._m(4)
                                 ])
-                              ],
-                              2
+                              ]
                             )
                           ]),
                           _vm._v(" "),
@@ -6302,8 +7167,8 @@ var render = function() {
                       )
                     ]
                   )
-                : _vm._e()
-            ]),
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "VueHtml2pdf",
@@ -6563,22 +7428,62 @@ var render = function() {
                                   [
                                     _vm._v("\n\t\t\t\t\t\t\t\t\t\t\tI,"),
                                     _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.templates.name,
+                                          expression: "templates.name"
+                                        }
+                                      ],
                                       attrs: {
                                         type: "text",
                                         size: "15",
                                         disabled: ""
                                       },
-                                      domProps: { value: _vm.$t("auth.name") }
+                                      domProps: { value: _vm.templates.name },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.templates,
+                                            "name",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
                                     }),
                                     _vm._v(" "),
                                     _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.templates.roles_name,
+                                          expression: "templates.roles_name"
+                                        }
+                                      ],
                                       attrs: {
                                         type: "text",
                                         size: "20",
                                         disabled: ""
                                       },
                                       domProps: {
-                                        value: _vm.$t("auth.role_name")
+                                        value: _vm.templates.roles_name
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.templates,
+                                            "roles_name",
+                                            $event.target.value
+                                          )
+                                        }
                                       }
                                     }),
                                     _vm._v(
@@ -6694,444 +7599,529 @@ var render = function() {
                                 [
                                   _vm._m(2),
                                   _vm._v(" "),
-                                  _vm._m(3),
-                                  _vm._v(" "),
-                                  _vm._l(_vm.templates.ipcr_function, function(
-                                    functions,
-                                    index
-                                  ) {
-                                    return _c(
-                                      "tbody",
-                                      { key: index },
-                                      [
-                                        _c("td", { attrs: { colspan: "10" } }, [
-                                          _vm._v(_vm._s(functions.name))
-                                        ]),
-                                        _vm._v(" "),
-                                        _vm._l(
-                                          functions.ipcr_subfunctions,
-                                          function(subFunction, index1) {
-                                            return _c("tr", { key: index1 }, [
+                                  _c(
+                                    "tbody",
+                                    [
+                                      _vm._l(
+                                        _vm.templates.ipcr_function,
+                                        function(ipcrFunction) {
+                                          return [
+                                            _c("tr", [
                                               _c(
                                                 "td",
                                                 { attrs: { colspan: "10" } },
                                                 [
                                                   _vm._v(
-                                                    _vm._s(subFunction.name)
+                                                    _vm._s(ipcrFunction.name)
                                                   )
                                                 ]
                                               )
-                                            ])
-                                          }
-                                        ),
-                                        _vm._v(" "),
-                                        _vm._l(
-                                          functions.ipcr_performance,
-                                          function(performance, index2) {
-                                            return _c(
-                                              "tr",
-                                              { key: index2 + performance },
-                                              [
-                                                _c("td", [
-                                                  _vm._v(
-                                                    _vm._s(performance.name)
-                                                  )
-                                                ]),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "td",
-                                                  {
-                                                    staticStyle: {
-                                                      display: "none"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("input", {
-                                                      directives: [
-                                                        {
-                                                          name: "model",
-                                                          rawName: "v-model",
-                                                          value: performance.id,
-                                                          expression:
-                                                            "performance.id"
-                                                        }
-                                                      ],
-                                                      attrs: { type: "text" },
-                                                      domProps: {
-                                                        value: performance.id
+                                            ]),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              ipcrFunction.ipcr_subfunctions,
+                                              function(ipcrSubfunction) {
+                                                return [
+                                                  _c("tr", [
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: { colspan: "10" }
                                                       },
-                                                      on: {
-                                                        input: function(
-                                                          $event
-                                                        ) {
-                                                          if (
-                                                            $event.target
-                                                              .composing
-                                                          ) {
-                                                            return
-                                                          }
-                                                          _vm.$set(
-                                                            performance,
-                                                            "id",
-                                                            $event.target.value
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            ipcrSubfunction.name
                                                           )
-                                                        }
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          performance.target,
-                                                        expression:
-                                                          "performance.target"
-                                                      }
-                                                    ],
-                                                    attrs: { type: "number" },
-                                                    domProps: {
-                                                      value: performance.target
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "target",
-                                                          $event.target.value
                                                         )
-                                                      }
+                                                      ]
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _vm._l(
+                                                    ipcrSubfunction.ipcr_performance,
+                                                    function(performance) {
+                                                      return [
+                                                        _c("tr", [
+                                                          _c("td", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                performance.name
+                                                              )
+                                                            )
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "td",
+                                                            {
+                                                              staticStyle: {
+                                                                display: "none"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("input", {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "model",
+                                                                    rawName:
+                                                                      "v-model",
+                                                                    value:
+                                                                      performance.id,
+                                                                    expression:
+                                                                      "performance.id"
+                                                                  }
+                                                                ],
+                                                                attrs: {
+                                                                  type: "text"
+                                                                },
+                                                                domProps: {
+                                                                  value:
+                                                                    performance.id
+                                                                },
+                                                                on: {
+                                                                  input: function(
+                                                                    $event
+                                                                  ) {
+                                                                    if (
+                                                                      $event
+                                                                        .target
+                                                                        .composing
+                                                                    ) {
+                                                                      return
+                                                                    }
+                                                                    _vm.$set(
+                                                                      performance,
+                                                                      "id",
+                                                                      $event
+                                                                        .target
+                                                                        .value
+                                                                    )
+                                                                  }
+                                                                }
+                                                              })
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.target,
+                                                                  expression:
+                                                                    "performance.target"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "number"
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.target
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "target",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.accomplished,
+                                                                  expression:
+                                                                    "performance.accomplished"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "number",
+                                                                disabled: ""
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.accomplished
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "accomplished",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.date_of_submission,
+                                                                  expression:
+                                                                    "performance.date_of_submission"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "date",
+                                                                disabled: ""
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.date_of_submission
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "date_of_submission",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.date_completed,
+                                                                  expression:
+                                                                    "performance.date_completed"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "date",
+                                                                disabled: ""
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.date_completed
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "date_completed",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.quantity,
+                                                                  expression:
+                                                                    "performance.quantity"
+                                                                }
+                                                              ],
+                                                              staticStyle: {
+                                                                width: "50px"
+                                                              },
+                                                              attrs: {
+                                                                type: "number",
+                                                                disabled: ""
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.quantity
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "quantity",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.quality,
+                                                                  expression:
+                                                                    "performance.quality"
+                                                                }
+                                                              ],
+                                                              staticStyle: {
+                                                                width: "50px"
+                                                              },
+                                                              attrs: {
+                                                                type: "number",
+                                                                disabled: ""
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.quality
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "quality",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.tar,
+                                                                  expression:
+                                                                    "performance.tar"
+                                                                }
+                                                              ],
+                                                              staticStyle: {
+                                                                width: "50px"
+                                                              },
+                                                              attrs: {
+                                                                type: "number",
+                                                                disabled: ""
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.tar
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "tar",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.asc,
+                                                                  expression:
+                                                                    "performance.asc"
+                                                                }
+                                                              ],
+                                                              staticStyle: {
+                                                                width: "50px"
+                                                              },
+                                                              attrs: {
+                                                                type: "number",
+                                                                disabled: ""
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.asc
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "asc",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("td", [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.remarks,
+                                                                  expression:
+                                                                    "performance.remarks"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "text",
+                                                                disabled: ""
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.remarks
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "remarks",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ])
+                                                        ])
+                                                      ]
                                                     }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          performance.accomplished,
-                                                        expression:
-                                                          "performance.accomplished"
-                                                      }
-                                                    ],
-                                                    attrs: {
-                                                      type: "number",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value:
-                                                        performance.accomplished
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "accomplished",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          performance.date_of_submission,
-                                                        expression:
-                                                          "performance.date_of_submission"
-                                                      }
-                                                    ],
-                                                    attrs: {
-                                                      type: "date",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value:
-                                                        performance.date_of_submission
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "date_of_submission",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          performance.date_completed,
-                                                        expression:
-                                                          "performance.date_completed"
-                                                      }
-                                                    ],
-                                                    attrs: {
-                                                      type: "date",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value:
-                                                        performance.date_completed
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "date_completed",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          performance.quantity,
-                                                        expression:
-                                                          "performance.quantity"
-                                                      }
-                                                    ],
-                                                    staticStyle: {
-                                                      width: "50px"
-                                                    },
-                                                    attrs: {
-                                                      type: "number",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value:
-                                                        performance.quantity
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "quantity",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          performance.quality,
-                                                        expression:
-                                                          "performance.quality"
-                                                      }
-                                                    ],
-                                                    staticStyle: {
-                                                      width: "50px"
-                                                    },
-                                                    attrs: {
-                                                      type: "number",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value: performance.quality
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "quality",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: performance.tar,
-                                                        expression:
-                                                          "performance.tar"
-                                                      }
-                                                    ],
-                                                    staticStyle: {
-                                                      width: "50px"
-                                                    },
-                                                    attrs: {
-                                                      type: "number",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value: performance.tar
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "tar",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: performance.asc,
-                                                        expression:
-                                                          "performance.asc"
-                                                      }
-                                                    ],
-                                                    staticStyle: {
-                                                      width: "50px"
-                                                    },
-                                                    attrs: {
-                                                      type: "number",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value: performance.asc
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "asc",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]),
-                                                _vm._v(" "),
-                                                _c("td", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          performance.remarks,
-                                                        expression:
-                                                          "performance.remarks"
-                                                      }
-                                                    ],
-                                                    attrs: {
-                                                      type: "text",
-                                                      disabled: ""
-                                                    },
-                                                    domProps: {
-                                                      value: performance.remarks
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "remarks",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ])
-                                              ]
+                                                  )
+                                                ]
+                                              }
                                             )
-                                          }
-                                        )
-                                      ],
-                                      2
-                                    )
-                                  }),
+                                          ]
+                                        }
+                                      )
+                                    ],
+                                    2
+                                  ),
                                   _vm._v(" "),
                                   _c("tfoot", [
                                     _c("tr", [
@@ -7188,38 +8178,51 @@ var render = function() {
                                       ])
                                     ]),
                                     _vm._v(" "),
-                                    _c("tr", [
-                                      _c("td", { attrs: { colspan: "2" } }, [
-                                        _vm._v(
-                                          "Discuss with: " +
-                                            _vm._s(_vm.templates.faculty_name)
+                                    _c(
+                                      "tr",
+                                      _vm._l(_vm.signatures, function(
+                                        signatory,
+                                        index
+                                      ) {
+                                        return _c(
+                                          "td",
+                                          {
+                                            key: index,
+                                            attrs: { colspan: "2" }
+                                          },
+                                          [
+                                            signatory.name
+                                              ? _c("span", [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(signatory.name) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                                  ),
+                                                  _c("img", {
+                                                    staticStyle: {
+                                                      width: "128px",
+                                                      height: "50px"
+                                                    },
+                                                    attrs: {
+                                                      src: signatory.signature,
+                                                      alt: "My Image"
+                                                    }
+                                                  })
+                                                ])
+                                              : _vm._e()
+                                          ]
                                         )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", { attrs: { colspan: "2" } }, [
-                                        _vm._v(
-                                          "Assessed by: " +
-                                            _vm._s(_vm.templates.dean_name)
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", { attrs: { colspan: "2" } }, [
-                                        _vm._v("Checked by:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", { attrs: { colspan: "4" } }, [
-                                        _vm._v("Final Rating:")
-                                      ])
-                                    ]),
+                                      }),
+                                      0
+                                    ),
                                     _vm._v(" "),
-                                    _vm._m(4)
+                                    _vm._m(3)
                                   ])
-                                ],
-                                2
+                                ]
                               )
                             ]),
                             _vm._v(" "),
-                            _vm._m(5)
+                            _vm._m(4)
                           ]
                         )
                       ]
@@ -7231,14 +8234,7 @@ var render = function() {
                 Object.keys(_vm.faculty).length !== 0
                   ? _c("div", { staticClass: "card" }, [
                       _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-md-4" }, [
-                          _c("h3", [
-                            _vm._v(
-                              "Assessment by " +
-                                _vm._s(_vm.faculty.faculty_name)
-                            )
-                          ])
-                        ]),
+                        _vm._m(5),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-4 mt-4" }, [
                           _c("h5", [
@@ -7254,7 +8250,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  return _vm.viewFiles(_vm.faculty.data)
+                                  return _vm.viewFiles(_vm.faculty)
                                 }
                               }
                             },
@@ -7290,7 +8286,9 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c("facultytemplate", { attrs: { templates: _vm.json } }),
+              _c("facultytemplate", {
+                attrs: { templates: _vm.json, signatures: _vm.signatures }
+              }),
               _vm._v(" "),
               _c(
                 "VueHtml2pdf",
@@ -7347,42 +8345,40 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
-        _vm._v("PERFORMANCE INDICATOR")
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+          _vm._v("PERFORMANCE INDICATOR")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("TARGET")]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+          _vm._v("ACCOMPLISHED")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+          _vm._v("DATE OF SUBMISSION/COMPLETION")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+          _vm._v("DATE SUBMITTED/COMPLETED")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "1", colspan: "4" } }, [_vm._v("Rating")]),
+        _vm._v(" "),
+        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("Remarks")])
       ]),
       _vm._v(" "),
-      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("TARGET")]),
-      _vm._v(" "),
-      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
-        _vm._v("ACCOMPLISHED")
-      ]),
-      _vm._v(" "),
-      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
-        _vm._v("DATE OF SUBMISSION/COMPLETION")
-      ]),
-      _vm._v(" "),
-      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
-        _vm._v("DATE SUBMITTED/ COMPLETED")
-      ]),
-      _vm._v(" "),
-      _c("th", { attrs: { rowspan: "1", colspan: "4" } }, [_vm._v("Rating")]),
-      _vm._v(" "),
-      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("Remarks")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("QTY")]),
-      _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("QL/E")]),
-      _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("T")]),
-      _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("A")])
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("QTY")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("QL/E")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("T")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("A")])
+      ])
     ])
   },
   function() {
@@ -7413,6 +8409,14 @@ var staticRenderFns = [
       _c("button", { staticClass: "btn btn-danger mb-4 btn-sm float-right" }, [
         _vm._v("Cancel")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("h3", [_vm._v("To Be Assessed By ")])
     ])
   }
 ]
@@ -7560,391 +8564,414 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c(
-              "table",
-              { staticClass: "table table-border two-table" },
-              [
-                _vm._m(1),
-                _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _vm._l(_vm.templates.ipcr_function, function(functions, index) {
-                  return _c(
-                    "tbody",
-                    { key: index },
-                    [
-                      _c("td", { attrs: { colspan: "10" } }, [
-                        _vm._v(_vm._s(functions.name))
+            _c("table", { staticClass: "table table-border two-table" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._m(2),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                [
+                  _vm._l(_vm.templates.ipcr_function, function(ipcrFunction) {
+                    return [
+                      _c("tr", [
+                        _c("td", { attrs: { colspan: "10" } }, [
+                          _vm._v(_vm._s(ipcrFunction.name))
+                        ])
                       ]),
                       _vm._v(" "),
-                      _vm._l(functions.ipcr_subfunctions, function(
-                        subFunction,
-                        index1
+                      _vm._l(ipcrFunction.ipcr_subfunctions, function(
+                        ipcrSubfunction
                       ) {
-                        return _c("tr", { key: index1 }, [
-                          _c("td", { attrs: { colspan: "10" } }, [
-                            _vm._v(_vm._s(subFunction.name))
-                          ])
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _vm._l(functions.ipcr_performance, function(
-                        performance,
-                        index2
-                      ) {
-                        return _c("tr", { key: index2 + performance }, [
-                          _c("td", [_vm._v(_vm._s(performance.name))]),
-                          _vm._v(" "),
-                          _c("td", { staticStyle: { display: "none" } }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.id,
-                                  expression: "performance.id"
-                                }
-                              ],
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: performance.id },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "id",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
+                        return [
+                          _c("tr", [
+                            _c("td", { attrs: { colspan: "10" } }, [
+                              _vm._v(_vm._s(ipcrSubfunction.name))
+                            ])
                           ]),
                           _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.target,
-                                  expression: "performance.target"
-                                }
-                              ],
-                              attrs: { type: "number", disabled: "" },
-                              domProps: { value: performance.target },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "target",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.accomplished,
-                                  expression: "performance.accomplished"
-                                }
-                              ],
-                              attrs: { type: "number", disabled: "" },
-                              domProps: { value: performance.accomplished },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "accomplished",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.date_of_submission,
-                                  expression: "performance.date_of_submission"
-                                }
-                              ],
-                              attrs: { type: "date", disabled: "" },
-                              domProps: {
-                                value: performance.date_of_submission
-                              },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "date_of_submission",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.date_completed,
-                                  expression: "performance.date_completed"
-                                }
-                              ],
-                              attrs: { type: "date", disabled: "" },
-                              domProps: { value: performance.date_completed },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "date_completed",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.quality,
-                                  expression: "performance.quality"
-                                }
-                              ],
-                              staticStyle: { width: "50px" },
-                              attrs: { type: "number", disabled: "" },
-                              domProps: { value: performance.quality },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "quality",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.qle,
-                                  expression: "performance.qle"
-                                }
-                              ],
-                              staticStyle: { width: "50px" },
-                              attrs: { type: "number", disabled: "" },
-                              domProps: { value: performance.qle },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "qle",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.tar,
-                                  expression: "performance.tar"
-                                }
-                              ],
-                              staticStyle: { width: "50px" },
-                              attrs: { type: "number", disabled: "" },
-                              domProps: { value: performance.tar },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "tar",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.asc,
-                                  expression: "performance.asc"
-                                }
-                              ],
-                              staticStyle: { width: "50px" },
-                              attrs: { type: "number", disabled: "" },
-                              domProps: { value: performance.asc },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "asc",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: performance.remarks,
-                                  expression: "performance.remarks"
-                                }
-                              ],
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: performance.remarks },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    performance,
-                                    "remarks",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
-                        ])
+                          _vm._l(ipcrSubfunction.ipcr_performance, function(
+                            performance
+                          ) {
+                            return [
+                              _c("tr", [
+                                _c("td", [_vm._v(_vm._s(performance.name))]),
+                                _vm._v(" "),
+                                _c("td", { staticStyle: { display: "none" } }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.id,
+                                        expression: "performance.id"
+                                      }
+                                    ],
+                                    attrs: { type: "text" },
+                                    domProps: { value: performance.id },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "id",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.target,
+                                        expression: "performance.target"
+                                      }
+                                    ],
+                                    attrs: { type: "number" },
+                                    domProps: { value: performance.target },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "target",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.accomplished,
+                                        expression: "performance.accomplished"
+                                      }
+                                    ],
+                                    attrs: { type: "number", disabled: "" },
+                                    domProps: {
+                                      value: performance.accomplished
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "accomplished",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.date_of_submission,
+                                        expression:
+                                          "performance.date_of_submission"
+                                      }
+                                    ],
+                                    attrs: { type: "date", disabled: "" },
+                                    domProps: {
+                                      value: performance.date_of_submission
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "date_of_submission",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.date_completed,
+                                        expression: "performance.date_completed"
+                                      }
+                                    ],
+                                    attrs: { type: "date", disabled: "" },
+                                    domProps: {
+                                      value: performance.date_completed
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "date_completed",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.quantity,
+                                        expression: "performance.quantity"
+                                      }
+                                    ],
+                                    staticStyle: { width: "50px" },
+                                    attrs: { type: "number", disabled: "" },
+                                    domProps: { value: performance.quantity },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "quantity",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.quality,
+                                        expression: "performance.quality"
+                                      }
+                                    ],
+                                    staticStyle: { width: "50px" },
+                                    attrs: { type: "number", disabled: "" },
+                                    domProps: { value: performance.quality },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "quality",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.tar,
+                                        expression: "performance.tar"
+                                      }
+                                    ],
+                                    staticStyle: { width: "50px" },
+                                    attrs: { type: "number", disabled: "" },
+                                    domProps: { value: performance.tar },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "tar",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.asc,
+                                        expression: "performance.asc"
+                                      }
+                                    ],
+                                    staticStyle: { width: "50px" },
+                                    attrs: { type: "number", disabled: "" },
+                                    domProps: { value: performance.asc },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "asc",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: performance.remarks,
+                                        expression: "performance.remarks"
+                                      }
+                                    ],
+                                    attrs: { type: "text", disabled: "" },
+                                    domProps: { value: performance.remarks },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          performance,
+                                          "remarks",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]
+                          })
+                        ]
                       })
-                    ],
-                    2
-                  )
-                }),
-                _vm._v(" "),
-                _c("tfoot", [
-                  _c("tr", [
-                    _c("td", { attrs: { colspan: "5" } }, [
-                      _vm._v(
-                        "\n\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t"
-                      ),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.templates.recommendation,
-                            expression: "templates.recommendation"
-                          }
-                        ],
-                        attrs: { type: "text", size: "70", disabled: "" },
-                        domProps: { value: _vm.templates.recommendation },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.templates,
-                              "recommendation",
-                              $event.target.value
-                            )
-                          }
+                    ]
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("tfoot", [
+                _c("tr", [
+                  _c("td", { attrs: { colspan: "5" } }, [
+                    _vm._v(
+                      "\n\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t"
+                    ),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.templates.recommendation,
+                          expression: "templates.recommendation"
                         }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v("Numerical Rating: " + _vm._s(_vm.numericalRating))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { attrs: { colspan: "4" } }, [
-                      _vm._v(
-                        "Adjectival Rating: " + _vm._s(_vm.adjectivalRating)
-                      )
-                    ])
+                      ],
+                      attrs: { type: "text", size: "70", disabled: "" },
+                      domProps: { value: _vm.templates.recommendation },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.templates,
+                            "recommendation",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
                   ]),
                   _vm._v(" "),
-                  _c("tr", [
-                    _c("td", { attrs: { colspan: "2" } }, [
-                      _vm._v(
-                        "Discuss with: " + _vm._s(_vm.templates.faculty_name)
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { attrs: { colspan: "2" } }, [
-                      _vm._v("Assessed by:")
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { attrs: { colspan: "2" } }, [
-                      _vm._v("Checked by:")
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { attrs: { colspan: "4" } }, [
-                      _vm._v("Final Rating:")
-                    ])
+                  _c("td", [
+                    _vm._v("Numerical Rating: " + _vm._s(_vm.numericalRating))
                   ]),
                   _vm._v(" "),
-                  _vm._m(3)
-                ])
-              ],
-              2
-            )
+                  _c("td", { attrs: { colspan: "4" } }, [
+                    _vm._v("Adjectival Rating: " + _vm._s(_vm.adjectivalRating))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  _vm._l(_vm.signatures, function(signatory, index) {
+                    return _c(
+                      "td",
+                      {
+                        key: index,
+                        attrs: {
+                          colspan:
+                            signatory.title === "Final Rating:" ? "4" : "2"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t" +
+                            _vm._s(signatory.title) +
+                            "\n\t\t\t\t\t\t"
+                        ),
+                        signatory.name
+                          ? _c("span", [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t" +
+                                  _vm._s(signatory.name) +
+                                  "\n\t\t\t\t\t\t\t"
+                              ),
+                              _c("img", {
+                                staticStyle: { width: "128px", height: "50px" },
+                                attrs: {
+                                  src: signatory.signature,
+                                  alt: "My Image"
+                                }
+                              })
+                            ])
+                          : _vm._e()
+                      ]
+                    )
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _vm._m(3)
+              ])
+            ])
           ])
         ]
       )
@@ -8060,7 +9087,7 @@ var render = function() {
                         _c("div", { staticClass: "col-md-4" }, [
                           _c("h3", [
                             _vm._v(
-                              "Checked IPCR of " + _vm._s(fac.faculty_name)
+                              "Checked IPCR of " + _vm._s(fac.faculty.name)
                             )
                           ])
                         ]),
@@ -8115,9 +9142,25 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "container-fluid" }, [
-              _vm.templates.ipcr_function
-                ? _c(
+            _vm.templates.ipcr_function
+              ? _c("div", { staticClass: "container-fluid" }, [
+                  _c("input", {
+                    ref: "fileInput",
+                    staticStyle: { display: "none" },
+                    attrs: { type: "file" },
+                    on: { change: _vm.handleFileUpload }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary ml-5",
+                      on: { click: _vm.openFileInput }
+                    },
+                    [_vm._v("Upload Signature")]
+                  ),
+                  _vm._v(" "),
+                  _c(
                     "div",
                     {
                       staticClass: "card",
@@ -8169,22 +9212,62 @@ var render = function() {
                                 [
                                   _vm._v("\n\t\t\t\t\t\t\t\t\t\tI,"),
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.name,
+                                        expression: "templates.name"
+                                      }
+                                    ],
                                     attrs: {
                                       type: "text",
                                       size: "15",
                                       disabled: ""
                                     },
-                                    domProps: { value: _vm.$t("auth.name") }
+                                    domProps: { value: _vm.templates.name },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
                                   }),
                                   _vm._v(" "),
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.roles_name,
+                                        expression: "templates.roles_name"
+                                      }
+                                    ],
                                     attrs: {
                                       type: "text",
                                       size: "20",
                                       disabled: ""
                                     },
                                     domProps: {
-                                      value: _vm.$t("auth.role_name")
+                                      value: _vm.templates.roles_name
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "roles_name",
+                                          $event.target.value
+                                        )
+                                      }
                                     }
                                   }),
                                   _vm._v(
@@ -8298,422 +9381,514 @@ var render = function() {
                                 _vm._v(" "),
                                 _vm._m(3),
                                 _vm._v(" "),
-                                _vm._l(_vm.templates.ipcr_function, function(
-                                  functions,
-                                  index
-                                ) {
-                                  return _c(
-                                    "tbody",
-                                    { key: index },
-                                    [
-                                      _c("td", { attrs: { colspan: "10" } }, [
-                                        _vm._v(_vm._s(functions.name))
-                                      ]),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        functions.ipcr_subfunctions,
-                                        function(subFunction, index1) {
-                                          return _c("tr", { key: index1 }, [
+                                _c(
+                                  "tbody",
+                                  [
+                                    _vm._l(
+                                      _vm.templates.ipcr_function,
+                                      function(ipcrFunction, index) {
+                                        return [
+                                          _c("tr", [
                                             _c(
                                               "td",
                                               { attrs: { colspan: "10" } },
-                                              [_vm._v(_vm._s(subFunction.name))]
+                                              [
+                                                _vm._v(
+                                                  _vm._s(ipcrFunction.name)
+                                                )
+                                              ]
                                             )
-                                          ])
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        functions.ipcr_performance,
-                                        function(performance, index2) {
-                                          return _c(
-                                            "tr",
-                                            { key: index2 + performance },
-                                            [
-                                              _c("td", [
-                                                _vm._v(_vm._s(performance.name))
-                                              ]),
-                                              _vm._v(" "),
-                                              _c(
-                                                "td",
-                                                {
-                                                  staticStyle: {
-                                                    display: "none"
-                                                  }
-                                                },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: performance.id,
-                                                        expression:
-                                                          "performance.id"
-                                                      }
-                                                    ],
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value: performance.id
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._l(
+                                            ipcrFunction.ipcr_subfunctions,
+                                            function(ipcrSubfunction, index1) {
+                                              return [
+                                                _c("tr", [
+                                                  _c(
+                                                    "td",
+                                                    {
+                                                      attrs: { colspan: "10" }
                                                     },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          performance,
-                                                          "id",
-                                                          $event.target.value
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          ipcrSubfunction.name
                                                         )
-                                                      }
-                                                    }
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.target,
-                                                      expression:
-                                                        "performance.target"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.target
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "target",
-                                                        $event.target.value
                                                       )
-                                                    }
+                                                    ]
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _vm._l(
+                                                  ipcrSubfunction.ipcr_performance,
+                                                  function(
+                                                    performance,
+                                                    index2
+                                                  ) {
+                                                    return [
+                                                      _c("tr", [
+                                                        _c("td", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              performance.name
+                                                            )
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "td",
+                                                          {
+                                                            staticStyle: {
+                                                              display: "none"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.id,
+                                                                  expression:
+                                                                    "performance.id"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "text"
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.id
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "id",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.target,
+                                                                expression:
+                                                                  "performance.target"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.target
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "target",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.accomplished,
+                                                                expression:
+                                                                  "performance.accomplished"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.accomplished
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "accomplished",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.date_of_submission,
+                                                                expression:
+                                                                  "performance.date_of_submission"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "date",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.date_of_submission
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "date_of_submission",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.date_completed,
+                                                                expression:
+                                                                  "performance.date_completed"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "date",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.date_completed
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "date_completed",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.quality,
+                                                                expression:
+                                                                  "performance.quality"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.quality
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "quality",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.qle,
+                                                                expression:
+                                                                  "performance.qle"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.qle
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "qle",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.tar,
+                                                                expression:
+                                                                  "performance.tar"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.tar
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "tar",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.asc,
+                                                                expression:
+                                                                  "performance.asc"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.asc
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "asc",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.remarks,
+                                                                expression:
+                                                                  "performance.remarks"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "text",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.remarks
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "remarks",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ])
+                                                      ])
+                                                    ]
                                                   }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.accomplished,
-                                                      expression:
-                                                        "performance.accomplished"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value:
-                                                      performance.accomplished
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "accomplished",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.date_of_submission,
-                                                      expression:
-                                                        "performance.date_of_submission"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "date",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value:
-                                                      performance.date_of_submission
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "date_of_submission",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.date_completed,
-                                                      expression:
-                                                        "performance.date_completed"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "date",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value:
-                                                      performance.date_completed
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "date_completed",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.quality,
-                                                      expression:
-                                                        "performance.quality"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.quality
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "quality",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.qle,
-                                                      expression:
-                                                        "performance.qle"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.qle
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "qle",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.tar,
-                                                      expression:
-                                                        "performance.tar"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: {
-                                                    type: "number",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.tar
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "tar",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: performance.asc,
-                                                      expression:
-                                                        "performance.asc"
-                                                    }
-                                                  ],
-                                                  staticStyle: {
-                                                    width: "50px"
-                                                  },
-                                                  attrs: { type: "number" },
-                                                  domProps: {
-                                                    value: performance.asc
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "asc",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value:
-                                                        performance.remarks,
-                                                      expression:
-                                                        "performance.remarks"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "text",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: performance.remarks
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        performance,
-                                                        "remarks",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ])
-                                            ]
+                                                )
+                                              ]
+                                            }
                                           )
-                                        }
-                                      )
-                                    ],
-                                    2
-                                  )
-                                }),
+                                        ]
+                                      }
+                                    )
+                                  ],
+                                  2
+                                ),
                                 _vm._v(" "),
                                 _c("tfoot", [
                                   _c("tr", [
@@ -8769,42 +9944,58 @@ var render = function() {
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _c("tr", [
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "Discuss with: " +
-                                          _vm._s(_vm.templates.faculty_name)
+                                  _c(
+                                    "tr",
+                                    _vm._l(_vm.signatures, function(
+                                      signatory,
+                                      index
+                                    ) {
+                                      return _c(
+                                        "td",
+                                        {
+                                          key: index,
+                                          attrs: {
+                                            colspan:
+                                              signatory.title ===
+                                              "Final Rating:"
+                                                ? "4"
+                                                : "2"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                              _vm._s(signatory.title) +
+                                              "\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                          ),
+                                          signatory.name
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                    _vm._s(signatory.name) +
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                                ),
+                                                _c("img", {
+                                                  staticStyle: {
+                                                    width: "128px",
+                                                    height: "50px"
+                                                  },
+                                                  attrs: {
+                                                    src: signatory.signature,
+                                                    alt: "My Image"
+                                                  }
+                                                })
+                                              ])
+                                            : _vm._e()
+                                        ]
                                       )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "Assessed by: " +
-                                          _vm._s(_vm.templates.dean_name)
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "Checked by:  " +
-                                          _vm._s(
-                                            _vm.templates.campus_director_name
-                                          )
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "4" } }, [
-                                      _vm._v(
-                                        "Final Rating: " +
-                                          _vm._s(_vm.templates.hrmo_name)
-                                      )
-                                    ])
-                                  ]),
+                                    }),
+                                    0
+                                  ),
                                   _vm._v(" "),
                                   _vm._m(4)
                                 ])
-                              ],
-                              2
+                              ]
                             )
                           ]),
                           _vm._v(" "),
@@ -8813,8 +10004,8 @@ var render = function() {
                       )
                     ]
                   )
-                : _vm._e()
-            ]),
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "VueHtml2pdf",
@@ -8986,10 +10177,1110 @@ var render = function() {
     _vm._v(" "),
     _vm.role_title === "Dean" ? _c("div", [_c("dean-template")], 1) : _vm._e(),
     _vm._v(" "),
-    _vm.role_title === "Hrmo" ? _c("div", [_c("hrmo-template")], 1) : _vm._e()
+    _vm.role_title === "HRMO" ? _c("div", [_c("hrmo-template")], 1) : _vm._e(),
+    _vm._v(" "),
+    _vm.role_title === "VICE PRESIDENT FOR ACADEMIC AFFAIRS"
+      ? _c("div", [_c("vp-template")], 1)
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=template&id=6996d1a8&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=template&id=6996d1a8& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "div",
+          { staticClass: "card" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            Object.keys(_vm.faculty).length !== 0
+              ? _c(
+                  "div",
+                  { staticClass: "card-body" },
+                  _vm._l(_vm.faculty, function(fac) {
+                    return _c("div", { key: fac.id, staticClass: "card" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-4" }, [
+                          _c("h3", [
+                            _vm._v(
+                              "Final Check IPCR of " + _vm._s(fac.faculty.name)
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-4 mt-4" }, [
+                          _c("h5", [_vm._v("Status: " + _vm._s(fac.status_id))])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-1 mt-3" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-primary",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.editFiles(fac)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t\t\tEdit\n\t\t\t\t\t\t\t\t"
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-1 mt-3" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-success",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.downloadFiles(fac.data)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t\t\tDownload\n\t\t\t\t\t\t\t\t"
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.templates.ipcr_function
+              ? _c("div", { staticClass: "container-fluid" }, [
+                  _c("input", {
+                    ref: "fileInput",
+                    staticStyle: { display: "none" },
+                    attrs: { type: "file" },
+                    on: { change: _vm.handleFileUpload }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary ml-5",
+                      on: { click: _vm.openFileInput }
+                    },
+                    [_vm._v("Upload Signature")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "card",
+                      staticStyle: {
+                        "background-color": "hsl(40, 100%, 97%)",
+                        width: "90rem",
+                        "margin-left": "43px"
+                      }
+                    },
+                    [
+                      _c(
+                        "form",
+                        {
+                          on: {
+                            submit: function($event) {
+                              $event.preventDefault()
+                              return _vm.submitForm($event)
+                            }
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "card-body" }, [
+                            _c("div", { staticClass: "float-right" }, [
+                              _c("p", { staticClass: "remove-space" }, [
+                                _vm._v("SPMS Form 02")
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "remove-space" }, [
+                                _vm._v("Date: " + _vm._s(_vm.dateToday))
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "remove-space" }, [
+                                _vm._v("Revised: 03")
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _vm._m(1),
+                            _vm._v(" "),
+                            _c("div", [
+                              _c(
+                                "p",
+                                { staticStyle: { "word-wrap": "break-word" } },
+                                [
+                                  _vm._v("\n\t\t\t\t\t\t\t\t\t\tI,"),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.name,
+                                        expression: "templates.name"
+                                      }
+                                    ],
+                                    attrs: {
+                                      type: "text",
+                                      size: "15",
+                                      disabled: ""
+                                    },
+                                    domProps: { value: _vm.templates.name },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.roles_name,
+                                        expression: "templates.roles_name"
+                                      }
+                                    ],
+                                    attrs: {
+                                      type: "text",
+                                      size: "20",
+                                      disabled: ""
+                                    },
+                                    domProps: {
+                                      value: _vm.templates.roles_name
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "roles_name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\t\tof the Laguna State Polytechnic University, commit to deliver and agree to\n\t\t\t\t\t\t\t\t\t\tthe rated of the following in accordance with the indicated measures for\n\t\t\t\t\t\t\t\t\t\tthe\n\t\t\t\t\t\t\t\t\t\t"
+                                  ),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.semester,
+                                        expression: "templates.semester"
+                                      }
+                                    ],
+                                    attrs: {
+                                      type: "text",
+                                      size: "5",
+                                      disabled: ""
+                                    },
+                                    domProps: { value: _vm.templates.semester },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "semester",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\t\tSemester of Academic Year\n\t\t\t\t\t\t\t\t\t\t"
+                                  ),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.templates.year,
+                                        expression: "templates.year"
+                                      }
+                                    ],
+                                    attrs: {
+                                      type: "text",
+                                      size: "5",
+                                      disabled: ""
+                                    },
+                                    domProps: { value: _vm.templates.year },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.templates,
+                                          "year",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(".\n\t\t\t\t\t\t\t\t\t")
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("table", { staticClass: "table table-border" }, [
+                              _c(
+                                "tr",
+                                _vm._l(_vm.templates.ipcr_signatory, function(
+                                  signatory
+                                ) {
+                                  return _c("th", { key: signatory.id }, [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                        _vm._s(signatory.level_of_assestment) +
+                                        " :\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                        _vm._s(signatory.name_of_signatories) +
+                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                    )
+                                  ])
+                                }),
+                                0
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "tr",
+                                _vm._l(_vm.templates.ipcr_signatory, function(
+                                  signatory
+                                ) {
+                                  return _c("th", { key: signatory.id }, [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                        _vm._s(signatory.position) +
+                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                    )
+                                  ])
+                                }),
+                                0
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "table",
+                              { staticClass: "table table-border two-table" },
+                              [
+                                _vm._m(2),
+                                _vm._v(" "),
+                                _vm._m(3),
+                                _vm._v(" "),
+                                _c(
+                                  "tbody",
+                                  [
+                                    _vm._l(
+                                      _vm.templates.ipcr_function,
+                                      function(ipcrFunction, index) {
+                                        return [
+                                          _c("tr", [
+                                            _c(
+                                              "td",
+                                              { attrs: { colspan: "10" } },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(ipcrFunction.name)
+                                                )
+                                              ]
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._l(
+                                            ipcrFunction.ipcr_subfunctions,
+                                            function(ipcrSubfunction, index1) {
+                                              return [
+                                                _c("tr", [
+                                                  _c(
+                                                    "td",
+                                                    {
+                                                      attrs: { colspan: "10" }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          ipcrSubfunction.name
+                                                        )
+                                                      )
+                                                    ]
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _vm._l(
+                                                  ipcrSubfunction.ipcr_performance,
+                                                  function(
+                                                    performance,
+                                                    index2
+                                                  ) {
+                                                    return [
+                                                      _c("tr", [
+                                                        _c("td", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              performance.name
+                                                            )
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "td",
+                                                          {
+                                                            staticStyle: {
+                                                              display: "none"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    performance.id,
+                                                                  expression:
+                                                                    "performance.id"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "text"
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  performance.id
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    performance,
+                                                                    "id",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.target,
+                                                                expression:
+                                                                  "performance.target"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.target
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "target",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.accomplished,
+                                                                expression:
+                                                                  "performance.accomplished"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.accomplished
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "accomplished",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.date_of_submission,
+                                                                expression:
+                                                                  "performance.date_of_submission"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "date",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.date_of_submission
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "date_of_submission",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.date_completed,
+                                                                expression:
+                                                                  "performance.date_completed"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "date",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.date_completed
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "date_completed",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.quality,
+                                                                expression:
+                                                                  "performance.quality"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.quality
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "quality",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.qle,
+                                                                expression:
+                                                                  "performance.qle"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.qle
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "qle",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.tar,
+                                                                expression:
+                                                                  "performance.tar"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.tar
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "tar",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.asc,
+                                                                expression:
+                                                                  "performance.asc"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.asc
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "asc",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  performance.remarks,
+                                                                expression:
+                                                                  "performance.remarks"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              type: "text",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.remarks
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "remarks",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ])
+                                                      ])
+                                                    ]
+                                                  }
+                                                )
+                                              ]
+                                            }
+                                          )
+                                        ]
+                                      }
+                                    )
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c("tfoot", [
+                                  _c("tr", [
+                                    _c("td", { attrs: { colspan: "5" } }, [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                      ),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.templates.recommendation,
+                                            expression:
+                                              "templates.recommendation"
+                                          }
+                                        ],
+                                        attrs: {
+                                          type: "text",
+                                          size: "70",
+                                          disabled: ""
+                                        },
+                                        domProps: {
+                                          value: _vm.templates.recommendation
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.templates,
+                                              "recommendation",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        "Numerical Rating: " +
+                                          _vm._s(_vm.numericalRating)
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", { attrs: { colspan: "4" } }, [
+                                      _vm._v(
+                                        "Adjectival Rating: " +
+                                          _vm._s(_vm.adjectivalRating)
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "tr",
+                                    _vm._l(_vm.signatures, function(
+                                      signatory,
+                                      index
+                                    ) {
+                                      return _c(
+                                        "td",
+                                        {
+                                          key: index,
+                                          attrs: {
+                                            colspan:
+                                              signatory.title ===
+                                              "Final Rating:"
+                                                ? "4"
+                                                : "2"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                              _vm._s(signatory.title) +
+                                              "\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                          ),
+                                          signatory.name
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                    _vm._s(signatory.name) +
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                                ),
+                                                _c("img", {
+                                                  staticStyle: {
+                                                    width: "128px",
+                                                    height: "50px"
+                                                  },
+                                                  attrs: {
+                                                    src: signatory.signature,
+                                                    alt: "My Image"
+                                                  }
+                                                })
+                                              ])
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(4)
+                                ])
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(5)
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "VueHtml2pdf",
+              {
+                ref: "html2Pdf",
+                attrs: {
+                  "manual-pagination": true,
+                  "enable-download": true,
+                  "paginate-elements-by-height": 2000,
+                  "pdf-orientation": "landscape",
+                  "pdf-content-width": "1200px",
+                  "pdf-format": "a3"
+                }
+              },
+              [
+                _c(
+                  "section",
+                  { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
+                  [_c("facultytemplate", { attrs: { templates: _vm.json } })],
+                  1
+                )
+              ]
+            )
+          ],
+          1
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "card-header card-header-primary card-header-icon" },
+      [
+        _c("h4", { staticClass: "card-title" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-10" }, [
+              _c("strong", [_vm._v("HRMO")])
+            ])
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex justify-content-center" }, [
+      _c("h4", { staticStyle: { "font-weight": "900" } }, [
+        _vm._v("INDIVIDUAL PERFORMANCE COMMITMENT AND REVIEW")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+        _vm._v("PERFORMANCE INDICATOR")
+      ]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("TARGET")]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+        _vm._v("ACCOMPLISHED")
+      ]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+        _vm._v("DATE OF SUBMISSION/COMPLETION")
+      ]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
+        _vm._v("DATE SUBMITTED/ COMPLETED")
+      ]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "1", colspan: "4" } }, [_vm._v("Rating")]),
+      _vm._v(" "),
+      _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("Remarks")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("QTY")]),
+      _vm._v(" "),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("QL/E")]),
+      _vm._v(" "),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("T")]),
+      _vm._v(" "),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("A")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { colspan: "2" } }, [_vm._v("RATEE")]),
+      _vm._v(" "),
+      _c("th", { attrs: { colspan: "2" } }, [_vm._v("CAMPUS DIRECTOR")]),
+      _vm._v(" "),
+      _c("th", { attrs: { colspan: "2" } }, [_vm._v("HRMO")]),
+      _vm._v(" "),
+      _c("th", { attrs: { colspan: "4" } }, [
+        _vm._v("VICE PRESIDENT FOR ACADEMIC AFFAIRS")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary mb-4 btn-sm float-right",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("\n\t\t\t\t\t\t\t\t\tSubmit\n\t\t\t\t\t\t\t\t")]
+      ),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-danger mb-4 btn-sm float-right" }, [
+        _vm._v("Cancel")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -9528,6 +11819,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_3a5d1d54___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_3a5d1d54___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/vp.vue":
+/*!*************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/vp.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vp_vue_vue_type_template_id_6996d1a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vp.vue?vue&type=template&id=6996d1a8& */ "./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=template&id=6996d1a8&");
+/* harmony import */ var _vp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vp.vue?vue&type=script&lang=js& */ "./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _vp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _vp_vue_vue_type_template_id_6996d1a8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _vp_vue_vue_type_template_id_6996d1a8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/adminapp/js/cruds/IPCR/vp.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_vp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./vp.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_vp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=template&id=6996d1a8&":
+/*!********************************************************************************!*\
+  !*** ./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=template&id=6996d1a8& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_vp_vue_vue_type_template_id_6996d1a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./vp.vue?vue&type=template&id=6996d1a8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/IPCR/vp.vue?vue&type=template&id=6996d1a8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_vp_vue_vue_type_template_id_6996d1a8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_vp_vue_vue_type_template_id_6996d1a8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -12,8 +12,11 @@
 		<div v-if="role_title === 'Dean'">
 			<dean-template />
 		</div>
-		<div v-if="role_title === 'Hrmo'">
+		<div v-if="role_title === 'HRMO'">
 			<hrmo-template />
+		</div>
+		<div v-if="role_title === 'VICE PRESIDENT FOR ACADEMIC AFFAIRS'">
+			<vp-template />
 		</div>
 	</div>
 </template>
@@ -23,6 +26,7 @@ import FacultyTemplate from './faculty';
 import CampusTemplate from './campus';
 import DeanTemplate from './dean';
 import HrmoTemplate from './hrmo';
+import VpTemplate from './vp';
 
 export default {
 	components: {
@@ -30,7 +34,8 @@ export default {
 		FacultyTemplate,
 		CampusTemplate,
 		DeanTemplate,
-		HrmoTemplate
+		HrmoTemplate,
+		VpTemplate
 	},
 
 	data () {

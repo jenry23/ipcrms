@@ -90,16 +90,17 @@ class UploadFileApiController extends Controller
                 $json_data = json_decode($ipcr_active_assessment->data, true);
 
                 foreach ($json_data['ipcr_function'] as $key => $data) {
-                    if ($data['ipcr_performance']) {
-                        foreach ($data['ipcr_performance'] as $key2 => $ipcr_performance) {
-                            if ($ipcr_performance['id'] === $upload_files->ipcr_performance_function_id) {
-                                $total_approved_ipcr = IpcrUploadFiles::where('faculty_id', $upload_files->faculty_id)
-                                    ->where('ipcr_performance_function_id',  $upload_files->ipcr_performance_function_id)
-                                    ->count();
+                    if ($data['ipcr_subfunctions']) {
+                        foreach ($data['ipcr_subfunctions'] as $key1 =>  $ipcr_subfunctions) {
+                            foreach ($ipcr_subfunctions['ipcr_performance'] as $key2 => $ipcr_performance) {
+                                if ($ipcr_performance['id'] === $upload_files->ipcr_performance_function_id) {
+                                    $total_approved_ipcr = IpcrUploadFiles::where('faculty_id', $upload_files->faculty_id)
+                                        ->where('ipcr_performance_function_id',  $upload_files->ipcr_performance_function_id)
+                                        ->where('is_approved', true)
+                                        ->count();
 
-                                // $json_data['ipcr_function'][$key]['ipcr_performance'][$key2]['date_of_submission'] =
-                                //     !$ipcr_performance['date_of_submission'] ? Carbon::now()->format('Y-m-d') : null;
-                                $json_data['ipcr_function'][$key]['ipcr_performance'][$key2]['accomplished']  = $total_approved_ipcr;
+                                    $json_data['ipcr_function'][$key]['ipcr_subfunctions'][$key1]['ipcr_performance'][$key2]['accomplished']  = $total_approved_ipcr;
+                                }
                             }
                         }
                     }

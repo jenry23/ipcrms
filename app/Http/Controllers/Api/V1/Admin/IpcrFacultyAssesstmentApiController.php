@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\IpcrTemplates;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
 
 class IpcrFacultyAssesstmentApiController extends Controller
 {
@@ -26,9 +27,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
 
         if ($user->roles()->first()->title === 'Faculty') {
             $ipcr_active = IpcrTemplates::where('active', true)->first();
-
             $request['faculty_name'] = $user->name;
-
             $data = json_encode($request->all(), true);
 
             IpcrFacultyAssesstment::updateOrCreate([
@@ -69,7 +68,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
 
     public function getCampusDirectorAssesstment()
     {
-        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template'])->get();
+        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director', 'vp'])->get();
 
         return new IpcrResource($ipcr_faculty);
     }
@@ -93,5 +92,46 @@ class IpcrFacultyAssesstmentApiController extends Controller
             'Content-Type' => 'application/vnd.ms-excel',
             'Content-Disposition' => 'inline; filename="' . $filename . '"'
         ]);
+    }
+
+    public function uploadSignature(Request $request)
+    {
+        $assessment_id = $request->assessment_id;
+        $ipcr_faculty = IpcrFacultyAssesstment::findOrFail($assessment_id);
+
+        $file = $request->file('files');
+
+        $filename = $file->getClientOriginalName();
+
+        Storage::disk('public')->put($filename, file_get_contents($file));
+        $url = URL::asset('storage/' . $filename);
+
+        if ($request->is_dean) {
+            $ipcr_faculty->update([
+                'dean_signature' => $url,
+                'dean_id' => Auth::user()->id,
+                'status_id' => 'Done Evaludated by Dean'
+            ]);
+        } elseif ($request->is_hrmo) {
+            $ipcr_faculty->update([
+                'hrmo_signature' => $url,
+                'hrmo_id' => Auth::user()->id,
+                'status_id' => 'Done Evaludated by HRMO'
+            ]);
+        } elseif ($request->is_campus_director) {
+            $ipcr_faculty->update([
+                'campus_director_signature' => $url,
+                'campus_director_id' => Auth::user()->id,
+                'status_id' => 'Done Evaludated by Campus Director'
+            ]);
+        } elseif ($request->is_vp) {
+            $ipcr_faculty->update([
+                'vp_signature' => $url,
+                'vp_id' => Auth::user()->id,
+                'status_id' => 'Done Evaludated by VICE PRESIDENT FOR ACADEMIC AFFAIRS'
+            ]);
+        }
+
+        return new IpcrResource($ipcr_faculty);
     }
 }

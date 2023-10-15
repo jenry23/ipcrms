@@ -66,34 +66,42 @@ class IpcrTemplateApiController extends Controller
             ->map(function ($array) {
                 $performance = collect();
                 $ipcr_subfunctions = $array->ipcrSubFunction()->get();
-                $ipcr_subfunctions_id = $ipcr_subfunctions->pluck('id');
-                $sub_function = $ipcr_subfunctions->map(fn ($array) => ['id' => $array->id, 'name' => $array->name]);
-                $performance = IpcrPerformanceFunction::with(['uploadFiles'])->whereIn('ipcr_sub_function_id', $ipcr_subfunctions_id)
-                    ->get()
-                    ->map(function ($array) {
-                        if ($array->has('uploadFiles')) {
-                            $user_id = Auth::user()->id;
-                            $faculty_date = $array->uploadFiles->where('faculty_id', $user_id)->first();
-                            $date_completed = $faculty_date ? Carbon::parse($faculty_date->created_at)->format('Y-m-d') : null;
-                            $total_approved = $array->uploadFiles()->where('faculty_id', $user_id)->where('is_approved', true)->count();
-                        }
+                $sub_function = $ipcr_subfunctions->map(function ($array) {
+                    if ($array->has('ipcrPerformance')) {
+                        $performance = collect();
 
-                        return [
-                            'id' => $array->id,
-                            'name' => $array->name,
-                            'date_completed' => $date_completed,
-                            'total_approved' => $total_approved
-                        ];
-                    });
+                        $array->ipcrPerformance->map(function ($data) use ($performance) {
+                            if ($data->has('uploadFiles')) {
+                                $user_id = Auth::user()->id;
+                                $faculty_date = $data->uploadFiles->where('faculty_id', $user_id)->first();
+                                $date_completed = $faculty_date ? Carbon::parse($faculty_date->created_at)->format('Y-m-d') : null;
+                                $total_approved = $data->uploadFiles()->where('faculty_id', $user_id)->where('is_approved', true)->count();
+                            }
+
+                            $performance->push([
+                                'id' => $data->id,
+                                'name' => $data->name,
+                                'date_completed' => $date_completed,
+                                'total_approved' => $total_approved
+                            ]);
+                        });
+                    }
+
+                    return ['id' => $array->id, 'name' => $array->name, 'ipcr_performance' => $performance->toArray()];
+                });
+
                 return [
                     'name' => $array->name,
                     'ipcr_subfunctions' => $sub_function->toArray(),
-                    'ipcr_performance' => $performance->toArray(),
                 ];
             });
 
+        $user = Auth::user();
+        $roles = $user->roles->first();
 
         return response()->json([
+            'name' => $user->name,
+            'roles_name' => $roles->title,
             'ipcr_function' => $ipcr_functions->toArray(),
             'ipcr_signatory' => IpcrSignatory::get(),
         ]);

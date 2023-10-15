@@ -14,18 +14,29 @@ class IpcrFacultyAssesstment extends Model
 
     protected $guarded = ['id'];
 
-    protected $appends = [
-        'faculty_name',
-    ];
-
-    public function getFacultyNameAttribute(): string
-    {
-        return $this->faculty->name;
-    }
-
     public function faculty(): BelongsTo
     {
         return $this->belongsTo(User::class, 'faculty_id');
+    }
+
+    public function dean(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'dean_id');
+    }
+
+    public function hrmo(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'hrmo_id');
+    }
+
+    public function campus_director(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'campus_director_id');
+    }
+
+    public function vp(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'vp_id');
     }
 
     public function ipcr_template(): BelongsTo
