@@ -19,10 +19,13 @@
 								</div>
 							</h4>
 						</div>
-						<div class="container-fluid">
+						<div class="container-fluid" v-if="templates.ipcr_function">
+							<input type="file" ref="fileInput" style="display: none;" @change="handleFileUpload" />
+							<button class="btn btn-sm btn-primary ml-5" @click="openFileInput">Upload Signature</button>
+
 							<div class="card"
 								style="background-color: hsl(40, 100%, 97%); width: 90rem; margin-left: 43px"
-								v-if="templates.ipcr_function">
+								>
 								<form @submit.prevent="submitForm">
 									<div class="card-body">
 										<div class="float-right">
@@ -52,13 +55,20 @@
 										</div>
 										<table class="table table-border">
 											<tr>
+												<th>
+													Conforme:
+													{{ $t('auth.name') }}
+												</th>
 												<th v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
 													{{ signatory.level_of_assestment }} :
 													{{ signatory.name_of_signatories }}
 												</th>
 											</tr>
 											<tr>
-												<th v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
+												<th style="text-align: center;">
+													Ratee
+												</th>
+												<th style="text-align: center;" v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
 													{{ signatory.position }}
 												</th>
 											</tr>
@@ -66,19 +76,19 @@
 										<table class="table table-border two-table">
 											<thead>
 												<tr>
-													<th rowspan="2" colspan="1">PERFORMANCE INDICATOR</th>
-													<th rowspan="2" colspan="1">TARGET</th>
-													<th rowspan="2" colspan="1">ACCOMPLISHED</th>
-													<th rowspan="2" colspan="1">DATE OF SUBMISSION/COMPLETION</th>
-													<th rowspan="2" colspan="1">DATE SUBMITTED/COMPLETED</th>
-													<th rowspan="1" colspan="4">Rating</th>
-													<th rowspan="2" colspan="1">Remarks</th>
+													<th class="ipcr-font-size" rowspan="2" colspan="1">PERFORMANCE INDICATOR</th>
+													<th class="ipcr-font-size" rowspan="2" colspan="1">TARGET</th>
+													<th class="ipcr-font-size" rowspan="2" colspan="1">ACCOMPLISHED</th>
+													<th class="ipcr-font-size" rowspan="2" colspan="1">DATE OF SUBMISSION/COMPLETION</th>
+													<th class="ipcr-font-size" rowspan="2" colspan="1">DATE SUBMITTED/COMPLETED</th>
+													<th class="ipcr-font-size" rowspan="1" colspan="4">Rating</th>
+													<th class="ipcr-font-size" rowspan="2" colspan="1">Remarks</th>
 												</tr>
 												<tr>
-													<th scope="col">QTY</th>
-													<th scope="col">QL/E</th>
-													<th scope="col">T</th>
-													<th scope="col">A</th>
+													<th class="ipcr-font-size" scope="col">QTY</th>
+													<th class="ipcr-font-size" scope="col">QL/E</th>
+													<th class="ipcr-font-size" scope="col">T</th>
+													<th class="ipcr-font-size" scope="col">A</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -164,9 +174,9 @@
 												</tr>
 												<tr>
 													<th colspan="2">RATEE</th>
-													<th colspan="2">CAMPUS DIRECTOR</th>
+													<th colspan="2">DEAN</th>
 													<th colspan="2">HRMO</th>
-													<th colspan="4">VICE PRESIDENT FOR ACADEMIC AFFAIRS</th>
+													<th colspan="4">CAMPUS DIRECTOR</th>
 												</tr>
 											</tfoot>
 										</table>
@@ -202,11 +212,17 @@
 								</div>
 							</div>
 						</div>
-						<facultytemplate :templates="json" :signatures="signatures"></facultytemplate>
-						<VueHtml2pdf :manual-pagination="true" :enable-download="true" :paginate-elements-by-height="2000"
-							pdf-orientation="landscape" pdf-content-width="1200px" pdf-format="a3" ref="html2Pdf">
+						<facultytemplate :templates="json" :signatures="signatures">
+							<template>
+								<input type="file" ref="fileInput" style="display: none;" @change="handleFileUpload" />
+								<button class="btn btn-sm btn-primary ml-5" @click.prevent="openFileInput">Upload Signature</button>
+							</template>
+						</facultytemplate>
+						<VueHtml2pdf
+						 :manual-pagination="true" :enable-download="true" :paginate-elements-by-height="2000"
+							pdf-orientation="landscape" pdf-content-width="1200px" pdf-format="a1" ref="html2Pdf">
 							<section slot="pdf-content">
-								<facultytemplate :templates="json"></facultytemplate>
+								<facultytemplate :templates="json" :signatures="signatures"></facultytemplate>
 							</section>
 						</VueHtml2pdf>
 					</div>
@@ -219,6 +235,10 @@
 .remove-space {
 	margin: 0;
 	padding: 0;
+}
+
+.ipcr-font-size {
+	font-size: small !important;
 }
 
 table,
@@ -262,10 +282,6 @@ export default {
 			availableRate: true,
 			signatures: [],
 			json: [],
-			dean: [],
-			campus_director: [],
-			hrmo: [],
-			vp: [],
 		}
 	},
 
@@ -387,31 +403,68 @@ export default {
 
 		viewFiles (data) {
 			this.json = JSON.parse(data.data);
-			this.signatures = [{
-				'title': 'Discuss with:',
-				'name': data.dean_id ? data.dean.name : null,
-				'signature': data.dean_signature ?? null
-			},
-			{
-				'title': 'Assessed by:',
-				'name': data.campus_director_id ? data.campus_director.name : null,
-				'signature': data.campus_director_signature ?? null
-			},
+
+			this.signatures = [
 				{
-				'title': 'Checked by:',
-				'name': data.hrmo_id ? data.hrmo.name : null,
-				'signature': data.hrmo_signature ?? null
-			},
+					'title': 'Discussed with:',
+					'name': data.faculty_id ? data.faculty.name : null,
+					'signature': data.faculty_signature ?? null,
+				}, {
+					'title': 'Assessed by:',
+					'name': data.dean_id ? data.dean.name : null,
+					'signature': data.dean_signature ?? null
+				},
 				{
-				'title': 'Final Rating:',
-				'name': data.vp_id ? data.vp.name : null,
-				'signature': data.vp_signature ?? null,
-			}]
+					'title': 'Checked by:',
+					'name': data.hrmo_id ? data.hrmo.name : null,
+					'signature': data.hrmo_signature ?? null
+				},
+				{
+					'title': 'Final Rating:',
+					'name': data.campus_director_id ? data.campus_director.name : null,
+					'signature': data.campus_director_signature ?? null
+				}]
 		},
 
 		downloadFiles (data) {
 			this.json = JSON.parse(data);
 			this.$refs.html2Pdf.generatePdf()
+		},
+
+		openFileInput () {
+			// Trigger a click event on the hidden file input when the button is clicked
+			this.$refs.fileInput.click();
+		},
+
+		handleFileUpload (event) {
+			let form = new FormData();
+			let selectedFile = event.target.files[0];
+
+			let data = {
+				'assessment_id': this.faculty.id,
+				'files': selectedFile,
+				'is_faculty': 1
+			}
+
+			_.each(data, (value, key) => {
+				form.append(key, value);
+			})
+
+			let config = {
+				header: {
+					'Content-Type': 'multipart/form-data',
+				}
+			}
+
+			axios.post(`ipcr-faculty-assesstment/upload-signature`, form, config).then(response => {
+				this.$toast.success("Signature Sucessfully Saved!");
+				this.fetchFacultyIPCR();
+				window.location.reload();
+			}).catch(error => {
+				let message = error.response.data.message || error.message
+				this.$toast.error(message);
+			})
+			// You can now use the selectedFile object as needed
 		},
 	}
 }

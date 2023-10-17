@@ -7,7 +7,7 @@
 						<h4 class="card-title">
 							<div class="row">
 								<div class="col-md-10">
-									<strong>HRMO</strong>
+									<strong>Vice President Of Academic Affairs</strong>
 								</div>
 							</div>
 						</h4>
@@ -128,11 +128,11 @@
 																	disabled />
 															</td>
 															<td>
-																<input type="number" v-model="performance.quality"
+																<input type="number" v-model="performance.quantity"
 																	style="width: 50px" disabled />
 															</td>
 															<td>
-																<input type="number" v-model="performance.qle"
+																<input type="number" v-model="performance.quality"
 																	style="width: 50px" disabled />
 															</td>
 															<td>

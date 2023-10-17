@@ -1387,6 +1387,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1456,26 +1477,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editFiles: function editFiles(data) {
-      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+      var _data$faculty_signatu;
 
       this.templates = JSON.parse(data.data);
       this.templates.id = data.id;
       this.signatures = [{
-        'title': 'Discuss with:',
-        'name': data.dean_id ? data.dean.name : null,
-        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+        'title': 'Discussed with:',
+        'name': data.faculty_id ? data.faculty.name : null,
+        'signature': (_data$faculty_signatu = data.faculty_signature) !== null && _data$faculty_signatu !== void 0 ? _data$faculty_signatu : null
       }, {
         'title': 'Assessed by:',
-        'name': data.campus_director_id ? data.campus_director.name : null,
-        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': this.numericalRating > 0 ? data.dean_signature : null
       }, {
         'title': 'Checked by:',
         'name': data.hrmo_id ? data.hrmo.name : null,
-        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+        'signature': this.numericalRating > 0 ? data.hrmo_signature : null
       }, {
         'title': 'Final Rating:',
-        'name': data.vp_id ? data.vp.name : null,
-        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': this.numericalRating > 0 ? data.campus_director_signature : null
       }];
     },
     submitForm: function submitForm() {
@@ -1549,6 +1570,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_html2pdf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html2pdf */ "./node_modules/vue-html2pdf/dist/vue-html2pdf.esm.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1857,6 +1903,8 @@ __webpack_require__.r(__webpack_exports__);
         rating = 3; // On time
       } else if (daysDifference < -3) {
         rating = 1; // Extremely late
+      } else if (daysDifference >= 7 && daysDifference <= 8) {
+        rating = 4; // Extremely late
       } else {
         rating = 5; // Completed well ahead of schedule
       }
@@ -1864,26 +1912,26 @@ __webpack_require__.r(__webpack_exports__);
       this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].tar = rating;
     },
     editFiles: function editFiles(data) {
-      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+      var _data$faculty_signatu;
 
       this.templates = JSON.parse(data.data);
       this.templates.id = data.id;
       this.signatures = [{
-        'title': 'Discuss with:',
-        'name': data.dean_id ? data.dean.name : null,
-        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+        'title': 'Discussed with:',
+        'name': data.faculty_id ? data.faculty.name : null,
+        'signature': (_data$faculty_signatu = data.faculty_signature) !== null && _data$faculty_signatu !== void 0 ? _data$faculty_signatu : null
       }, {
         'title': 'Assessed by:',
-        'name': data.campus_director_id ? data.campus_director.name : null,
-        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': this.numericalRating > 0 ? data.dean_signature : null
       }, {
         'title': 'Checked by:',
         'name': data.hrmo_id ? data.hrmo.name : null,
-        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+        'signature': this.numericalRating > 0 ? data.hrmo_signature : null
       }, {
         'title': 'Final Rating:',
-        'name': data.vp_id ? data.vp.name : null,
-        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': this.numericalRating > 0 ? data.campus_director_signature : null
       }];
     },
     submitForm: function submitForm() {
@@ -2200,6 +2248,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2217,11 +2285,7 @@ __webpack_require__.r(__webpack_exports__);
       templates: [],
       availableRate: true,
       signatures: [],
-      json: [],
-      dean: [],
-      campus_director: [],
-      hrmo: [],
-      vp: []
+      json: []
     };
   },
   computed: {
@@ -2342,30 +2406,66 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     viewFiles: function viewFiles(data) {
-      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+      var _data$faculty_signatu, _data$dean_signature, _data$hrmo_signature, _data$campus_director;
 
       this.json = JSON.parse(data.data);
       this.signatures = [{
-        'title': 'Discuss with:',
-        'name': data.dean_id ? data.dean.name : null,
-        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+        'title': 'Discussed with:',
+        'name': data.faculty_id ? data.faculty.name : null,
+        'signature': (_data$faculty_signatu = data.faculty_signature) !== null && _data$faculty_signatu !== void 0 ? _data$faculty_signatu : null
       }, {
         'title': 'Assessed by:',
-        'name': data.campus_director_id ? data.campus_director.name : null,
-        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
       }, {
         'title': 'Checked by:',
         'name': data.hrmo_id ? data.hrmo.name : null,
         'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
       }, {
         'title': 'Final Rating:',
-        'name': data.vp_id ? data.vp.name : null,
-        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
       }];
     },
     downloadFiles: function downloadFiles(data) {
       this.json = JSON.parse(data);
       this.$refs.html2Pdf.generatePdf();
+    },
+    openFileInput: function openFileInput() {
+      // Trigger a click event on the hidden file input when the button is clicked
+      this.$refs.fileInput.click();
+    },
+    handleFileUpload: function handleFileUpload(event) {
+      var _this4 = this;
+
+      var form = new FormData();
+      var selectedFile = event.target.files[0];
+      var data = {
+        'assessment_id': this.faculty.id,
+        'files': selectedFile,
+        'is_faculty': 1
+      };
+
+      lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(data, function (value, key) {
+        form.append(key, value);
+      });
+
+      var config = {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post("ipcr-faculty-assesstment/upload-signature", form, config).then(function (response) {
+        _this4.$toast.success("Signature Sucessfully Saved!");
+
+        _this4.fetchFacultyIPCR();
+
+        window.location.reload();
+      })["catch"](function (error) {
+        var message = error.response.data.message || error.message;
+
+        _this4.$toast.error(message);
+      }); // You can now use the selectedFile object as needed
     }
   }
 });
@@ -2381,6 +2481,31 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2795,6 +2920,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2866,27 +3012,27 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editFiles: function editFiles(data) {
-      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+      var _data$faculty_signatu;
 
       this.templates = JSON.parse(data.data);
       this.templates.id = data.id; // this.templates.status_id = "Done Evaluate By Campus Director";
 
       this.signatures = [{
-        'title': 'Discuss with:',
-        'name': data.dean_id ? data.dean.name : null,
-        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+        'title': 'Discussed with:',
+        'name': data.faculty_id ? data.faculty.name : null,
+        'signature': (_data$faculty_signatu = data.faculty_signature) !== null && _data$faculty_signatu !== void 0 ? _data$faculty_signatu : null
       }, {
         'title': 'Assessed by:',
-        'name': data.campus_director_id ? data.campus_director.name : null,
-        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': this.numericalRating > 0 ? data.dean_signature : null
       }, {
         'title': 'Checked by:',
         'name': data.hrmo_id ? data.hrmo.name : null,
-        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+        'signature': this.numericalRating > 0 ? data.hrmo_signature : null
       }, {
         'title': 'Final Rating:',
-        'name': data.vp_id ? data.vp.name : null,
-        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': this.numericalRating > 0 ? data.campus_director_signature : null
       }];
     },
     submitForm: function submitForm() {
@@ -3410,7 +3556,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.remove-space {\r\n\tmargin: 0;\r\n\tpadding: 0;\n}\ntable,\r\nth,\r\ntd {\r\n\tborder: 1px solid !important;\r\n\tfont-weight: 500;\n}\n.two-table th {\r\n\tborder: 1px solid black;\r\n\ttext-align: center;\n}\n.two-table th {\r\n\tvertical-align: middle !important;\n}\n.two-table tbody {\r\n\tborder: 1px solid !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.remove-space {\r\n\tmargin: 0;\r\n\tpadding: 0;\n}\n.ipcr-font-size {\r\n\tfont-size: small !important;\n}\ntable,\r\nth,\r\ntd {\r\n\tborder: 1px solid !important;\r\n\tfont-weight: 500;\n}\n.two-table th {\r\n\tborder: 1px solid black;\r\n\ttext-align: center;\n}\n.two-table th {\r\n\tvertical-align: middle !important;\n}\n.two-table tbody {\r\n\tborder: 1px solid !important;\n}\r\n", ""]);
 
 // exports
 
@@ -5365,36 +5511,170 @@ var render = function() {
                             _c("table", { staticClass: "table table-border" }, [
                               _c(
                                 "tr",
-                                _vm._l(_vm.templates.ipcr_signatory, function(
-                                  signatory
-                                ) {
-                                  return _c("th", { key: signatory.id }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.level_of_assestment) +
-                                        " :\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.name_of_signatories) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                [
+                                  _c("th", [
+                                    _c("p", [_vm._v("Conforme:")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticStyle: { "margin-left": "30%" } },
+                                      [
+                                        _c("img", {
+                                          staticStyle: {
+                                            width: "128px",
+                                            height: "50px"
+                                          },
+                                          attrs: {
+                                            src: _vm.signatures[0].signature,
+                                            alt: "My Image"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          {
+                                            staticStyle: {
+                                              "margin-left": "30%"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              _vm._s(_vm.signatures[0].name)
+                                            )
+                                          ]
+                                        )
+                                      ]
                                     )
-                                  ])
-                                }),
-                                0
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.templates.ipcr_signatory, function(
+                                    signatory
+                                  ) {
+                                    return _c("th", { key: signatory.id }, [
+                                      _c("p", [
+                                        _vm._v(
+                                          _vm._s(signatory.level_of_assestment)
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      signatory.position === "Dean"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[1].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      signatory.position === "Campus Director"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[3].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ])
+                                  })
+                                ],
+                                2
                               ),
                               _vm._v(" "),
                               _c(
                                 "tr",
-                                _vm._l(_vm.templates.ipcr_signatory, function(
-                                  signatory
-                                ) {
-                                  return _c("th", { key: signatory.id }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.position) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                [
+                                  _c(
+                                    "th",
+                                    { staticStyle: { "text-align": "center" } },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t\tRatee\n\t\t\t\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.templates.ipcr_signatory, function(
+                                    signatory
+                                  ) {
+                                    return _c(
+                                      "th",
+                                      {
+                                        key: signatory.id,
+                                        staticStyle: { "text-align": "center" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(signatory.position) +
+                                            "\n\t\t\t\t\t\t\t\t\t\t"
+                                        )
+                                      ]
                                     )
-                                  ])
-                                }),
-                                0
+                                  })
+                                ],
+                                2
                               )
                             ]),
                             _vm._v(" "),
@@ -5688,6 +5968,51 @@ var render = function() {
                                                                 rawName:
                                                                   "v-model",
                                                                 value:
+                                                                  performance.quantity,
+                                                                expression:
+                                                                  "performance.quantity"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.quantity
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "quantity",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
                                                                   performance.quality,
                                                                 expression:
                                                                   "performance.quality"
@@ -5717,51 +6042,6 @@ var render = function() {
                                                                 _vm.$set(
                                                                   performance,
                                                                   "quality",
-                                                                  $event.target
-                                                                    .value
-                                                                )
-                                                              }
-                                                            }
-                                                          })
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("td", [
-                                                          _c("input", {
-                                                            directives: [
-                                                              {
-                                                                name: "model",
-                                                                rawName:
-                                                                  "v-model",
-                                                                value:
-                                                                  performance.qle,
-                                                                expression:
-                                                                  "performance.qle"
-                                                              }
-                                                            ],
-                                                            staticStyle: {
-                                                              width: "50px"
-                                                            },
-                                                            attrs: {
-                                                              type: "number",
-                                                              disabled: ""
-                                                            },
-                                                            domProps: {
-                                                              value:
-                                                                performance.qle
-                                                            },
-                                                            on: {
-                                                              input: function(
-                                                                $event
-                                                              ) {
-                                                                if (
-                                                                  $event.target
-                                                                    .composing
-                                                                ) {
-                                                                  return
-                                                                }
-                                                                _vm.$set(
-                                                                  performance,
-                                                                  "qle",
                                                                   $event.target
                                                                     .value
                                                                 )
@@ -5988,29 +6268,47 @@ var render = function() {
                                           }
                                         },
                                         [
-                                          _vm._v(
-                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                              _vm._s(signatory.title) +
-                                              "\n\t\t\t\t\t\t\t\t\t\t\t\t"
-                                          ),
+                                          _c("p", [
+                                            _vm._v(_vm._s(signatory.title))
+                                          ]),
+                                          _vm._v(" "),
                                           signatory.name
-                                            ? _c("span", [
-                                                _vm._v(
-                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                                    _vm._s(signatory.name) +
-                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                                                ),
-                                                _c("img", {
+                                            ? _c(
+                                                "span",
+                                                {
                                                   staticStyle: {
-                                                    width: "128px",
-                                                    height: "50px"
-                                                  },
-                                                  attrs: {
-                                                    src: signatory.signature,
-                                                    alt: "My Image"
+                                                    "margin-left": "102px"
                                                   }
-                                                })
-                                              ])
+                                                },
+                                                [
+                                                  _c("img", {
+                                                    staticStyle: {
+                                                      width: "128px",
+                                                      height: "50px"
+                                                    },
+                                                    attrs: {
+                                                      src: signatory.signature,
+                                                      alt: "My Image"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("br"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "p",
+                                                    {
+                                                      staticStyle: {
+                                                        "margin-left": "102px"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(signatory.name)
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
                                             : _vm._e()
                                         ]
                                       )
@@ -6139,13 +6437,11 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("RATEE")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "2" } }, [_vm._v("CAMPUS DIRECTOR")]),
+      _c("th", { attrs: { colspan: "2" } }, [_vm._v("DEAN")]),
       _vm._v(" "),
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("HRMO")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "4" } }, [
-        _vm._v("VICE PRESIDENT FOR ACADEMIC AFFAIRS")
-      ])
+      _c("th", { attrs: { colspan: "4" } }, [_vm._v("CAMPUS DIRECTOR")])
     ])
   },
   function() {
@@ -6461,36 +6757,170 @@ var render = function() {
                             _c("table", { staticClass: "table table-border" }, [
                               _c(
                                 "tr",
-                                _vm._l(_vm.templates.ipcr_signatory, function(
-                                  signatory
-                                ) {
-                                  return _c("th", { key: signatory.id }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.level_of_assestment) +
-                                        " :\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.name_of_signatories) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                [
+                                  _c("th", [
+                                    _c("p", [_vm._v("Conforme:")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticStyle: { "margin-left": "30%" } },
+                                      [
+                                        _c("img", {
+                                          staticStyle: {
+                                            width: "128px",
+                                            height: "50px"
+                                          },
+                                          attrs: {
+                                            src: _vm.signatures[0].signature,
+                                            alt: "My Image"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          {
+                                            staticStyle: {
+                                              "margin-left": "30%"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              _vm._s(_vm.signatures[0].name)
+                                            )
+                                          ]
+                                        )
+                                      ]
                                     )
-                                  ])
-                                }),
-                                0
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.templates.ipcr_signatory, function(
+                                    signatory
+                                  ) {
+                                    return _c("th", { key: signatory.id }, [
+                                      _c("p", [
+                                        _vm._v(
+                                          _vm._s(signatory.level_of_assestment)
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      signatory.position === "Dean"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[1].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      signatory.position === "Campus Director"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[3].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ])
+                                  })
+                                ],
+                                2
                               ),
                               _vm._v(" "),
                               _c(
                                 "tr",
-                                _vm._l(_vm.templates.ipcr_signatory, function(
-                                  signatory
-                                ) {
-                                  return _c("th", { key: signatory.id }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.position) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                [
+                                  _c(
+                                    "th",
+                                    { staticStyle: { "text-align": "center" } },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t\tRatee\n\t\t\t\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.templates.ipcr_signatory, function(
+                                    signatory
+                                  ) {
+                                    return _c(
+                                      "th",
+                                      {
+                                        key: signatory.id,
+                                        staticStyle: { "text-align": "center" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(signatory.position) +
+                                            "\n\t\t\t\t\t\t\t\t\t\t"
+                                        )
+                                      ]
                                     )
-                                  ])
-                                }),
-                                0
+                                  })
+                                ],
+                                2
                               )
                             ]),
                             _vm._v(" "),
@@ -7126,29 +7556,47 @@ var render = function() {
                                           }
                                         },
                                         [
-                                          _vm._v(
-                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                              _vm._s(signatory.title) +
-                                              "\n\t\t\t\t\t\t\t\t\t\t\t\t"
-                                          ),
+                                          _c("p", [
+                                            _vm._v(_vm._s(signatory.title))
+                                          ]),
+                                          _vm._v(" "),
                                           signatory.name
-                                            ? _c("span", [
-                                                _vm._v(
-                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                                    _vm._s(signatory.name) +
-                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                                                ),
-                                                _c("img", {
+                                            ? _c(
+                                                "span",
+                                                {
                                                   staticStyle: {
-                                                    width: "128px",
-                                                    height: "50px"
-                                                  },
-                                                  attrs: {
-                                                    src: signatory.signature,
-                                                    alt: "My Image"
+                                                    "margin-left": "102px"
                                                   }
-                                                })
-                                              ])
+                                                },
+                                                [
+                                                  _c("img", {
+                                                    staticStyle: {
+                                                      width: "128px",
+                                                      height: "50px"
+                                                    },
+                                                    attrs: {
+                                                      src: signatory.signature,
+                                                      alt: "My Image"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("br"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "p",
+                                                    {
+                                                      staticStyle: {
+                                                        "margin-left": "32%"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(signatory.name)
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
                                             : _vm._e()
                                         ]
                                       )
@@ -7277,13 +7725,11 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("RATEE")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "2" } }, [_vm._v("CAMPUS DIRECTOR")]),
+      _c("th", { attrs: { colspan: "2" } }, [_vm._v("DEAN")]),
       _vm._v(" "),
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("HRMO")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "4" } }, [
-        _vm._v("VICE PRESIDENT FOR ACADEMIC AFFAIRS")
-      ])
+      _c("th", { attrs: { colspan: "4" } }, [_vm._v("CAMPUS DIRECTOR")])
     ])
   },
   function() {
@@ -7372,9 +7818,25 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("div", { staticClass: "container-fluid" }, [
-                _vm.templates.ipcr_function
-                  ? _c(
+              _vm.templates.ipcr_function
+                ? _c("div", { staticClass: "container-fluid" }, [
+                    _c("input", {
+                      ref: "fileInput",
+                      staticStyle: { display: "none" },
+                      attrs: { type: "file" },
+                      on: { change: _vm.handleFileUpload }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary ml-5",
+                        on: { click: _vm.openFileInput }
+                      },
+                      [_vm._v("Upload Signature")]
+                    ),
+                    _vm._v(" "),
+                    _c(
                       "div",
                       {
                         staticClass: "card",
@@ -7553,42 +8015,81 @@ var render = function() {
                                 [
                                   _c(
                                     "tr",
-                                    _vm._l(
-                                      _vm.templates.ipcr_signatory,
-                                      function(signatory) {
-                                        return _c("th", { key: signatory.id }, [
-                                          _vm._v(
-                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                              _vm._s(
-                                                signatory.level_of_assestment
-                                              ) +
-                                              " :\n\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                              _vm._s(
-                                                signatory.name_of_signatories
-                                              ) +
-                                              "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                    [
+                                      _c("th", [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t\t\t\tConforme:\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(_vm.$t("auth.name")) +
+                                            "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._l(
+                                        _vm.templates.ipcr_signatory,
+                                        function(signatory) {
+                                          return _c(
+                                            "th",
+                                            { key: signatory.id },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                  _vm._s(
+                                                    signatory.level_of_assestment
+                                                  ) +
+                                                  " :\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                  _vm._s(
+                                                    signatory.name_of_signatories
+                                                  ) +
+                                                  "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                              )
+                                            ]
                                           )
-                                        ])
-                                      }
-                                    ),
-                                    0
+                                        }
+                                      )
+                                    ],
+                                    2
                                   ),
                                   _vm._v(" "),
                                   _c(
                                     "tr",
-                                    _vm._l(
-                                      _vm.templates.ipcr_signatory,
-                                      function(signatory) {
-                                        return _c("th", { key: signatory.id }, [
+                                    [
+                                      _c(
+                                        "th",
+                                        {
+                                          staticStyle: {
+                                            "text-align": "center"
+                                          }
+                                        },
+                                        [
                                           _vm._v(
-                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                              _vm._s(signatory.position) +
-                                              "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                            "\n\t\t\t\t\t\t\t\t\t\t\t\tRatee\n\t\t\t\t\t\t\t\t\t\t\t"
                                           )
-                                        ])
-                                      }
-                                    ),
-                                    0
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._l(
+                                        _vm.templates.ipcr_signatory,
+                                        function(signatory) {
+                                          return _c(
+                                            "th",
+                                            {
+                                              key: signatory.id,
+                                              staticStyle: {
+                                                "text-align": "center"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                  _vm._s(signatory.position) +
+                                                  "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                              )
+                                            ]
+                                          )
+                                        }
+                                      )
+                                    ],
+                                    2
                                   )
                                 ]
                               ),
@@ -8227,8 +8728,8 @@ var render = function() {
                         )
                       ]
                     )
-                  : _vm._e()
-              ]),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 Object.keys(_vm.faculty).length !== 0
@@ -8286,9 +8787,35 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c("facultytemplate", {
-                attrs: { templates: _vm.json, signatures: _vm.signatures }
-              }),
+              _c(
+                "facultytemplate",
+                { attrs: { templates: _vm.json, signatures: _vm.signatures } },
+                [
+                  [
+                    _c("input", {
+                      ref: "fileInput",
+                      staticStyle: { display: "none" },
+                      attrs: { type: "file" },
+                      on: { change: _vm.handleFileUpload }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary ml-5",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.openFileInput($event)
+                          }
+                        }
+                      },
+                      [_vm._v("Upload Signature")]
+                    )
+                  ]
+                ],
+                2
+              ),
               _vm._v(" "),
               _c(
                 "VueHtml2pdf",
@@ -8300,14 +8827,21 @@ var render = function() {
                     "paginate-elements-by-height": 2000,
                     "pdf-orientation": "landscape",
                     "pdf-content-width": "1200px",
-                    "pdf-format": "a3"
+                    "pdf-format": "a1"
                   }
                 },
                 [
                   _c(
                     "section",
                     { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
-                    [_c("facultytemplate", { attrs: { templates: _vm.json } })],
+                    [
+                      _c("facultytemplate", {
+                        attrs: {
+                          templates: _vm.json,
+                          signatures: _vm.signatures
+                        }
+                      })
+                    ],
                     1
                   )
                 ]
@@ -8347,37 +8881,86 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
-          _vm._v("PERFORMANCE INDICATOR")
-        ]),
+        _c(
+          "th",
+          {
+            staticClass: "ipcr-font-size",
+            attrs: { rowspan: "2", colspan: "1" }
+          },
+          [_vm._v("PERFORMANCE INDICATOR")]
+        ),
         _vm._v(" "),
-        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("TARGET")]),
+        _c(
+          "th",
+          {
+            staticClass: "ipcr-font-size",
+            attrs: { rowspan: "2", colspan: "1" }
+          },
+          [_vm._v("TARGET")]
+        ),
         _vm._v(" "),
-        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
-          _vm._v("ACCOMPLISHED")
-        ]),
+        _c(
+          "th",
+          {
+            staticClass: "ipcr-font-size",
+            attrs: { rowspan: "2", colspan: "1" }
+          },
+          [_vm._v("ACCOMPLISHED")]
+        ),
         _vm._v(" "),
-        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
-          _vm._v("DATE OF SUBMISSION/COMPLETION")
-        ]),
+        _c(
+          "th",
+          {
+            staticClass: "ipcr-font-size",
+            attrs: { rowspan: "2", colspan: "1" }
+          },
+          [_vm._v("DATE OF SUBMISSION/COMPLETION")]
+        ),
         _vm._v(" "),
-        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [
-          _vm._v("DATE SUBMITTED/COMPLETED")
-        ]),
+        _c(
+          "th",
+          {
+            staticClass: "ipcr-font-size",
+            attrs: { rowspan: "2", colspan: "1" }
+          },
+          [_vm._v("DATE SUBMITTED/COMPLETED")]
+        ),
         _vm._v(" "),
-        _c("th", { attrs: { rowspan: "1", colspan: "4" } }, [_vm._v("Rating")]),
+        _c(
+          "th",
+          {
+            staticClass: "ipcr-font-size",
+            attrs: { rowspan: "1", colspan: "4" }
+          },
+          [_vm._v("Rating")]
+        ),
         _vm._v(" "),
-        _c("th", { attrs: { rowspan: "2", colspan: "1" } }, [_vm._v("Remarks")])
+        _c(
+          "th",
+          {
+            staticClass: "ipcr-font-size",
+            attrs: { rowspan: "2", colspan: "1" }
+          },
+          [_vm._v("Remarks")]
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("QTY")]),
+        _c("th", { staticClass: "ipcr-font-size", attrs: { scope: "col" } }, [
+          _vm._v("QTY")
+        ]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("QL/E")]),
+        _c("th", { staticClass: "ipcr-font-size", attrs: { scope: "col" } }, [
+          _vm._v("QL/E")
+        ]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("T")]),
+        _c("th", { staticClass: "ipcr-font-size", attrs: { scope: "col" } }, [
+          _vm._v("T")
+        ]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("A")])
+        _c("th", { staticClass: "ipcr-font-size", attrs: { scope: "col" } }, [
+          _vm._v("A")
+        ])
       ])
     ])
   },
@@ -8388,13 +8971,11 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("RATEE")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "2" } }, [_vm._v("CAMPUS DIRECTOR")]),
+      _c("th", { attrs: { colspan: "2" } }, [_vm._v("DEAN")]),
       _vm._v(" "),
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("HRMO")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "4" } }, [
-        _vm._v("VICE PRESIDENT FOR ACADEMIC AFFAIRS")
-      ])
+      _c("th", { attrs: { colspan: "4" } }, [_vm._v("CAMPUS DIRECTOR")])
     ])
   },
   function() {
@@ -8444,467 +9025,69 @@ var render = function() {
   return _vm.templates.ipcr_function
     ? _c(
         "div",
-        {
-          staticClass: "card",
-          staticStyle: {
-            "background-color": "hsl(40, 100%, 97%)",
-            width: "90rem",
-            "margin-left": "43px"
-          }
-        },
         [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "float-right" }, [
-              _c("p", { staticClass: "remove-space" }, [
-                _vm._v("SPMS Form 02")
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "remove-space" }, [
-                _vm._v("Date: " + _vm._s(_vm.dateToday))
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "remove-space" }, [_vm._v("Revised: 03")])
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", [
-              _c("p", { staticStyle: { "word-wrap": "break-word" } }, [
-                _vm._v("\n\t\t\t\tI,"),
-                _c("input", {
-                  attrs: { type: "text", size: "15", disabled: "" },
-                  domProps: { value: _vm.$t("auth.name") }
-                }),
+          _vm._t("default"),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "card",
+              staticStyle: {
+                "background-color": "hsl(40, 100%, 97%)",
+                width: "90rem",
+                "margin-left": "43px"
+              }
+            },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "float-right" }, [
+                  _c("p", { staticClass: "remove-space" }, [
+                    _vm._v("SPMS Form 02")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "remove-space" }, [
+                    _vm._v("Date: " + _vm._s(_vm.dateToday))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "remove-space" }, [
+                    _vm._v("Revised: 03")
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("input", {
-                  attrs: { type: "text", size: "20", disabled: "" },
-                  domProps: { value: _vm.$t("auth.role_name") }
-                }),
-                _vm._v(
-                  "\n\t\t\t\tof the Laguna State Polytechnic University, commit to deliver and agree to the rated of\n\t\t\t\tthe following in accordance with the indicated measures for the\n\t\t\t\t"
-                ),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.templates.semester,
-                      expression: "templates.semester"
-                    }
-                  ],
-                  attrs: { type: "text", size: "5", disabled: "" },
-                  domProps: { value: _vm.templates.semester },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.templates, "semester", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" Semester of Academic\n\t\t\t\tYear "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.templates.year,
-                      expression: "templates.year"
-                    }
-                  ],
-                  attrs: { type: "text", size: "5", disabled: "" },
-                  domProps: { value: _vm.templates.year },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.templates, "year", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(".\n\t\t\t")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("table", { staticClass: "table table-border" }, [
-              _c(
-                "tr",
-                _vm._l(_vm.templates.ipcr_signatory, function(signatory) {
-                  return _c("th", { key: signatory.id }, [
+                _c("br"),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", [
+                  _c("p", { staticStyle: { "word-wrap": "break-word" } }, [
+                    _vm._v("\n\t\t\t\tI,"),
+                    _c("input", {
+                      attrs: { type: "text", size: "15", disabled: "" },
+                      domProps: { value: _vm.$t("auth.name") }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "text", size: "20", disabled: "" },
+                      domProps: { value: _vm.$t("auth.role_name") }
+                    }),
                     _vm._v(
-                      "\n\t\t\t\t\t" +
-                        _vm._s(signatory.level_of_assestment) +
-                        " :\n\t\t\t\t\t" +
-                        _vm._s(signatory.name_of_signatories) +
-                        "\n\t\t\t\t"
-                    )
-                  ])
-                }),
-                0
-              ),
-              _vm._v(" "),
-              _c(
-                "tr",
-                _vm._l(_vm.templates.ipcr_signatory, function(signatory) {
-                  return _c("th", { key: signatory.id }, [
-                    _vm._v(
-                      "\n\t\t\t\t\t" + _vm._s(signatory.position) + "\n\t\t\t\t"
-                    )
-                  ])
-                }),
-                0
-              )
-            ]),
-            _vm._v(" "),
-            _c("table", { staticClass: "table table-border two-table" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _vm._m(2),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.templates.ipcr_function, function(ipcrFunction) {
-                    return [
-                      _c("tr", [
-                        _c("td", { attrs: { colspan: "10" } }, [
-                          _vm._v(_vm._s(ipcrFunction.name))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(ipcrFunction.ipcr_subfunctions, function(
-                        ipcrSubfunction
-                      ) {
-                        return [
-                          _c("tr", [
-                            _c("td", { attrs: { colspan: "10" } }, [
-                              _vm._v(_vm._s(ipcrSubfunction.name))
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(ipcrSubfunction.ipcr_performance, function(
-                            performance
-                          ) {
-                            return [
-                              _c("tr", [
-                                _c("td", [_vm._v(_vm._s(performance.name))]),
-                                _vm._v(" "),
-                                _c("td", { staticStyle: { display: "none" } }, [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.id,
-                                        expression: "performance.id"
-                                      }
-                                    ],
-                                    attrs: { type: "text" },
-                                    domProps: { value: performance.id },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "id",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.target,
-                                        expression: "performance.target"
-                                      }
-                                    ],
-                                    attrs: { type: "number" },
-                                    domProps: { value: performance.target },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "target",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.accomplished,
-                                        expression: "performance.accomplished"
-                                      }
-                                    ],
-                                    attrs: { type: "number", disabled: "" },
-                                    domProps: {
-                                      value: performance.accomplished
-                                    },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "accomplished",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.date_of_submission,
-                                        expression:
-                                          "performance.date_of_submission"
-                                      }
-                                    ],
-                                    attrs: { type: "date", disabled: "" },
-                                    domProps: {
-                                      value: performance.date_of_submission
-                                    },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "date_of_submission",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.date_completed,
-                                        expression: "performance.date_completed"
-                                      }
-                                    ],
-                                    attrs: { type: "date", disabled: "" },
-                                    domProps: {
-                                      value: performance.date_completed
-                                    },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "date_completed",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.quantity,
-                                        expression: "performance.quantity"
-                                      }
-                                    ],
-                                    staticStyle: { width: "50px" },
-                                    attrs: { type: "number", disabled: "" },
-                                    domProps: { value: performance.quantity },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "quantity",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.quality,
-                                        expression: "performance.quality"
-                                      }
-                                    ],
-                                    staticStyle: { width: "50px" },
-                                    attrs: { type: "number", disabled: "" },
-                                    domProps: { value: performance.quality },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "quality",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.tar,
-                                        expression: "performance.tar"
-                                      }
-                                    ],
-                                    staticStyle: { width: "50px" },
-                                    attrs: { type: "number", disabled: "" },
-                                    domProps: { value: performance.tar },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "tar",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.asc,
-                                        expression: "performance.asc"
-                                      }
-                                    ],
-                                    staticStyle: { width: "50px" },
-                                    attrs: { type: "number", disabled: "" },
-                                    domProps: { value: performance.asc },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "asc",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: performance.remarks,
-                                        expression: "performance.remarks"
-                                      }
-                                    ],
-                                    attrs: { type: "text", disabled: "" },
-                                    domProps: { value: performance.remarks },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          performance,
-                                          "remarks",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ])
-                              ])
-                            ]
-                          })
-                        ]
-                      })
-                    ]
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c("tfoot", [
-                _c("tr", [
-                  _c("td", { attrs: { colspan: "5" } }, [
-                    _vm._v(
-                      "\n\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t"
+                      "\n\t\t\t\tof the Laguna State Polytechnic University, commit to deliver and agree to the rated of\n\t\t\t\tthe following in accordance with the indicated measures for the\n\t\t\t\t"
                     ),
                     _c("input", {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.templates.recommendation,
-                          expression: "templates.recommendation"
+                          value: _vm.templates.semester,
+                          expression: "templates.semester"
                         }
                       ],
-                      attrs: { type: "text", size: "70", disabled: "" },
-                      domProps: { value: _vm.templates.recommendation },
+                      attrs: { type: "text", size: "5", disabled: "" },
+                      domProps: { value: _vm.templates.semester },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
@@ -8912,68 +9095,599 @@ var render = function() {
                           }
                           _vm.$set(
                             _vm.templates,
-                            "recommendation",
+                            "semester",
                             $event.target.value
                           )
                         }
                       }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v("Numerical Rating: " + _vm._s(_vm.numericalRating))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { attrs: { colspan: "4" } }, [
-                    _vm._v("Adjectival Rating: " + _vm._s(_vm.adjectivalRating))
+                    }),
+                    _vm._v(" Semester of Academic\n\t\t\t\tYear "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.templates.year,
+                          expression: "templates.year"
+                        }
+                      ],
+                      attrs: { type: "text", size: "5", disabled: "" },
+                      domProps: { value: _vm.templates.year },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.templates, "year", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(".\n\t\t\t")
                   ])
                 ]),
                 _vm._v(" "),
-                _c(
-                  "tr",
-                  _vm._l(_vm.signatures, function(signatory, index) {
-                    return _c(
-                      "td",
-                      {
-                        key: index,
-                        attrs: {
-                          colspan:
-                            signatory.title === "Final Rating:" ? "4" : "2"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t" +
-                            _vm._s(signatory.title) +
-                            "\n\t\t\t\t\t\t"
-                        ),
-                        signatory.name
-                          ? _c("span", [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t" +
-                                  _vm._s(signatory.name) +
-                                  "\n\t\t\t\t\t\t\t"
-                              ),
-                              _c("img", {
-                                staticStyle: { width: "128px", height: "50px" },
-                                attrs: {
-                                  src: signatory.signature,
-                                  alt: "My Image"
-                                }
-                              })
-                            ])
-                          : _vm._e()
-                      ]
-                    )
-                  }),
-                  0
-                ),
+                _c("table", { staticClass: "table table-border" }, [
+                  _c(
+                    "tr",
+                    [
+                      _c("th", [
+                        _c("p", [_vm._v("Conforme:")]),
+                        _vm._v(" "),
+                        _c("span", { staticStyle: { "margin-left": "30%" } }, [
+                          _c("img", {
+                            staticStyle: { width: "128px", height: "50px" },
+                            attrs: {
+                              src: _vm.signatures[0].signature,
+                              alt: "My Image"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("p", { staticStyle: { "margin-left": "30%" } }, [
+                            _vm._v(_vm._s(_vm.signatures[0].name))
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.templates.ipcr_signatory, function(signatory) {
+                        return _c("th", { key: signatory.id }, [
+                          _c("p", [
+                            _vm._v(_vm._s(signatory.level_of_assestment))
+                          ]),
+                          _vm._v(" "),
+                          signatory.position === "Dean"
+                            ? _c(
+                                "span",
+                                { staticStyle: { "margin-left": "30%" } },
+                                [
+                                  _c("img", {
+                                    staticStyle: {
+                                      width: "128px",
+                                      height: "50px"
+                                    },
+                                    attrs: {
+                                      src: _vm.signatures[1].signature,
+                                      alt: "My Image"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticStyle: { "margin-left": "30%" } },
+                                    [
+                                      _vm._v(
+                                        _vm._s(signatory.name_of_signatories)
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          signatory.position === "Campus Director"
+                            ? _c(
+                                "span",
+                                { staticStyle: { "margin-left": "30%" } },
+                                [
+                                  _c("img", {
+                                    staticStyle: {
+                                      width: "128px",
+                                      height: "50px"
+                                    },
+                                    attrs: {
+                                      src: _vm.signatures[3].signature,
+                                      alt: "My Image"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticStyle: { "margin-left": "30%" } },
+                                    [
+                                      _vm._v(
+                                        _vm._s(signatory.name_of_signatories)
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "tr",
+                    [
+                      _c("th", { staticStyle: { "text-align": "center" } }, [
+                        _vm._v("\n\t\t\t\t\tRatee\n\t\t\t\t")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.templates.ipcr_signatory, function(signatory) {
+                        return _c(
+                          "th",
+                          {
+                            key: signatory.id,
+                            staticStyle: { "text-align": "center" }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t" +
+                                _vm._s(signatory.position) +
+                                "\n\t\t\t\t"
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ]),
                 _vm._v(" "),
-                _vm._m(3)
+                _c("table", { staticClass: "table table-border two-table" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.templates.ipcr_function, function(
+                        ipcrFunction
+                      ) {
+                        return [
+                          _c("tr", [
+                            _c("td", { attrs: { colspan: "10" } }, [
+                              _vm._v(_vm._s(ipcrFunction.name))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(ipcrFunction.ipcr_subfunctions, function(
+                            ipcrSubfunction
+                          ) {
+                            return [
+                              _c("tr", [
+                                _c("td", { attrs: { colspan: "10" } }, [
+                                  _vm._v(_vm._s(ipcrSubfunction.name))
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(ipcrSubfunction.ipcr_performance, function(
+                                performance
+                              ) {
+                                return [
+                                  _c("tr", [
+                                    _c("td", [
+                                      _vm._v(_vm._s(performance.name))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      { staticStyle: { display: "none" } },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: performance.id,
+                                              expression: "performance.id"
+                                            }
+                                          ],
+                                          attrs: { type: "text" },
+                                          domProps: { value: performance.id },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                performance,
+                                                "id",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: performance.target,
+                                            expression: "performance.target"
+                                          }
+                                        ],
+                                        attrs: { type: "number", disabled: "" },
+                                        domProps: { value: performance.target },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "target",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: performance.accomplished,
+                                            expression:
+                                              "performance.accomplished"
+                                          }
+                                        ],
+                                        attrs: { type: "number", disabled: "" },
+                                        domProps: {
+                                          value: performance.accomplished
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "accomplished",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value:
+                                              performance.date_of_submission,
+                                            expression:
+                                              "performance.date_of_submission"
+                                          }
+                                        ],
+                                        attrs: { type: "date", disabled: "" },
+                                        domProps: {
+                                          value: performance.date_of_submission
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "date_of_submission",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: performance.date_completed,
+                                            expression:
+                                              "performance.date_completed"
+                                          }
+                                        ],
+                                        attrs: { type: "date", disabled: "" },
+                                        domProps: {
+                                          value: performance.date_completed
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "date_completed",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: performance.quantity,
+                                            expression: "performance.quantity"
+                                          }
+                                        ],
+                                        staticStyle: { width: "50px" },
+                                        attrs: { type: "number", disabled: "" },
+                                        domProps: {
+                                          value: performance.quantity
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "quantity",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: performance.quality,
+                                            expression: "performance.quality"
+                                          }
+                                        ],
+                                        staticStyle: { width: "50px" },
+                                        attrs: { type: "number", disabled: "" },
+                                        domProps: {
+                                          value: performance.quality
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "quality",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: performance.tar,
+                                            expression: "performance.tar"
+                                          }
+                                        ],
+                                        staticStyle: { width: "50px" },
+                                        attrs: { type: "number", disabled: "" },
+                                        domProps: { value: performance.tar },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "tar",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: performance.asc,
+                                            expression: "performance.asc"
+                                          }
+                                        ],
+                                        staticStyle: { width: "50px" },
+                                        attrs: { type: "number", disabled: "" },
+                                        domProps: { value: performance.asc },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "asc",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: performance.remarks,
+                                            expression: "performance.remarks"
+                                          }
+                                        ],
+                                        attrs: { type: "text", disabled: "" },
+                                        domProps: {
+                                          value: performance.remarks
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              performance,
+                                              "remarks",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ])
+                                  ])
+                                ]
+                              })
+                            ]
+                          })
+                        ]
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c("tfoot", [
+                    _c("tr", [
+                      _c("td", { attrs: { colspan: "5" } }, [
+                        _vm._v(
+                          "\n\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t"
+                        ),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.templates.recommendation,
+                              expression: "templates.recommendation"
+                            }
+                          ],
+                          attrs: { type: "text", size: "70", disabled: "" },
+                          domProps: { value: _vm.templates.recommendation },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.templates,
+                                "recommendation",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "Numerical Rating: " + _vm._s(_vm.numericalRating)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { attrs: { colspan: "4" } }, [
+                        _vm._v(
+                          "Adjectival Rating: " + _vm._s(_vm.adjectivalRating)
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      _vm._l(_vm.signatures, function(signatory, index) {
+                        return _c(
+                          "td",
+                          {
+                            key: index,
+                            attrs: {
+                              colspan:
+                                signatory.title === "Final Rating:" ? "4" : "2"
+                            }
+                          },
+                          [
+                            _c("p", [_vm._v(_vm._s(signatory.title))]),
+                            _vm._v(" "),
+                            signatory.name
+                              ? _c(
+                                  "span",
+                                  { staticStyle: { "margin-left": "102px" } },
+                                  [
+                                    _c("img", {
+                                      staticStyle: {
+                                        width: "128px",
+                                        height: "50px"
+                                      },
+                                      attrs: {
+                                        src: signatory.signature,
+                                        alt: "My Image"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "p",
+                                      {
+                                        staticStyle: { "margin-left": "102px" }
+                                      },
+                                      [_vm._v(_vm._s(signatory.name))]
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ]
+                        )
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _vm._m(3)
+                  ])
+                ])
               ])
-            ])
-          ])
-        ]
+            ]
+          )
+        ],
+        2
       )
     : _vm._e()
 }
@@ -9037,13 +9751,11 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("RATEE")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "2" } }, [_vm._v("CAMPUS DIRECTOR")]),
+      _c("th", { attrs: { colspan: "2" } }, [_vm._v("DEAN")]),
       _vm._v(" "),
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("HRMO")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "4" } }, [
-        _vm._v("VICE PRESIDENT FOR ACADEMIC AFFAIRS")
-      ])
+      _c("th", { attrs: { colspan: "4" } }, [_vm._v("CAMPUS DIRECTOR")])
     ])
   }
 ]
@@ -9340,36 +10052,170 @@ var render = function() {
                             _c("table", { staticClass: "table table-border" }, [
                               _c(
                                 "tr",
-                                _vm._l(_vm.templates.ipcr_signatory, function(
-                                  signatory
-                                ) {
-                                  return _c("th", { key: signatory.id }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.level_of_assestment) +
-                                        " :\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.name_of_signatories) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                [
+                                  _c("th", [
+                                    _c("p", [_vm._v("Conforme:")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticStyle: { "margin-left": "30%" } },
+                                      [
+                                        _c("img", {
+                                          staticStyle: {
+                                            width: "128px",
+                                            height: "50px"
+                                          },
+                                          attrs: {
+                                            src: _vm.signatures[0].signature,
+                                            alt: "My Image"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          {
+                                            staticStyle: {
+                                              "margin-left": "30%"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              _vm._s(_vm.signatures[0].name)
+                                            )
+                                          ]
+                                        )
+                                      ]
                                     )
-                                  ])
-                                }),
-                                0
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.templates.ipcr_signatory, function(
+                                    signatory
+                                  ) {
+                                    return _c("th", { key: signatory.id }, [
+                                      _c("p", [
+                                        _vm._v(
+                                          _vm._s(signatory.level_of_assestment)
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      signatory.position === "Dean"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[1].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      signatory.position === "Campus Director"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[3].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ])
+                                  })
+                                ],
+                                2
                               ),
                               _vm._v(" "),
                               _c(
                                 "tr",
-                                _vm._l(_vm.templates.ipcr_signatory, function(
-                                  signatory
-                                ) {
-                                  return _c("th", { key: signatory.id }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.position) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                [
+                                  _c(
+                                    "th",
+                                    { staticStyle: { "text-align": "center" } },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t\tRatee\n\t\t\t\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.templates.ipcr_signatory, function(
+                                    signatory
+                                  ) {
+                                    return _c(
+                                      "th",
+                                      {
+                                        key: signatory.id,
+                                        staticStyle: { "text-align": "center" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(signatory.position) +
+                                            "\n\t\t\t\t\t\t\t\t\t\t"
+                                        )
+                                      ]
                                     )
-                                  ])
-                                }),
-                                0
+                                  })
+                                ],
+                                2
                               )
                             ]),
                             _vm._v(" "),
@@ -9663,6 +10509,51 @@ var render = function() {
                                                                 rawName:
                                                                   "v-model",
                                                                 value:
+                                                                  performance.quantity,
+                                                                expression:
+                                                                  "performance.quantity"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.quantity
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "quantity",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
                                                                   performance.quality,
                                                                 expression:
                                                                   "performance.quality"
@@ -9692,51 +10583,6 @@ var render = function() {
                                                                 _vm.$set(
                                                                   performance,
                                                                   "quality",
-                                                                  $event.target
-                                                                    .value
-                                                                )
-                                                              }
-                                                            }
-                                                          })
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("td", [
-                                                          _c("input", {
-                                                            directives: [
-                                                              {
-                                                                name: "model",
-                                                                rawName:
-                                                                  "v-model",
-                                                                value:
-                                                                  performance.qle,
-                                                                expression:
-                                                                  "performance.qle"
-                                                              }
-                                                            ],
-                                                            staticStyle: {
-                                                              width: "50px"
-                                                            },
-                                                            attrs: {
-                                                              type: "number",
-                                                              disabled: ""
-                                                            },
-                                                            domProps: {
-                                                              value:
-                                                                performance.qle
-                                                            },
-                                                            on: {
-                                                              input: function(
-                                                                $event
-                                                              ) {
-                                                                if (
-                                                                  $event.target
-                                                                    .composing
-                                                                ) {
-                                                                  return
-                                                                }
-                                                                _vm.$set(
-                                                                  performance,
-                                                                  "qle",
                                                                   $event.target
                                                                     .value
                                                                 )
@@ -9963,29 +10809,47 @@ var render = function() {
                                           }
                                         },
                                         [
-                                          _vm._v(
-                                            "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                              _vm._s(signatory.title) +
-                                              "\n\t\t\t\t\t\t\t\t\t\t\t\t"
-                                          ),
+                                          _c("p", [
+                                            _vm._v(_vm._s(signatory.title))
+                                          ]),
+                                          _vm._v(" "),
                                           signatory.name
-                                            ? _c("span", [
-                                                _vm._v(
-                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                                    _vm._s(signatory.name) +
-                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                                                ),
-                                                _c("img", {
+                                            ? _c(
+                                                "span",
+                                                {
                                                   staticStyle: {
-                                                    width: "128px",
-                                                    height: "50px"
-                                                  },
-                                                  attrs: {
-                                                    src: signatory.signature,
-                                                    alt: "My Image"
+                                                    "margin-left": "102px"
                                                   }
-                                                })
-                                              ])
+                                                },
+                                                [
+                                                  _c("img", {
+                                                    staticStyle: {
+                                                      width: "128px",
+                                                      height: "50px"
+                                                    },
+                                                    attrs: {
+                                                      src: signatory.signature,
+                                                      alt: "My Image"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("br"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "p",
+                                                    {
+                                                      staticStyle: {
+                                                        "margin-left": "102px"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(signatory.name)
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
                                             : _vm._e()
                                         ]
                                       )
@@ -10114,13 +10978,11 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("RATEE")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "2" } }, [_vm._v("CAMPUS DIRECTOR")]),
+      _c("th", { attrs: { colspan: "2" } }, [_vm._v("DEAN")]),
       _vm._v(" "),
       _c("th", { attrs: { colspan: "2" } }, [_vm._v("HRMO")]),
       _vm._v(" "),
-      _c("th", { attrs: { colspan: "4" } }, [
-        _vm._v("VICE PRESIDENT FOR ACADEMIC AFFAIRS")
-      ])
+      _c("th", { attrs: { colspan: "4" } }, [_vm._v("CAMPUS DIRECTOR")])
     ])
   },
   function() {
@@ -10801,6 +11663,51 @@ var render = function() {
                                                                 rawName:
                                                                   "v-model",
                                                                 value:
+                                                                  performance.quantity,
+                                                                expression:
+                                                                  "performance.quantity"
+                                                              }
+                                                            ],
+                                                            staticStyle: {
+                                                              width: "50px"
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              disabled: ""
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                performance.quantity
+                                                            },
+                                                            on: {
+                                                              input: function(
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  performance,
+                                                                  "quantity",
+                                                                  $event.target
+                                                                    .value
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("td", [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
                                                                   performance.quality,
                                                                 expression:
                                                                   "performance.quality"
@@ -10830,51 +11737,6 @@ var render = function() {
                                                                 _vm.$set(
                                                                   performance,
                                                                   "quality",
-                                                                  $event.target
-                                                                    .value
-                                                                )
-                                                              }
-                                                            }
-                                                          })
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("td", [
-                                                          _c("input", {
-                                                            directives: [
-                                                              {
-                                                                name: "model",
-                                                                rawName:
-                                                                  "v-model",
-                                                                value:
-                                                                  performance.qle,
-                                                                expression:
-                                                                  "performance.qle"
-                                                              }
-                                                            ],
-                                                            staticStyle: {
-                                                              width: "50px"
-                                                            },
-                                                            attrs: {
-                                                              type: "number",
-                                                              disabled: ""
-                                                            },
-                                                            domProps: {
-                                                              value:
-                                                                performance.qle
-                                                            },
-                                                            on: {
-                                                              input: function(
-                                                                $event
-                                                              ) {
-                                                                if (
-                                                                  $event.target
-                                                                    .composing
-                                                                ) {
-                                                                  return
-                                                                }
-                                                                _vm.$set(
-                                                                  performance,
-                                                                  "qle",
                                                                   $event.target
                                                                     .value
                                                                 )
@@ -11186,7 +12048,7 @@ var staticRenderFns = [
         _c("h4", { staticClass: "card-title" }, [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-10" }, [
-              _c("strong", [_vm._v("HRMO")])
+              _c("strong", [_vm._v("Vice President Of Academic Affairs")])
             ])
           ])
         ])

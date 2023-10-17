@@ -49,7 +49,6 @@ class IpcrFacultyAssesstmentApiController extends Controller
             $ipcr_faculty_assement = IpcrFacultyAssesstment::findOrFail($request->id);
 
             $ipcr_faculty_assement->update([
-                'status_id' => $request->status_id,
                 'data' => $data,
                 $roles_id => $user->id
             ]);
@@ -61,14 +60,14 @@ class IpcrFacultyAssesstmentApiController extends Controller
     public function getFacultyAssesstment()
     {
         $user_id = Auth::user()->id;
-        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template'])->where('faculty_id', $user_id)->first();
+        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])->where('faculty_id', $user_id)->first();
 
         return new IpcrResource($ipcr_faculty);
     }
 
     public function getCampusDirectorAssesstment()
     {
-        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director', 'vp'])->get();
+        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])->get();
 
         return new IpcrResource($ipcr_faculty);
     }
@@ -110,25 +109,25 @@ class IpcrFacultyAssesstmentApiController extends Controller
             $ipcr_faculty->update([
                 'dean_signature' => $url,
                 'dean_id' => Auth::user()->id,
-                'status_id' => 'Done Evaludated by Dean'
+                'status_id' => 'Done Evaluated by Dean'
             ]);
         } elseif ($request->is_hrmo) {
             $ipcr_faculty->update([
                 'hrmo_signature' => $url,
                 'hrmo_id' => Auth::user()->id,
-                'status_id' => 'Done Evaludated by HRMO'
+                'status_id' => 'Done Evaluated by HRMO'
             ]);
         } elseif ($request->is_campus_director) {
             $ipcr_faculty->update([
                 'campus_director_signature' => $url,
                 'campus_director_id' => Auth::user()->id,
-                'status_id' => 'Done Evaludated by Campus Director'
+                'status_id' => 'Done Evaluated by Campus Director'
             ]);
-        } elseif ($request->is_vp) {
+        } elseif ($request->is_faculty) {
             $ipcr_faculty->update([
-                'vp_signature' => $url,
-                'vp_id' => Auth::user()->id,
-                'status_id' => 'Done Evaludated by VICE PRESIDENT FOR ACADEMIC AFFAIRS'
+                'faculty_signature' => $url,
+                'faculty_id' => Auth::user()->id,
+                'status_id' => 'On Going Assessment'
             ]);
         }
 

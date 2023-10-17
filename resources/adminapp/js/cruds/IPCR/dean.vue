@@ -67,13 +67,33 @@
 									</div>
 									<table class="table table-border">
 										<tr>
+											<th>
+												<p>Conforme:</p>
+													<span style="margin-left: 30%;">
+													<img :src="signatures[0].signature" alt="My Image"
+														style=" width: 128px; height: 50px;">
+													<p  style="margin-left: 30%;">{{signatures[0].name }}</p>
+												</span>
+											</th>
 											<th v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
-												{{ signatory.level_of_assestment }} :
-												{{ signatory.name_of_signatories }}
+												<p>{{ signatory.level_of_assestment }}</p>
+												<span style="margin-left: 30%;" v-if="signatory.position === 'Dean'">
+													<img :src="signatures[1].signature" alt="My Image"
+														style=" width: 128px; height: 50px;">
+														<p  style="margin-left: 30%;">{{ signatory.name_of_signatories }}</p>
+												</span>
+												<span style="margin-left: 30%;" v-if="signatory.position === 'Campus Director'">
+													<img :src="signatures[3].signature" alt="My Image"
+														style=" width: 128px; height: 50px;">
+													<p  style="margin-left: 30%;">{{ signatory.name_of_signatories }}</p>
+												</span>
 											</th>
 										</tr>
 										<tr>
-											<th v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
+											<th style="text-align: center;">
+												Ratee
+											</th>
+											<th style="text-align: center;" v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
 												{{ signatory.position }}
 											</th>
 										</tr>
@@ -99,11 +119,13 @@
 												<tr>
 													<td colspan="10">{{ ipcrFunction.name }}</td>
 												</tr>
-												<template v-for="(ipcrSubfunction, index1) in ipcrFunction.ipcr_subfunctions">
+												<template
+													v-for="(ipcrSubfunction, index1) in ipcrFunction.ipcr_subfunctions">
 													<tr>
 														<td colspan="10">{{ ipcrSubfunction.name }}</td>
 													</tr>
-													<template v-for="(performance, index2) in ipcrSubfunction.ipcr_performance">
+													<template
+														v-for="(performance, index2) in ipcrSubfunction.ipcr_performance">
 														<tr>
 															<td>{{ performance.name }}</td>
 															<td style="display: none">
@@ -165,20 +187,23 @@
 												<td colspan="4">Adjectival Rating: {{ adjectivalRating }}</td>
 											</tr>
 											<tr>
-												<td v-for="(signatory, index) in signatures" :colspan="signatory.title === 'Final Rating:' ? '4' : '2'" :key="index">
-													{{ signatory.title }}
-													<span v-if="signatory.name">
-														{{ signatory.name }}
+												<td v-for="(signatory, index) in signatures"
+													:colspan="signatory.title === 'Final Rating:' ? '4' : '2'"
+													:key="index">
+													<p>{{ signatory.title }}</p>
+													<span style="margin-left: 102px;" v-if="signatory.name">
 														<img :src="signatory.signature" alt="My Image"
 															style=" width: 128px; height: 50px;">
+														<br>
+														<p style="margin-left: 32%;">{{ signatory.name }}</p>
 													</span>
 												</td>
 											</tr>
 											<tr>
 												<th colspan="2">RATEE</th>
-												<th colspan="2">CAMPUS DIRECTOR</th>
+												<th colspan="2">DEAN</th>
 												<th colspan="2">HRMO</th>
-												<th colspan="4">VICE PRESIDENT FOR ACADEMIC AFFAIRS</th>
+												<th colspan="4">CAMPUS DIRECTOR</th>
 											</tr>
 										</tfoot>
 									</table>
@@ -278,7 +303,7 @@ export default {
 			})
 		},
 
-		setQuantity (value, index2, index1,  index) {
+		setQuantity (value, index2, index1, index) {
 			let sum = 0;
 
 			if (value.target) {
@@ -321,6 +346,8 @@ export default {
 				rating = 3; // On time
 			} else if (daysDifference < -3) {
 				rating = 1; // Extremely late
+			} else if (daysDifference >= 7 && daysDifference <= 8) {
+				rating = 4; // Extremely late
 			} else {
 				rating = 5; // Completed well ahead of schedule
 			}
@@ -332,26 +359,26 @@ export default {
 			this.templates = JSON.parse(data.data);
 			this.templates.id = data.id;
 
-			this.signatures = [{
-				'title': 'Discuss with:',
-				'name': data.dean_id ? data.dean.name : null,
-				'signature': data.dean_signature ?? null
-			},
-			{
-				'title': 'Assessed by:',
-				'name': data.campus_director_id ? data.campus_director.name : null,
-				'signature': data.campus_director_signature ?? null
-			},
-			{
-				'title': 'Checked by:',
-				'name': data.hrmo_id ? data.hrmo.name : null,
-				'signature': data.hrmo_signature ?? null
-			},
-			{
-				'title': 'Final Rating:',
-				'name': data.vp_id ? data.vp.name : null,
-				'signature': data.vp_signature ?? null,
-			}]
+			this.signatures = [
+				{
+					'title': 'Discussed with:',
+					'name': data.faculty_id ? data.faculty.name : null,
+					'signature': data.faculty_signature ?? null,
+				}, {
+					'title': 'Assessed by:',
+					'name': data.dean_id ? data.dean.name : null,
+					'signature':  this.numericalRating > 0 ? data.dean_signature : null
+				},
+				{
+					'title': 'Checked by:',
+					'name': data.hrmo_id ? data.hrmo.name : null,
+					'signature': this.numericalRating > 0 ? data.hrmo_signature : null
+				},
+				{
+					'title': 'Final Rating:',
+					'name': data.campus_director_id ? data.campus_director.name : null,
+					'signature': this.numericalRating > 0 ? data.campus_director_signature : null
+				}]
 		},
 
 		submitForm () {
