@@ -276,9 +276,9 @@ export default {
 
 					_.each(value2.ipcr_performance, (value3, key4) => {
 						if (value3.asc) {
-							sum += parseInt(value3.asc);
+							sum += parseFloat(value3.asc);
 						}
-						total_ipcr_performance3 + 1;
+						total_ipcr_performance3 = key4 + 1;
 					})
 					total_ipcr_performance2 += total_ipcr_performance3
 					sum1 += sum;

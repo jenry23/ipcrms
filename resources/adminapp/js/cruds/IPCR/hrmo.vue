@@ -260,25 +260,50 @@ export default {
 	computed: {
 		numericalRating () {
 			let result = 0;
+			let total_ipcr_performance1 = 0;
+
 			_.each(this.templates.ipcr_function, (value, key) => {
 				let sum1 = 0;
+				let total_ipcr_performance2 = 0;
+
 				_.each(value.ipcr_subfunctions, (value2, key2) => {
 					let sum = 0;
+					let total_ipcr_performance3 = 0;
+
 					_.each(value2.ipcr_performance, (value3, key4) => {
-						if (value3.quality) {
-							sum += parseInt(value3.quality);
+						if (value3.asc) {
+							sum += parseFloat(value3.asc);
 						}
+						total_ipcr_performance3 = key4 + 1;
 					})
+					total_ipcr_performance2 += total_ipcr_performance3
 					sum1 += sum;
 				})
+				total_ipcr_performance1 += total_ipcr_performance2;
 				result += sum1;
 			});
-			return result;
+
+			let compute = result / total_ipcr_performance1;
+
+			return parseFloat(compute.toFixed(2));
 		},
 
-
 		adjectivalRating () {
-			return this.numericalRating / 100;
+			let value = null;
+
+			if(this.numericalRating >= 4 && this.numericalRating < 5) {
+				value = 'Very Satisfactory';
+			} else if(this.numericalRating >= 3 && this.numericalRating < 4) {
+				value = 'Satisfactory';
+			} else if(this.numericalRating >= 2 && this.numericalRating < 3) {
+				value = 'Unsatisfactory';
+			} else if(this.numericalRating >= 1 && this.numericalRating < 2) {
+				value = 'Poor';
+			} else {
+				value = 'Outstanding';
+			}
+
+			return value;
 		},
 
 		dateToday () {
