@@ -195,7 +195,7 @@
 					<VueHtml2pdf :manual-pagination="true" :enable-download="true" :paginate-elements-by-height="2000"
 						pdf-orientation="landscape" pdf-content-width="1200px" pdf-format="a3" ref="html2Pdf">
 						<section slot="pdf-content">
-							<facultytemplate :templates="json"></facultytemplate>
+							<facultytemplate :templates="json" :signatures="signatures"></facultytemplate>
 						</section>
 					</VueHtml2pdf>
 				</div>
