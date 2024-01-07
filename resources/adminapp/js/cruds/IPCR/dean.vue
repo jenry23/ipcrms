@@ -220,7 +220,7 @@
 					<VueHtml2pdf :manual-pagination="true" :enable-download="true" :paginate-elements-by-height="2000"
 						pdf-orientation="landscape" pdf-content-width="1200px" pdf-format="a3" ref="html2Pdf">
 						<section slot="pdf-content">
-							<facultytemplate :templates="json" :signatures="signatures"></facultytemplate>
+							<facultytemplate :templates="templates" :signatures="signatures"></facultytemplate>
 						</section>
 					</VueHtml2pdf>
 				</div>
@@ -356,7 +356,7 @@ export default {
 		},
 
 		editFiles (data) {
-			this.json = JSON.parse(data.data);
+			this.templates = JSON.parse(data.data);
 			this.templates.id = data.id;
 
 			this.signatures = [
