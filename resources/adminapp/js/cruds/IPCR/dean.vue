@@ -287,7 +287,9 @@ export default {
 				result += sum1;
 			});
 
-			return Math.round(result / total_ipcr_performance1 * 100) / 100;
+			let compute = result / total_ipcr_performance1;
+
+			return parseFloat(compute.toFixed(2));
 		},
 
 		adjectivalRating () {
