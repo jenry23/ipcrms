@@ -82,6 +82,11 @@
 														style=" width: 128px; height: 50px;">
 														<p  style="margin-left: 30%;">{{ signatory.name_of_signatories }}</p>
 												</span>
+												<span style="margin-left: 30%;" v-if="signatory.position === 'HRMO'">
+													<img :src="signatures[2].signature" alt="My Image"
+														style=" width: 128px; height: 50px;">
+														<p  style="margin-left: 30%;">{{ signatory.name_of_signatories }}</p>
+												</span>
 												<span style="margin-left: 30%;" v-if="signatory.position === 'Campus Director'">
 													<img :src="signatures[3].signature" alt="My Image"
 														style=" width: 128px; height: 50px;">
@@ -272,11 +277,26 @@ export default {
 				})
 				result += sum1;
 			});
-			return result;
+
+			return Math.min(Math.max(result, 1), 5);
 		},
 
 		adjectivalRating () {
-			return this.numericalRating / 100;
+			let value = null;
+
+			if (this.numericalRating === 5) {
+				value = 'Outstanding';
+			} else if(this.numericalRating === 4) {
+				value = 'Very Satisfactory';
+			} else if(this.numericalRating === 3) {
+				value = 'Satisfactory';
+			} else if(this.numericalRating === 2) {
+				value = 'Unsatisfactory';
+			} else if(this.numericalRating === 1) {
+				value = 'Poor';
+			}
+
+			return value;
 		},
 
 		dateToday () {
