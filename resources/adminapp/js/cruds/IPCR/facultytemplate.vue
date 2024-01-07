@@ -96,7 +96,7 @@
 										<input type="date" v-model="performance.date_of_submission" disabled />
 									</td>
 									<td>
-										<input type="date" v-model="performance.date_completed" disabled />
+										<input type="input" v-model="performance.date_completed" disabled />
 									</td>
 									<td>
 										<input type="number" v-model="performance.quantity" style="width: 50px"

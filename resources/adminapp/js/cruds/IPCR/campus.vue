@@ -144,7 +144,7 @@
 																	v-model="performance.date_of_submission" disabled />
 															</td>
 															<td>
-																<input type="date" v-model="performance.date_completed"
+																<input type="input" v-model="performance.date_completed"
 																	disabled />
 															</td>
 															<td>
