@@ -77,6 +77,8 @@ class UploadFileApiController extends Controller
 
     public function approvedFile($id)
     {
+        $json_data = null;
+
         DB::transaction(function () use ($id) {
             $upload_files = IpcrUploadFiles::findOrFail($id);
 
@@ -85,8 +87,6 @@ class UploadFileApiController extends Controller
             $ipcr_active_assessment = IpcrFacultyAssesstment::where('faculty_id', $upload_files->faculty_id)
                 ->latest()
                 ->first();
-
-            $json_data = null;
 
             if ($ipcr_active_assessment) {
                 $json_data = json_decode($ipcr_active_assessment->data, true);
