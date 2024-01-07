@@ -308,7 +308,11 @@ export default {
 			return value;
 		},
 
- {
+		dateToday () {
+			let date = new Date();
+			this.templates.date_today = `${date.getMonth()}, ${date.getFullYear()}`;
+
+			return this.templates.date_today;
 		},
 	},
 
@@ -340,7 +344,123 @@ export default {
 			return sum;
 		},
 
-,
+		setTarget (value) {
+
+		},
+
+		computeAverage (value, index2, index1, index) {
+			let sum = 0;
+
+			this.number1 = Math.min(5, Math.max(1, parseInt(value.quantity)));
+			this.number2 = Math.min(5, Math.max(1, parseInt(value.quality)));
+			this.number3 = Math.min(5, Math.max(1, parseInt(value.tar)));
+
+			// Calculate the average of the three numbers
+			sum = (this.number1 + this.number2 + this.number3) / 3;
+
+			this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].asc = sum
+		},
+
+		computedTarget (value, index2, index1, index) {
+			const startDate = new Date(value.date_completed);
+			const endDate = new Date(value.date_of_submission);
+
+			const timeDifference = endDate - startDate;
+			let rating = 0;
+			// Calculate the number of days late or early (assuming 24 hours per day)
+			const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+			// Define your rating scale based on your criteria
+			if (daysDifference >= -3 && daysDifference <= 3) {
+				rating = 3; // On time
+			} else if (daysDifference < -3) {
+				rating = 1; // Extremely late
+			} else if (daysDifference >= 7 && daysDifference <= 8) {
+				rating = 4; // Extremely late
+			} else {
+				rating = 5; // Completed well ahead of schedule
+			}
+
+			this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].tar = rating;
+		},
+
+		editFiles (data) {
+			this.templates = JSON.parse(data.data);
+			this.templates.id = data.id;
+
+			this.signatures = [
+				{
+					'title': 'Discussed with:',
+					'name': data.faculty_id ? data.faculty.name : null,
+					'signature': data.faculty_signature ?? null,
+				}, {
+					'title': 'Assessed by:',
+					'name': data.dean_id ? data.dean.name : null,
+					'signature':  this.numericalRating > 0 ? data.dean_signature : null
+				},
+				{
+					'title': 'Checked by:',
+					'name': data.hrmo_id ? data.hrmo.name : null,
+					'signature': this.numericalRating > 0 ? data.hrmo_signature : null
+				},
+				{
+					'title': 'Final Rating:',
+					'name': data.campus_director_id ? data.campus_director.name : null,
+					'signature': this.numericalRating > 0 ? data.campus_director_signature : null
+				}]
+			console.log(this.signatures);
+		},
+
+		submitForm () {
+			axios.post(`ipcr-faculty-assesstment`, this.templates).then(response => {
+				this.$toast.success("IPCR Evaluate successfully saved!");
+				window.location.reload();
+			}).catch(error => {
+				let message = error.response.data.message || error.message
+				this.$toast.error(message);
+			})
+		},
+
+		downloadFiles (data) {
+			this.json = JSON.parse(data);
+			this.$refs.html2Pdf.generatePdf()
+		},
+
+		openFileInput () {
+			// Trigger a click event on the hidden file input when the button is clicked
+			this.$refs.fileInput.click();
+		},
+
+		handleFileUpload (event) {
+			let form = new FormData();
+			let selectedFile = event.target.files[0];
+
+			let data = {
+				'assessment_id': this.templates.id,
+				'files': selectedFile,
+				'is_dean': 1
+			}
+
+			_.each(data, (value, key) => {
+				form.append(key, value);
+			})
+
+			let config = {
+				header: {
+					'Content-Type': 'multipart/form-data',
+				}
+			}
+
+			axios.post(`ipcr-faculty-assesstment/upload-signature`, form, config).then(response => {
+				this.$toast.success("Signature Sucessfully Saved!");
+				this.fetchDeanIPCR();
+				window.location.reload();
+			}).catch(error => {
+				let message = error.response.data.message || error.message
+				this.$toast.error(message);
+			})
+			// You can now use the selectedFile object as needed
+		},
 
 	}
 }
