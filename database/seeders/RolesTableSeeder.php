@@ -24,7 +24,7 @@ class RolesTableSeeder extends Seeder
             ],
             [
                 'id'    => 4,
-                'title' => 'Hrmo',
+                'title' => 'HRMO',
             ],
             [
                 'id'    => 5,
@@ -32,7 +32,7 @@ class RolesTableSeeder extends Seeder
             ],
             [
                 'id' => 6,
-                'title' => 'Vp'
+                'title' => 'VICE PRESIDENT FOR ACADEMIC AFFAIRS'
             ]
         ];
 

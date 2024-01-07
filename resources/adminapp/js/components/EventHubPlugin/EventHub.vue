@@ -52,7 +52,7 @@ export default {
   },
   watch: {
     $route: {
-      handler() {
+      handler () {
         axios.get('abilities').then(response => {
           this.$ability.update([
             { subject: 'all', actions: response.data.data }
