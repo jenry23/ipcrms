@@ -77,9 +77,9 @@ class UploadFileApiController extends Controller
 
     public function approvedFile($id)
     {
-        $json_data = null;
+        $json_results = null;
 
-        DB::transaction(function () use ($id) {
+        DB::transaction(function () use ($id, &$json_results) {
             $upload_files = IpcrUploadFiles::findOrFail($id);
 
             $upload_files->update(['is_approved' => true]);
@@ -112,9 +112,11 @@ class UploadFileApiController extends Controller
             }
 
             $ipcr_active_assessment->update(['data' => json_encode($json_data, true)]);
+
+            $json_results = $json_data;
         });
 
-        return response()->json($json_data);
+        return response()->json($json_results);
     }
 
     public function show($id)
