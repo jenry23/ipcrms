@@ -298,7 +298,6 @@ export default {
 
 		editFiles (data) {
 			this.json = JSON.parse(data.data);
-			this.templates = JSON.parse(data.data);
 			this.templates.id = data.id;
 
 			this.signatures = [
