@@ -145,7 +145,7 @@
 																	@input="computedTarget(performance, index2, index1, index)" />
 															</td>
 															<td>
-																<input type="input" v-model="performance.date_completed"
+																<input type="date" v-model="performance.date_completed"
 																	disabled />
 															</td>
 															<td>
