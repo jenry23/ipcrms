@@ -86,6 +86,8 @@ class UploadFileApiController extends Controller
                 ->latest()
                 ->first();
 
+            $json_data = null;
+
             if ($ipcr_active_assessment) {
                 $json_data = json_decode($ipcr_active_assessment->data, true);
 
@@ -112,7 +114,7 @@ class UploadFileApiController extends Controller
             $ipcr_active_assessment->update(['data' => json_encode($json_data, true)]);
         });
 
-        return response()->json();
+        return response()->json($json_data);
     }
 
     public function show($id)
