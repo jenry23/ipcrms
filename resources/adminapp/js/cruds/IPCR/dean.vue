@@ -379,6 +379,7 @@ export default {
 					'name': data.campus_director_id ? data.campus_director.name : null,
 					'signature': this.numericalRating > 0 ? data.campus_director_signature : null
 				}]
+			console.log(this.signatures);
 		},
 
 		submitForm () {
