@@ -132,7 +132,11 @@
 													<template
 														v-for="(performance, index2) in ipcrSubfunction.ipcr_performance">
 														<tr>
-															<td>{{ performance.name }}</td>
+															<td>
+																<router-link to="upload-files">
+																	{{ performance.name }}
+																</router-link>
+															</td>
 															<td style="display: none">
 																<input type="text" v-model="performance.id" />
 															</td>
