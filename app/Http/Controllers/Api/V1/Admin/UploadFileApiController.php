@@ -119,19 +119,21 @@ class UploadFileApiController extends Controller
         return response()->json($json_results);
     }
 
-    public function show($id)
+    public function showData(int $id, Request $request)
     {
         $user = Auth::user();
 
         if ($user->roles()->first()->title === 'Faculty') {
-            $ipcr_files = IpcrUploadFiles::with(['ipcrFunction', 'uploader'])->where('faculty_id', $user->id)
+            $ipcr_files = IpcrUploadFiles::with(['ipcrPerformanceFunction', 'uploader'])
+                ->where('faculty_id', $user->id)
                 ->where('ipcr_function_id', $id)
-                ->get();
+                ->advancedFilter();
         } else {
-            $ipcr_files = IpcrUploadFiles::with(['ipcrFunction', 'uploader'])->where('ipcr_function_id', $id)
-                ->get();
+            $ipcr_files = IpcrUploadFiles::with(['ipcrPerformanceFunction', 'uploader'])
+                ->where('ipcr_function_id', $id)
+                ->advancedFilter();
         }
 
-        return response()->json($ipcr_files);
+        return new IpcrResource($ipcr_files);
     }
 }

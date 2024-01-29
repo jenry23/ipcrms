@@ -14,6 +14,24 @@ class IpcrUploadFiles extends Model
 
     protected $guarded = ['id'];
 
+    protected $orderable = [
+        'id',
+        'ipcr_function_id',
+        'ipcr_performance_function.name',
+        'file_name',
+        'description',
+        'remarks',
+        'faculty_id',
+        'is_approved',
+    ];
+
+    protected $filterable = [
+        'id',
+        'file_name',
+        'description',
+        'remarks',
+    ];
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

@@ -1408,6 +1408,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1431,29 +1436,51 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     numericalRating: function numericalRating() {
       var result = 0;
+      var total_ipcr_performance1 = 0;
 
       _.each(this.templates.ipcr_function, function (value, key) {
         var sum1 = 0;
+        var total_ipcr_performance2 = 0;
 
         _.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
+          var total_ipcr_performance3 = 0;
 
           _.each(value2.ipcr_performance, function (value3, key4) {
-            if (value3.quality) {
-              sum += parseInt(value3.quality);
+            if (value3.asc) {
+              sum += parseFloat(value3.asc);
             }
+
+            total_ipcr_performance3 = key4 + 1;
           });
 
+          total_ipcr_performance2 += total_ipcr_performance3;
           sum1 += sum;
         });
 
+        total_ipcr_performance1 += total_ipcr_performance2;
         result += sum1;
       });
 
-      return result;
+      var compute = result / total_ipcr_performance1;
+      return parseFloat(compute.toFixed(2));
     },
     adjectivalRating: function adjectivalRating() {
-      return this.numericalRating / 100;
+      var value = null;
+
+      if (this.numericalRating >= 4 && this.numericalRating < 5) {
+        value = 'Very Satisfactory';
+      } else if (this.numericalRating >= 3 && this.numericalRating < 4) {
+        value = 'Satisfactory';
+      } else if (this.numericalRating >= 2 && this.numericalRating < 3) {
+        value = 'Unsatisfactory';
+      } else if (this.numericalRating >= 1 && this.numericalRating < 2) {
+        value = 'Poor';
+      } else {
+        value = 'Outstanding';
+      }
+
+      return value;
     },
     dateToday: function dateToday() {
       var date = new Date();
@@ -1801,6 +1828,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1826,29 +1862,51 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     numericalRating: function numericalRating() {
       var result = 0;
+      var total_ipcr_performance1 = 0;
 
       lodash__WEBPACK_IMPORTED_MODULE_2___default.a.each(this.templates.ipcr_function, function (value, key) {
         var sum1 = 0;
+        var total_ipcr_performance2 = 0;
 
         lodash__WEBPACK_IMPORTED_MODULE_2___default.a.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
+          var total_ipcr_performance3 = 0;
 
           lodash__WEBPACK_IMPORTED_MODULE_2___default.a.each(value2.ipcr_performance, function (value3, key4) {
-            if (value3.quality) {
-              sum += parseInt(value3.quality);
+            if (value3.asc) {
+              sum += parseFloat(value3.asc);
             }
+
+            total_ipcr_performance3 = key4 + 1;
           });
 
+          total_ipcr_performance2 += total_ipcr_performance3;
           sum1 += sum;
         });
 
+        total_ipcr_performance1 += total_ipcr_performance2;
         result += sum1;
       });
 
-      return result;
+      var compute = result / total_ipcr_performance1;
+      return parseFloat(compute.toFixed(2));
     },
     adjectivalRating: function adjectivalRating() {
-      return this.numericalRating / 100;
+      var value = null;
+
+      if (this.numericalRating >= 4 && this.numericalRating < 5) {
+        value = 'Very Satisfactory';
+      } else if (this.numericalRating >= 3 && this.numericalRating < 4) {
+        value = 'Satisfactory';
+      } else if (this.numericalRating >= 2 && this.numericalRating < 3) {
+        value = 'Unsatisfactory';
+      } else if (this.numericalRating >= 1 && this.numericalRating < 2) {
+        value = 'Poor';
+      } else {
+        value = 'Outstanding';
+      }
+
+      return value;
     },
     dateToday: function dateToday() {
       var date = new Date();
@@ -1933,6 +1991,7 @@ __webpack_require__.r(__webpack_exports__);
         'name': data.campus_director_id ? data.campus_director.name : null,
         'signature': this.numericalRating > 0 ? data.campus_director_signature : null
       }];
+      console.log(this.signatures);
     },
     submitForm: function submitForm() {
       var _this2 = this;
@@ -2291,29 +2350,51 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     numericalRating: function numericalRating() {
       var result = 0;
+      var total_ipcr_performance1 = 0;
 
       lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(this.templates.ipcr_function, function (value, key) {
         var sum1 = 0;
+        var total_ipcr_performance2 = 0;
 
         lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
+          var total_ipcr_performance3 = 0;
 
           lodash__WEBPACK_IMPORTED_MODULE_0___default.a.each(value2.ipcr_performance, function (value3, key4) {
-            if (value3.quality) {
-              sum += parseInt(value3.quality);
+            if (value3.asc) {
+              sum += parseFloat(value3.asc);
             }
+
+            total_ipcr_performance3 = key4 + 1;
           });
 
+          total_ipcr_performance2 += total_ipcr_performance3;
           sum1 += sum;
         });
 
+        total_ipcr_performance1 += total_ipcr_performance2;
         result += sum1;
       });
 
-      return result;
+      var compute = result / total_ipcr_performance1;
+      return parseFloat(compute.toFixed(2));
     },
     adjectivalRating: function adjectivalRating() {
-      return this.numericalRating / 100;
+      var value = null;
+
+      if (this.numericalRating >= 4 && this.numericalRating < 5) {
+        value = 'Very Satisfactory';
+      } else if (this.numericalRating >= 3 && this.numericalRating < 4) {
+        value = 'Satisfactory';
+      } else if (this.numericalRating >= 2 && this.numericalRating < 3) {
+        value = 'Unsatisfactory';
+      } else if (this.numericalRating >= 1 && this.numericalRating < 2) {
+        value = 'Poor';
+      } else {
+        value = 'Outstanding';
+      }
+
+      return value;
     },
     dateToday: function dateToday() {
       var date = new Date();
@@ -2661,6 +2742,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     templates: {},
@@ -2669,29 +2755,51 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     numericalRating: function numericalRating() {
       var result = 0;
+      var total_ipcr_performance1 = 0;
 
       _.each(this.templates.ipcr_function, function (value, key) {
         var sum1 = 0;
+        var total_ipcr_performance2 = 0;
 
         _.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
+          var total_ipcr_performance3 = 0;
 
           _.each(value2.ipcr_performance, function (value3, key4) {
-            if (value3.quality) {
-              sum += parseInt(value3.quality);
+            if (value3.asc) {
+              sum += parseFloat(value3.asc);
             }
+
+            total_ipcr_performance3 = key4 + 1;
           });
 
+          total_ipcr_performance2 += total_ipcr_performance3;
           sum1 += sum;
         });
 
+        total_ipcr_performance1 += total_ipcr_performance2;
         result += sum1;
       });
 
-      return result;
+      var compute = result / total_ipcr_performance1;
+      return parseFloat(compute.toFixed(2));
     },
     adjectivalRating: function adjectivalRating() {
-      return this.numericalRating / 100;
+      var value = null;
+
+      if (this.numericalRating >= 4 && this.numericalRating < 5) {
+        value = 'Very Satisfactory';
+      } else if (this.numericalRating >= 3 && this.numericalRating < 4) {
+        value = 'Satisfactory';
+      } else if (this.numericalRating >= 2 && this.numericalRating < 3) {
+        value = 'Unsatisfactory';
+      } else if (this.numericalRating >= 1 && this.numericalRating < 2) {
+        value = 'Poor';
+      } else {
+        value = 'Outstanding';
+      }
+
+      return value;
     },
     dateToday: function dateToday() {
       var date = new Date();
@@ -2714,6 +2822,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _facultytemplate_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./facultytemplate.vue */ "./resources/adminapp/js/cruds/IPCR/facultytemplate.vue");
 /* harmony import */ var vue_html2pdf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html2pdf */ "./node_modules/vue-html2pdf/dist/vue-html2pdf.esm.js");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2966,29 +3079,51 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     numericalRating: function numericalRating() {
       var result = 0;
+      var total_ipcr_performance1 = 0;
 
       _.each(this.templates.ipcr_function, function (value, key) {
         var sum1 = 0;
+        var total_ipcr_performance2 = 0;
 
         _.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
+          var total_ipcr_performance3 = 0;
 
           _.each(value2.ipcr_performance, function (value3, key4) {
-            if (value3.quality) {
-              sum += parseInt(value3.quality);
+            if (value3.asc) {
+              sum += parseFloat(value3.asc);
             }
+
+            total_ipcr_performance3 = key4 + 1;
           });
 
+          total_ipcr_performance2 += total_ipcr_performance3;
           sum1 += sum;
         });
 
+        total_ipcr_performance1 += total_ipcr_performance2;
         result += sum1;
       });
 
-      return result;
+      var compute = result / total_ipcr_performance1;
+      return parseFloat(compute.toFixed(2));
     },
     adjectivalRating: function adjectivalRating() {
-      return this.numericalRating / 100;
+      var value = null;
+
+      if (this.numericalRating >= 4 && this.numericalRating < 5) {
+        value = 'Very Satisfactory';
+      } else if (this.numericalRating >= 3 && this.numericalRating < 4) {
+        value = 'Satisfactory';
+      } else if (this.numericalRating >= 2 && this.numericalRating < 3) {
+        value = 'Unsatisfactory';
+      } else if (this.numericalRating >= 1 && this.numericalRating < 2) {
+        value = 'Poor';
+      } else {
+        value = 'Outstanding';
+      }
+
+      return value;
     },
     dateToday: function dateToday() {
       var date = new Date();
@@ -3372,6 +3507,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3397,29 +3557,51 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     numericalRating: function numericalRating() {
       var result = 0;
+      var total_ipcr_performance1 = 0;
 
       _.each(this.templates.ipcr_function, function (value, key) {
         var sum1 = 0;
+        var total_ipcr_performance2 = 0;
 
         _.each(value.ipcr_subfunctions, function (value2, key2) {
           var sum = 0;
+          var total_ipcr_performance3 = 0;
 
           _.each(value2.ipcr_performance, function (value3, key4) {
-            if (value3.quality) {
-              sum += parseInt(value3.quality);
+            if (value3.asc) {
+              sum += parseFloat(value3.asc);
             }
+
+            total_ipcr_performance3 = key4 + 1;
           });
 
+          total_ipcr_performance2 += total_ipcr_performance3;
           sum1 += sum;
         });
 
+        total_ipcr_performance1 += total_ipcr_performance2;
         result += sum1;
       });
 
-      return result;
+      var compute = result / total_ipcr_performance1;
+      return parseFloat(compute.toFixed(2));
     },
     adjectivalRating: function adjectivalRating() {
-      return this.numericalRating / 100;
+      var value = null;
+
+      if (this.numericalRating >= 4 && this.numericalRating < 5) {
+        value = 'Very Satisfactory';
+      } else if (this.numericalRating >= 3 && this.numericalRating < 4) {
+        value = 'Satisfactory';
+      } else if (this.numericalRating >= 2 && this.numericalRating < 3) {
+        value = 'Unsatisfactory';
+      } else if (this.numericalRating >= 1 && this.numericalRating < 2) {
+        value = 'Poor';
+      } else {
+        value = 'Outstanding';
+      }
+
+      return value;
     },
     dateToday: function dateToday() {
       var date = new Date();
@@ -5597,6 +5779,46 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
+                                      signatory.position === "HRMO"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[2].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
                                       signatory.position === "Campus Director"
                                         ? _c(
                                             "span",
@@ -6347,7 +6569,14 @@ var render = function() {
                 _c(
                   "section",
                   { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
-                  [_c("facultytemplate", { attrs: { templates: _vm.json } })],
+                  [
+                    _c("facultytemplate", {
+                      attrs: {
+                        templates: _vm.templates,
+                        signatures: _vm.signatures
+                      }
+                    })
+                  ],
                   1
                 )
               ]
@@ -6843,6 +7072,46 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
+                                      signatory.position === "HRMO"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[2].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
                                       signatory.position === "Campus Director"
                                         ? _c(
                                             "span",
@@ -6979,13 +7248,30 @@ var render = function() {
                                                   ) {
                                                     return [
                                                       _c("tr", [
-                                                        _c("td", [
-                                                          _vm._v(
-                                                            _vm._s(
-                                                              performance.name
+                                                        _c(
+                                                          "td",
+                                                          [
+                                                            _c(
+                                                              "router-link",
+                                                              {
+                                                                attrs: {
+                                                                  to:
+                                                                    "upload-files"
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                                    _vm._s(
+                                                                      performance.name
+                                                                    ) +
+                                                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                                                )
+                                                              ]
                                                             )
-                                                          )
-                                                        ]),
+                                                          ],
+                                                          1
+                                                        ),
                                                         _vm._v(" "),
                                                         _c(
                                                           "td",
@@ -7635,7 +7921,14 @@ var render = function() {
                 _c(
                   "section",
                   { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
-                  [_c("facultytemplate", { attrs: { templates: _vm.json } })],
+                  [
+                    _c("facultytemplate", {
+                      attrs: {
+                        templates: _vm.templates,
+                        signatures: _vm.signatures
+                      }
+                    })
+                  ],
                   1
                 )
               ]
@@ -9183,6 +9476,35 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
+                          signatory.position === "HRMO"
+                            ? _c(
+                                "span",
+                                { staticStyle: { "margin-left": "30%" } },
+                                [
+                                  _c("img", {
+                                    staticStyle: {
+                                      width: "128px",
+                                      height: "50px"
+                                    },
+                                    attrs: {
+                                      src: _vm.signatures[2].signature,
+                                      alt: "My Image"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticStyle: { "margin-left": "30%" } },
+                                    [
+                                      _vm._v(
+                                        _vm._s(signatory.name_of_signatories)
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
                           signatory.position === "Campus Director"
                             ? _c(
                                 "span",
@@ -9412,7 +9734,7 @@ var render = function() {
                                               "performance.date_completed"
                                           }
                                         ],
-                                        attrs: { type: "date", disabled: "" },
+                                        attrs: { type: "input", disabled: "" },
                                         domProps: {
                                           value: performance.date_completed
                                         },
@@ -10115,6 +10437,46 @@ var render = function() {
                                                 attrs: {
                                                   src:
                                                     _vm.signatures[1].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      signatory.position === "HRMO"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[2].signature,
                                                   alt: "My Image"
                                                 }
                                               }),
@@ -10888,7 +11250,14 @@ var render = function() {
                 _c(
                   "section",
                   { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
-                  [_c("facultytemplate", { attrs: { templates: _vm.json } })],
+                  [
+                    _c("facultytemplate", {
+                      attrs: {
+                        templates: _vm.templates,
+                        signatures: _vm.signatures
+                      }
+                    })
+                  ],
                   1
                 )
               ]
@@ -11340,36 +11709,210 @@ var render = function() {
                             _c("table", { staticClass: "table table-border" }, [
                               _c(
                                 "tr",
-                                _vm._l(_vm.templates.ipcr_signatory, function(
-                                  signatory
-                                ) {
-                                  return _c("th", { key: signatory.id }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.level_of_assestment) +
-                                        " :\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.name_of_signatories) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                [
+                                  _c("th", [
+                                    _c("p", [_vm._v("Conforme:")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticStyle: { "margin-left": "30%" } },
+                                      [
+                                        _c("img", {
+                                          staticStyle: {
+                                            width: "128px",
+                                            height: "50px"
+                                          },
+                                          attrs: {
+                                            src: _vm.signatures[0].signature,
+                                            alt: "My Image"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          {
+                                            staticStyle: {
+                                              "margin-left": "30%"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              _vm._s(_vm.signatures[0].name)
+                                            )
+                                          ]
+                                        )
+                                      ]
                                     )
-                                  ])
-                                }),
-                                0
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.templates.ipcr_signatory, function(
+                                    signatory
+                                  ) {
+                                    return _c("th", { key: signatory.id }, [
+                                      _c("p", [
+                                        _vm._v(
+                                          _vm._s(signatory.level_of_assestment)
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      signatory.position === "Dean"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[1].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      signatory.position === "HRMO"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[2].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      signatory.position === "Campus Director"
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "margin-left": "30%"
+                                              }
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  width: "128px",
+                                                  height: "50px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    _vm.signatures[3].signature,
+                                                  alt: "My Image"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "30%"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      signatory.name_of_signatories
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ])
+                                  })
+                                ],
+                                2
                               ),
                               _vm._v(" "),
                               _c(
                                 "tr",
-                                _vm._l(_vm.templates.ipcr_signatory, function(
-                                  signatory
-                                ) {
-                                  return _c("th", { key: signatory.id }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(signatory.position) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                [
+                                  _c(
+                                    "th",
+                                    { staticStyle: { "text-align": "center" } },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t\tRatee\n\t\t\t\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.templates.ipcr_signatory, function(
+                                    signatory
+                                  ) {
+                                    return _c(
+                                      "th",
+                                      {
+                                        key: signatory.id,
+                                        staticStyle: { "text-align": "center" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(signatory.position) +
+                                            "\n\t\t\t\t\t\t\t\t\t\t"
+                                        )
+                                      ]
                                     )
-                                  ])
-                                }),
-                                0
+                                  })
+                                ],
+                                2
                               )
                             ]),
                             _vm._v(" "),
@@ -12024,7 +12567,14 @@ var render = function() {
                 _c(
                   "section",
                   { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
-                  [_c("facultytemplate", { attrs: { templates: _vm.json } })],
+                  [
+                    _c("facultytemplate", {
+                      attrs: {
+                        templates: _vm.templates,
+                        signatures: _vm.signatures
+                      }
+                    })
+                  ],
                   1
                 )
               ]

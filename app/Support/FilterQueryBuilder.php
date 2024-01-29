@@ -32,8 +32,7 @@ class FilterQueryBuilder
         if ($this->isNestedColumn($data['order_column'])) {
             [$relationship, $column] = explode('.', $data['order_column']);
             $callable                = Str::camel($relationship);
-            $belongs                 = $this->model->{$callable}(
-            );
+            $belongs                 = $this->model->{$callable}();
             $relatedModel = $belongs->getModel();
             $relatedTable = $relatedModel->getTable();
             $as           = "prefix_{$relatedTable}";
