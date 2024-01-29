@@ -68,6 +68,7 @@ import HeaderSettings from '@components/Datatables/HeaderSettings'
 import GlobalSearch from '@components/Datatables/GlobalSearch'
 import DatatableList from './properties/DatatableList'
 import DatatableRemarks from './properties/DatatableRemarks'
+import DatatableActions from './properties/DatatableActions'
 
 	export default {
 		components: {
@@ -129,6 +130,16 @@ import DatatableRemarks from './properties/DatatableRemarks'
 						thComp: TranslatedHeader,
 						tdComp: DatatableRemarks,
 						sortable: true,
+					},
+					{
+						title: 'Actions',
+						thComp: TranslatedHeader,
+						tdComp: DatatableActions,
+						sortable: true,
+						visible: true,
+						thClass: 'text-right',
+						tdClass: 'text-right td-actions',
+						colStyle: 'width: 150px;'
 					},
 				],
 				query: { sort: 'id', order: 'desc', limit: 100, s: '' },

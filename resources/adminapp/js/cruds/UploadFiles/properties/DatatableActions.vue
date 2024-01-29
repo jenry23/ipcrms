@@ -3,20 +3,20 @@
         <button
             v-if="role_title === 'Dean'"
             class="btn btn-sm btn-primary"
-            @click="updateRemarks(row[field].id, row[field].remarks)"
+            @click="updateRemarks(row.id, row.remarks)"
         >
             Update Remarks
         </button>
         <button
             class="btn btn-sm btn-primary"
-            @click="downloadFiles(row[field].id, row[field].file_name)"
+            @click="downloadFiles(row.id, row.file_name)"
         >
             Download
         </button>
         <button
-            v-if="role_title === 'Dean' && row[field].is_approved === 0"
+            v-if="role_title === 'Dean' && row.is_approved === 0"
             class="btn btn-sm btn-primary"
-            @click="approvedFiles(row[field].id)"
+            @click="approvedFiles(row.id)"
         >
             Approved
         </button>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-    props: ["field", "row"],
+    props: ["row"],
     data() {
         return {
             role_title: document
