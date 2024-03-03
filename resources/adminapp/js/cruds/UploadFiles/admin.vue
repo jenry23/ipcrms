@@ -12,12 +12,14 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col-md-2" v-for="department in departmentList" :key="department.id">
+								<router-link to="ipcr">
 								<img
 									class="img-fluid mt-4"
 									v-if="department.url"
 									:src="department.url"
 									style="margin-top: 5px"
 								/>
+								</router-link>
 								<div class="d-flex justify-content-center">
 									<h4>
 										<b> {{ department.name }} </b>

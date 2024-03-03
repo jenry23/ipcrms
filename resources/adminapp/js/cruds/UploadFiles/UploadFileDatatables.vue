@@ -88,7 +88,6 @@ import DatatableActions from './properties/DatatableActions'
 						title: 'Uploader',
 						field: 'uploader.name',
 						thComp: TranslatedHeader,
-						sortable: true,
 						colStyle: 'width: 100px;',
 						tdComp: DatatableList
 					},
@@ -96,45 +95,38 @@ import DatatableActions from './properties/DatatableActions'
 						title: 'File Name',
 						field: 'file_name',
 						thComp: TranslatedHeader,
-						sortable: true
 					},
 					{
 						title: 'Performance Indicator',
 						field: 'ipcr_performance_function.name',
 						thComp: TranslatedHeader,
 						tdComp: DatatableList,
-						sortable: true
 					},
 					{
 						title: 'Description',
 						field: 'description',
 						thComp: TranslatedHeader,
-						sortable: true
 					},
 					{
 						title: 'Is Approved',
 						field: 'is_approved',
 						thComp: TranslatedHeader,
-						sortable: true
 					},
 					{
 						title: 'Date Of Submitted',
 						field: 'created_at',
 						thComp: TranslatedHeader,
-						sortable: true
 					},
 					{
 						title: 'Remarks',
 						field: 'remarks',
 						thComp: TranslatedHeader,
 						tdComp: DatatableRemarks,
-						sortable: true,
 					},
 					{
 						title: 'Actions',
 						thComp: TranslatedHeader,
 						tdComp: DatatableActions,
-						sortable: true,
 						visible: true,
 						thClass: 'text-right',
 						tdClass: 'text-right td-actions',
@@ -175,37 +167,6 @@ import DatatableActions from './properties/DatatableActions'
 					this.total = data.total;
 				});
 			},
-
-			downloadFiles (id, file_name) {
-				axios.get(`upload-file/download/${id}`, {
-					headers: {
-						Accept: 'application/octet-stream',
-					},
-					responseType: 'arraybuffer',
-				})
-				.then((response) => {
-					const url = window.URL.createObjectURL(new Blob([response.data]));
-					const link = document.createElement('a');
-					link.href = url;
-					link.setAttribute('download', file_name);
-					document.body.appendChild(link);
-					link.click();
-				})
-			},
-
-			updateRemarks (id, value) {
-				axios.get(`upload-file/remarks/${id}/${value}`).then((response) => {
-					this.$toast.success("Upload Remarks successfully update!");
-					this.fetchFunctionFiles();
-				 })
-			},
-
-			approvedFiles (id) {
-				axios.get(`upload-file/approved/${id}`).then((response) => {
-					this.$toast.success("Upload Files successfully approved!");
-					this.fetchFunctionFiles();
-				 })
-			}
 		}
 	}
 </script>

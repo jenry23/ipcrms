@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             RoleUserTableSeeder::class,
             DepartmentTableSeeder::class,
             AcademicRankSeeder::class,
+            IpcrTemplateSeeder::class,
         ]);
     }
 }
