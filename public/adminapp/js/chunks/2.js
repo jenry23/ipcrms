@@ -703,6 +703,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3925,6 +3929,31 @@ var render = function() {
               ])
             ]
           ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("h4", [_vm._v("Template Name")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.template_name,
+                  expression: "template_name"
+                }
+              ],
+              attrs: { type: "text", size: "50" },
+              domProps: { value: _vm.template_name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.template_name = $event.target.value
+                }
+              }
+            })
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [

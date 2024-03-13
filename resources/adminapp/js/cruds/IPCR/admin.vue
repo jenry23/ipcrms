@@ -68,6 +68,10 @@
 						</div>
 					</div> -->
 					<!-- Functions -->
+					<div class="col-md-6">
+						<h4>Template Name</h4>
+						<input type="text" v-model="template_name" size="50">
+					</div>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="container-fluid">
