@@ -8,10 +8,10 @@
 							<div class="col-md-8">
 								<h4 class="card-title">IPCR</h4>
 							</div>
-							<div class="col-md-2 mt-4">
+							<div class="col-md-2 mt-4" >
 								<v-select
 									name="template"
-									label="year"
+									label="name"
 									:key="'template-field'"
 									placeholder="Templates"
 									v-model="template_id"
@@ -68,7 +68,7 @@
 						</div>
 					</div> -->
 					<!-- Functions -->
-					<div class="col-md-6">
+					<div class="col-md-6" style="margin-left: 50px">
 						<h4>Template Name</h4>
 						<input type="text" v-model="template_name" size="50">
 					</div>
@@ -125,7 +125,7 @@
 												<transition-group type="transition" :name="'flip-list'">
 													<div
 														v-for="(element, index) in functionList"
-														:key="element.order"
+														:key="`Functions 1 ${element.order}`"
 													>
 														<div class="container">
 															<div
@@ -243,7 +243,7 @@
 										</button>
 
 										<div class="col-md-12 mt-4" style="margin-left: -20px">
-											<div v-for="element in functionList" :key="element.order">
+											<div v-for="element in functionList" :key="`Sub Functions ${element.order}`">
 												<div class="container">
 													<div class="row alert alert-info ipcr-span">
 														<div class="col-sm">
@@ -259,7 +259,7 @@
 													@end="isDragging = false"
 												>
 													<transition-group type="transition" :name="'flip-list'">
-														<div v-for="(sub, index) in subFunctionList" :key="sub.order">
+														<div v-for="(sub, index) in subFunctionList" :key="`Sub Functions Order ${sub.order}`">
 															<div
 																class="container"
 																v-if="element.id === sub.ipcr_function_id"
@@ -392,7 +392,7 @@
 										</button>
 
 										<div class="col-md-12 mt-4" style="margin-left: -20px">
-											<div v-for="element in functionList" :key="element.id">
+											<div v-for="element in functionList" :key="`Performance Functions ${element.order}`">
 												<div class="container">
 													<div class="row alert alert-info ipcr-span">
 														<div class="col-sm">
@@ -400,7 +400,7 @@
 														</div>
 													</div>
 												</div>
-												<div v-for="sub in element.ipcr_sub_function" :key="sub.id">
+												<div v-for="sub in element.ipcr_sub_function" :key="`Sub Functions pro ${sub.order}`">
 													<div class="container">
 														<div class="row alert alert-info ipcr-span">
 															<div class="col-sm">
@@ -420,7 +420,7 @@
 																v-for="(
 																	performance, index
 																) in performanceFunctionList"
-																:key="performance.order"
+																:key="`Functions 2 ${performance.order}`"
 															>
 																<div
 																	class="container"
@@ -576,7 +576,7 @@
 												<transition-group type="transition" :name="'flip-list'">
 													<div
 														v-for="(element, index) in signatoryList"
-														:key="element.order"
+														:key="`Signatures ${element.order}`"
 													>
 														<div class="container">
 															<div
@@ -705,6 +705,7 @@
 
 		data () {
 			return {
+				template_name: null,
 				status: '',
 				activeField: '',
 				editable: true,
@@ -1128,7 +1129,10 @@
 			},
 
 			saveTemplates () {
-				axios.post(`ipcr-templates`, { data: this.functionList })
+				axios.post(`ipcr-templates`, {
+					data: this.functionList,
+					template_name: this.template_name
+				})
 				.then(response => {
 						this.$toast.success("IPCR templates sucessfully saved!");
 				}).catch(error => {

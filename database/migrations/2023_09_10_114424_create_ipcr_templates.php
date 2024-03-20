@@ -11,7 +11,7 @@ class CreateIpcrTemplates extends Migration
         Schema::create('ipcr_templates', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('year');
+            $table->string('year')->nullable();
             $table->boolean('active');
             $table->string('file_name')->nullable();
             $table->string('size')->nullable();

@@ -716,6 +716,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      template_name: null,
       status: '',
       activeField: '',
       editable: true,
@@ -1160,7 +1161,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this20 = this;
 
       axios.post("ipcr-templates", {
-        data: this.functionList
+        data: this.functionList,
+        template_name: this.template_name
       }).then(function (response) {
         _this20.$toast.success("IPCR templates sucessfully saved!");
       })["catch"](function (error) {
@@ -3900,7 +3902,7 @@ var render = function() {
                       key: "template-field",
                       attrs: {
                         name: "template",
-                        label: "year",
+                        label: "name",
                         placeholder: "Templates",
                         options: _vm.templateList
                       },
@@ -3930,30 +3932,34 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("h4", [_vm._v("Template Name")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.template_name,
-                  expression: "template_name"
-                }
-              ],
-              attrs: { type: "text", size: "50" },
-              domProps: { value: _vm.template_name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+          _c(
+            "div",
+            { staticClass: "col-md-6", staticStyle: { "margin-left": "50px" } },
+            [
+              _c("h4", [_vm._v("Template Name")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.template_name,
+                    expression: "template_name"
                   }
-                  _vm.template_name = $event.target.value
+                ],
+                attrs: { type: "text", size: "50" },
+                domProps: { value: _vm.template_name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.template_name = $event.target.value
+                  }
                 }
-              }
-            })
-          ]),
+              })
+            ]
+          ),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
@@ -4080,135 +4086,153 @@ var render = function() {
                                 element,
                                 index
                               ) {
-                                return _c("div", { key: element.order }, [
-                                  _c("div", { staticClass: "container" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "row alert alert-info ipcr-span",
-                                        attrs: { "aria-hidden": "true" },
-                                        on: {
-                                          click: function($event) {
-                                            element.fixed = !element.fixed
+                                return _c(
+                                  "div",
+                                  { key: "Functions 1 " + element.order },
+                                  [
+                                    _c("div", { staticClass: "container" }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "row alert alert-info ipcr-span",
+                                          attrs: { "aria-hidden": "true" },
+                                          on: {
+                                            click: function($event) {
+                                              element.fixed = !element.fixed
+                                            }
                                           }
-                                        }
-                                      },
-                                      [
-                                        _c("div", { staticClass: "col-md-1" }, [
-                                          _c("span", [
-                                            _c(
-                                              "i",
-                                              { staticClass: "material-icons" },
-                                              [_vm._v("sort")]
-                                            )
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "col-md-10" },
-                                          [
-                                            _c("span", [
-                                              _vm._v(_vm._s(element.name))
-                                            ])
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-1" }, [
+                                        },
+                                        [
                                           _c(
                                             "div",
-                                            {
-                                              staticClass:
-                                                "dropdown ipcr-editable"
-                                            },
+                                            { staticClass: "col-md-1" },
                                             [
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-secondary btn-sm ipcr-editable-button",
-                                                  attrs: {
-                                                    type: "button",
-                                                    id: "dropdownMenuButton",
-                                                    "data-toggle": "dropdown",
-                                                    "aria-haspopup": "true",
-                                                    "aria-expanded": "false"
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "i",
-                                                    {
-                                                      staticClass:
-                                                        "material-icons"
-                                                    },
-                                                    [_vm._v("more_vert")]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
+                                              _c("span", [
+                                                _c(
+                                                  "i",
+                                                  {
+                                                    staticClass:
+                                                      "material-icons"
+                                                  },
+                                                  [_vm._v("sort")]
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-10" },
+                                            [
+                                              _c("span", [
+                                                _vm._v(_vm._s(element.name))
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-1" },
+                                            [
                                               _c(
                                                 "div",
                                                 {
-                                                  staticClass: "dropdown-menu",
-                                                  attrs: {
-                                                    "aria-labelledby":
-                                                      "dropdownMenuButton"
-                                                  }
+                                                  staticClass:
+                                                    "dropdown ipcr-editable"
                                                 },
                                                 [
                                                   _c(
-                                                    "a",
+                                                    "button",
                                                     {
                                                       staticClass:
-                                                        "dropdown-item",
-                                                      staticStyle: {
-                                                        color: "black"
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.updateFunction(
-                                                            element
-                                                          )
-                                                        }
+                                                        "btn btn-secondary btn-sm ipcr-editable-button",
+                                                      attrs: {
+                                                        type: "button",
+                                                        id:
+                                                          "dropdownMenuButton",
+                                                        "data-toggle":
+                                                          "dropdown",
+                                                        "aria-haspopup": "true",
+                                                        "aria-expanded": "false"
                                                       }
                                                     },
-                                                    [_vm._v("Edit")]
+                                                    [
+                                                      _c(
+                                                        "i",
+                                                        {
+                                                          staticClass:
+                                                            "material-icons"
+                                                        },
+                                                        [_vm._v("more_vert")]
+                                                      )
+                                                    ]
                                                   ),
                                                   _vm._v(" "),
                                                   _c(
-                                                    "a",
+                                                    "div",
                                                     {
                                                       staticClass:
-                                                        "dropdown-item",
-                                                      staticStyle: {
-                                                        color: "black"
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.deleteFunction(
-                                                            element,
-                                                            index
-                                                          )
-                                                        }
+                                                        "dropdown-menu",
+                                                      attrs: {
+                                                        "aria-labelledby":
+                                                          "dropdownMenuButton"
                                                       }
                                                     },
-                                                    [_vm._v("Delete")]
+                                                    [
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          staticStyle: {
+                                                            color: "black"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.updateFunction(
+                                                                element
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [_vm._v("Edit")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          staticStyle: {
+                                                            color: "black"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.deleteFunction(
+                                                                element,
+                                                                index
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [_vm._v("Delete")]
+                                                      )
+                                                    ]
                                                   )
                                                 ]
                                               )
                                             ]
                                           )
-                                        ])
-                                      ]
-                                    )
-                                  ])
-                                ])
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
                               }),
                               0
                             )
@@ -4353,7 +4377,7 @@ var render = function() {
                       _vm._l(_vm.functionList, function(element) {
                         return _c(
                           "div",
-                          { key: element.order },
+                          { key: "Sub Functions " + element.order },
                           [
                             _c("div", { staticClass: "container" }, [
                               _c(
@@ -4407,171 +4431,188 @@ var render = function() {
                                     sub,
                                     index
                                   ) {
-                                    return _c("div", { key: sub.order }, [
-                                      element.id === sub.ipcr_function_id
-                                        ? _c(
-                                            "div",
-                                            { staticClass: "container" },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "row alert alert-info ipcr-span",
-                                                  attrs: {
-                                                    "aria-hidden": "true"
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      sub.fixed = !sub.fixed
+                                    return _c(
+                                      "div",
+                                      {
+                                        key: "Sub Functions Order " + sub.order
+                                      },
+                                      [
+                                        element.id === sub.ipcr_function_id
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "container" },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "row alert alert-info ipcr-span",
+                                                    attrs: {
+                                                      "aria-hidden": "true"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        sub.fixed = !sub.fixed
+                                                      }
                                                     }
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-md-1" },
-                                                    [
-                                                      _c("span", [
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass: "col-md-1"
+                                                      },
+                                                      [
+                                                        _c("span", [
+                                                          _c(
+                                                            "i",
+                                                            {
+                                                              staticClass:
+                                                                "material-icons"
+                                                            },
+                                                            [_vm._v("sort")]
+                                                          )
+                                                        ])
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass: "col-md-10"
+                                                      },
+                                                      [
+                                                        _c("span", [
+                                                          _vm._v(
+                                                            _vm._s(sub.name)
+                                                          )
+                                                        ])
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass: "col-md-1"
+                                                      },
+                                                      [
                                                         _c(
-                                                          "i",
+                                                          "div",
                                                           {
                                                             staticClass:
-                                                              "material-icons"
+                                                              "dropdown ipcr-editable"
                                                           },
-                                                          [_vm._v("sort")]
+                                                          [
+                                                            _c(
+                                                              "button",
+                                                              {
+                                                                staticClass:
+                                                                  "btn btn-secondary btn-sm ipcr-editable-button",
+                                                                attrs: {
+                                                                  type:
+                                                                    "button",
+                                                                  id:
+                                                                    "dropdownMenuButton",
+                                                                  "data-toggle":
+                                                                    "dropdown",
+                                                                  "aria-haspopup":
+                                                                    "true",
+                                                                  "aria-expanded":
+                                                                    "false"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "i",
+                                                                  {
+                                                                    staticClass:
+                                                                      "material-icons"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "more_vert"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "dropdown-menu",
+                                                                attrs: {
+                                                                  "aria-labelledby":
+                                                                    "dropdownMenuButton"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    staticClass:
+                                                                      "dropdown-item",
+                                                                    staticStyle: {
+                                                                      color:
+                                                                        "black"
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.updateSubFunction(
+                                                                          sub
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Edit"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    staticClass:
+                                                                      "dropdown-item",
+                                                                    staticStyle: {
+                                                                      color:
+                                                                        "black"
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.deleteSubFunction(
+                                                                          sub,
+                                                                          index
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Delete"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
                                                         )
-                                                      ])
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass: "col-md-10"
-                                                    },
-                                                    [
-                                                      _c("span", [
-                                                        _vm._v(_vm._s(sub.name))
-                                                      ])
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-md-1" },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "dropdown ipcr-editable"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "button",
-                                                            {
-                                                              staticClass:
-                                                                "btn btn-secondary btn-sm ipcr-editable-button",
-                                                              attrs: {
-                                                                type: "button",
-                                                                id:
-                                                                  "dropdownMenuButton",
-                                                                "data-toggle":
-                                                                  "dropdown",
-                                                                "aria-haspopup":
-                                                                  "true",
-                                                                "aria-expanded":
-                                                                  "false"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "i",
-                                                                {
-                                                                  staticClass:
-                                                                    "material-icons"
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "more_vert"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "dropdown-menu",
-                                                              attrs: {
-                                                                "aria-labelledby":
-                                                                  "dropdownMenuButton"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "a",
-                                                                {
-                                                                  staticClass:
-                                                                    "dropdown-item",
-                                                                  staticStyle: {
-                                                                    color:
-                                                                      "black"
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      return _vm.updateSubFunction(
-                                                                        sub
-                                                                      )
-                                                                    }
-                                                                  }
-                                                                },
-                                                                [_vm._v("Edit")]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "a",
-                                                                {
-                                                                  staticClass:
-                                                                    "dropdown-item",
-                                                                  staticStyle: {
-                                                                    color:
-                                                                      "black"
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      return _vm.deleteSubFunction(
-                                                                        sub,
-                                                                        index
-                                                                      )
-                                                                    }
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "Delete"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        : _vm._e()
-                                    ])
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    )
                                   }),
                                   0
                                 )
@@ -4742,7 +4783,7 @@ var render = function() {
                       _vm._l(_vm.functionList, function(element) {
                         return _c(
                           "div",
-                          { key: element.id },
+                          { key: "Performance Functions " + element.order },
                           [
                             _c("div", { staticClass: "container" }, [
                               _c(
@@ -4761,7 +4802,7 @@ var render = function() {
                             _vm._l(element.ipcr_sub_function, function(sub) {
                               return _c(
                                 "div",
-                                { key: sub.id },
+                                { key: "Sub Functions pro " + sub.order },
                                 [
                                   _c("div", { staticClass: "container" }, [
                                     _c(
@@ -4817,7 +4858,11 @@ var render = function() {
                                           function(performance, index) {
                                             return _c(
                                               "div",
-                                              { key: performance.order },
+                                              {
+                                                key:
+                                                  "Functions 2 " +
+                                                  performance.order
+                                              },
                                               [
                                                 performance.ipcr_sub_function_id ===
                                                 sub.id
@@ -5232,171 +5277,191 @@ var render = function() {
                                 element,
                                 index
                               ) {
-                                return _c("div", { key: element.order }, [
-                                  _c("div", { staticClass: "container" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "row alert alert-info ipcr-span",
-                                        attrs: { "aria-hidden": "true" },
-                                        on: {
-                                          click: function($event) {
-                                            element.fixed = !element.fixed
+                                return _c(
+                                  "div",
+                                  { key: "Signatures " + element.order },
+                                  [
+                                    _c("div", { staticClass: "container" }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "row alert alert-info ipcr-span",
+                                          attrs: { "aria-hidden": "true" },
+                                          on: {
+                                            click: function($event) {
+                                              element.fixed = !element.fixed
+                                            }
                                           }
-                                        }
-                                      },
-                                      [
-                                        _c("div", { staticClass: "col-md-1" }, [
-                                          _c("span", [
-                                            _c(
-                                              "i",
-                                              { staticClass: "material-icons" },
-                                              [_vm._v("sort")]
-                                            )
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "col-md-10" },
-                                          [
-                                            _c("span", [
-                                              _vm._v(
-                                                _vm._s(
-                                                  element.name_of_signatories
-                                                )
-                                              )
-                                            ])
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-1" }, [
+                                        },
+                                        [
                                           _c(
                                             "div",
-                                            {
-                                              staticClass:
-                                                "dropdown ipcr-editable"
-                                            },
+                                            { staticClass: "col-md-1" },
                                             [
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-secondary btn-sm ipcr-editable-button",
-                                                  attrs: {
-                                                    type: "button",
-                                                    id: "dropdownMenuButton",
-                                                    "data-toggle": "dropdown",
-                                                    "aria-haspopup": "true",
-                                                    "aria-expanded": "false"
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "i",
-                                                    {
-                                                      staticClass:
-                                                        "material-icons"
-                                                    },
-                                                    [_vm._v("more_vert")]
+                                              _c("span", [
+                                                _c(
+                                                  "i",
+                                                  {
+                                                    staticClass:
+                                                      "material-icons"
+                                                  },
+                                                  [_vm._v("sort")]
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-10" },
+                                            [
+                                              _c("span", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    element.name_of_signatories
                                                   )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-1" },
+                                            [
                                               _c(
                                                 "div",
                                                 {
-                                                  staticClass: "dropdown-menu",
-                                                  attrs: {
-                                                    "aria-labelledby":
-                                                      "dropdownMenuButton"
-                                                  }
+                                                  staticClass:
+                                                    "dropdown ipcr-editable"
                                                 },
                                                 [
                                                   _c(
-                                                    "a",
+                                                    "button",
                                                     {
                                                       staticClass:
-                                                        "dropdown-item",
-                                                      staticStyle: {
-                                                        color: "black"
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.updateSignatory(
-                                                            element
-                                                          )
-                                                        }
+                                                        "btn btn-secondary btn-sm ipcr-editable-button",
+                                                      attrs: {
+                                                        type: "button",
+                                                        id:
+                                                          "dropdownMenuButton",
+                                                        "data-toggle":
+                                                          "dropdown",
+                                                        "aria-haspopup": "true",
+                                                        "aria-expanded": "false"
                                                       }
                                                     },
-                                                    [_vm._v("Edit")]
+                                                    [
+                                                      _c(
+                                                        "i",
+                                                        {
+                                                          staticClass:
+                                                            "material-icons"
+                                                        },
+                                                        [_vm._v("more_vert")]
+                                                      )
+                                                    ]
                                                   ),
                                                   _vm._v(" "),
                                                   _c(
-                                                    "a",
+                                                    "div",
                                                     {
                                                       staticClass:
-                                                        "dropdown-item",
-                                                      staticStyle: {
-                                                        color: "black"
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.deleteSignatory(
-                                                            element,
-                                                            index
-                                                          )
-                                                        }
+                                                        "dropdown-menu",
+                                                      attrs: {
+                                                        "aria-labelledby":
+                                                          "dropdownMenuButton"
                                                       }
                                                     },
-                                                    [_vm._v("Delete")]
+                                                    [
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          staticStyle: {
+                                                            color: "black"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.updateSignatory(
+                                                                element
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [_vm._v("Edit")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          staticStyle: {
+                                                            color: "black"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.deleteSignatory(
+                                                                element,
+                                                                index
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [_vm._v("Delete")]
+                                                      )
+                                                    ]
                                                   )
                                                 ]
                                               )
                                             ]
                                           )
-                                        ])
-                                      ]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "container" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "row alert alert-info ipcr-span"
-                                      },
-                                      [
-                                        _c("span", { staticClass: "ml-5" }, [
-                                          _vm._v(
-                                            _vm._s(element.level_of_assestment)
-                                          )
-                                        ])
-                                      ]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "container" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "row alert alert-info ipcr-span"
-                                      },
-                                      [
-                                        _c("span", { staticClass: "ml-5" }, [
-                                          _vm._v(_vm._s(element.position))
-                                        ])
-                                      ]
-                                    )
-                                  ])
-                                ])
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "container" }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "row alert alert-info ipcr-span"
+                                        },
+                                        [
+                                          _c("span", { staticClass: "ml-5" }, [
+                                            _vm._v(
+                                              _vm._s(
+                                                element.level_of_assestment
+                                              )
+                                            )
+                                          ])
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "container" }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "row alert alert-info ipcr-span"
+                                        },
+                                        [
+                                          _c("span", { staticClass: "ml-5" }, [
+                                            _vm._v(_vm._s(element.position))
+                                          ])
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
                               }),
                               0
                             )

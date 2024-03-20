@@ -29,16 +29,15 @@ class IpcrTemplateApiController extends Controller
     public function store(Request $request)
     {
         $payload = $request->data;
+        $template_name = $request->template_name;
 
-        DB::transaction(function () use ($payload) {
-            $year = Carbon::now()->format('Y');
-
+        DB::transaction(function () use ($payload, $template_name) {
             $ipcr_template = IpcrTemplates::updateOrCreate(
                 [
-                    'year' => $year
+                    'name' => $template_name
                 ],
                 [
-                    'year' => $year,
+                    'name' => $template_name,
                     'active' => false,
                 ]
             );

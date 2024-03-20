@@ -105,7 +105,49 @@ class IpcrTemplateSeeder extends Seeder
                     'ipcr_performance_funtions' =>  [
                         'a)  Attendance'
                     ]
-                ]
+                ],
+                [
+                    'name' => '12. Participate in the Flag lowering',
+                    'ipcr_performance_funtions' =>  [
+                        'a)  Attendance'
+                    ]
+                ],
+                [
+                    'name' => '13. Participate in the health  and wellness program',
+                    'ipcr_performance_funtions' =>  [
+                        'a) Attendance sheet/Program of activities/other document as proof'
+                    ]
+                ],
+                [
+                    'name' => '14. Participate in school celebrations and other allied activities',
+                    'ipcr_performance_funtions' =>  [
+                        'a) Attendance sheet/Program of activities/other document as proof'
+                    ]
+                ],
+                [
+                    'name' => '15. Attend trainings /conferences/seminars',
+                    'ipcr_performance_funtions' =>  [
+                        'a)  Training/Seminar/Conference certificate of attendance/ participation'
+                    ]
+                ],
+                [
+                    'name' => '16. Attend Faculty Meeting',
+                    'ipcr_performance_funtions' =>  [
+                        'a) Attendance'
+                    ]
+                ],
+                [
+                    'name' => '17. Involvement in accreditation/ISO and other related activities',
+                    'ipcr_performance_funtions' =>  [
+                        'a) Attendance'
+                    ]
+                ],
+                [
+                    'name' => '18. Participate in the spiritual activities',
+                    'ipcr_performance_funtions' =>  [
+                        'a)  Training/Seminar/Conference certificate of attendance/ participation'
+                    ]
+                ],
             ]
         ],
         [
