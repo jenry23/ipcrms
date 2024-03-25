@@ -414,8 +414,8 @@ var render = function() {
   return _c(
     "nav",
     {
-      staticClass:
-        "navbar navbar-expand-lg ipcrms-navbar-color navbar-absolute fixed-top"
+      staticClass: "navbar navbar-expand-lg ipcrms-navbar-color",
+      staticStyle: { width: "100vw" }
     },
     [
       _c("div", { staticClass: "container-fluid" }, [

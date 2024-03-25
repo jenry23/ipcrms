@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\IpcrResource;
+use App\Models\AcademicRank;
 use App\Models\IpcrFacultyAssesstment;
 use App\Models\IpcrFunction;
 use App\Models\IpcrFunctionTemplate;
@@ -11,6 +12,8 @@ use App\Models\IpcrPerformanceFunction;
 use App\Models\IpcrSignatory;
 use App\Models\IpcrSubFunction;
 use App\Models\IpcrTemplates;
+use App\Models\Role;
+use App\Models\UserDetail;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -57,7 +60,7 @@ class IpcrTemplateApiController extends Controller
 
     public function getActiveIPCR()
     {
-        $ipcr_active = IpcrTemplates::where('active', true)->first();
+        $ipcr_active = IpcrTemplates::where('active', true)->latest()->first();
 
         $ipcr_function_id = IpcrFunctionTemplate::where('ipcr_template_id', $ipcr_active->id)->pluck('ipcr_function_id');
         $ipcr_functions = IpcrFunction::whereIn('id', $ipcr_function_id)
@@ -96,11 +99,11 @@ class IpcrTemplateApiController extends Controller
             });
 
         $user = Auth::user();
-        $roles = $user->roles->first();
+        $roles = UserDetail::with('academic_rank')->where('user_id', $user->id)->first();
 
         return response()->json([
             'name' => $user->name,
-            'roles_name' => $roles->title,
+            'roles_name' => isset($roles->academic_rank) ?  $roles->academic_rank->name : null,
             'ipcr_function' => $ipcr_functions->toArray(),
             'ipcr_signatory' => IpcrSignatory::get(),
         ]);

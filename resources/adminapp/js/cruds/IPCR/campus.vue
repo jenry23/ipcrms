@@ -2,7 +2,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="card">
+				<div class="card" style="width: 90vw">
 					<div class="card-header card-header-primary card-header-icon">
 						<h4 class="card-title">
 							<div class="row">

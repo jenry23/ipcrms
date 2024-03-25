@@ -16978,7 +16978,7 @@ label {
 }
 
 .card .card-header {
-  z-index: 3 !important;
+  /* z-index: 3 !important; */
 }
 
 .card .card-header .card-title {

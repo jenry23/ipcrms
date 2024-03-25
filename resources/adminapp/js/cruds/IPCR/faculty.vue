@@ -3,7 +3,7 @@
 		<form>
 			<div class="row">
 				<div class="col-md-12">
-					<div class="card">
+					<div class="card" style="width: 90vw">
 						<div class="card-header card-header-primary card-header-icon">
 							<h4 class="card-title">
 								<div class="row">
@@ -24,7 +24,7 @@
 							<button class="btn btn-sm btn-primary ml-5" @click="openFileInput">Upload Signature</button>
 
 							<div class="card"
-								style="background-color: hsl(40, 100%, 97%); width: 90rem; margin-left: 43px"
+								style="background-color: hsl(40, 100%, 97%); margin-left: 43px"
 								>
 								<form @submit.prevent="submitForm">
 									<div class="card-body">

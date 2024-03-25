@@ -22,4 +22,9 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function academic_rank(): BelongsTo
+    {
+        return $this->belongsTo(AcademicRank::class);
+    }
 }

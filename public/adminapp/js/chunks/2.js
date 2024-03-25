@@ -5528,7 +5528,7 @@ var render = function() {
       _c("div", { staticClass: "col-md-12" }, [
         _c(
           "div",
-          { staticClass: "card" },
+          { staticClass: "card", staticStyle: { width: "90vw" } },
           [
             _vm._m(0),
             _vm._v(" "),
@@ -6838,7 +6838,7 @@ var render = function() {
       _c("div", { staticClass: "col-md-12" }, [
         _c(
           "div",
-          { staticClass: "card" },
+          { staticClass: "card", staticStyle: { width: "90vw" } },
           [
             _vm._m(0),
             _vm._v(" "),
@@ -8191,7 +8191,7 @@ var render = function() {
         _c("div", { staticClass: "col-md-12" }, [
           _c(
             "div",
-            { staticClass: "card" },
+            { staticClass: "card", staticStyle: { width: "90vw" } },
             [
               _c(
                 "div",
@@ -8254,7 +8254,6 @@ var render = function() {
                         staticClass: "card",
                         staticStyle: {
                           "background-color": "hsl(40, 100%, 97%)",
-                          width: "90rem",
                           "margin-left": "43px"
                         }
                       },
@@ -10226,7 +10225,7 @@ var render = function() {
       _c("div", { staticClass: "col-md-12" }, [
         _c(
           "div",
-          { staticClass: "card" },
+          { staticClass: "card", staticStyle: { width: "90vw" } },
           [
             _vm._m(0),
             _vm._v(" "),
@@ -11578,7 +11577,7 @@ var render = function() {
       _c("div", { staticClass: "col-md-12" }, [
         _c(
           "div",
-          { staticClass: "card" },
+          { staticClass: "card", staticStyle: { width: "90vw" } },
           [
             _vm._m(0),
             _vm._v(" "),
