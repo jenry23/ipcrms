@@ -5619,11 +5619,7 @@ var render = function() {
                     "div",
                     {
                       staticClass: "card",
-                      staticStyle: {
-                        "background-color": "hsl(40, 100%, 97%)",
-                        width: "90rem",
-                        "margin-left": "43px"
-                      }
+                      staticStyle: { "background-color": "hsl(40, 100%, 97%)" }
                     },
                     [
                       _c(
@@ -6714,7 +6710,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "card-header card-header-primary card-header-icon" },
+      {
+        staticClass: "card-header card-header-primary card-header-icon",
+        staticStyle: { "z-index": "0 !important" }
+      },
       [
         _c("h4", { staticClass: "card-title" }, [
           _c("div", { staticClass: "row" }, [
@@ -6929,11 +6928,7 @@ var render = function() {
                     "div",
                     {
                       staticClass: "card",
-                      staticStyle: {
-                        "background-color": "hsl(40, 100%, 97%)",
-                        width: "90rem",
-                        "margin-left": "43px"
-                      }
+                      staticStyle: { "background-color": "hsl(40, 100%, 97%)" }
                     },
                     [
                       _c(
@@ -8066,7 +8061,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "card-header card-header-primary card-header-icon" },
+      {
+        staticClass: "card-header card-header-primary card-header-icon",
+        staticStyle: { "z-index": "0 !important" }
+      },
       [
         _c("h4", { staticClass: "card-title" }, [
           _c("div", { staticClass: "row" }, [
@@ -8197,7 +8195,8 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "card-header card-header-primary card-header-icon"
+                    "card-header card-header-primary card-header-icon",
+                  staticStyle: { "z-index": "0 !important" }
                 },
                 [
                   _c("h4", { staticClass: "card-title" }, [
@@ -8253,8 +8252,7 @@ var render = function() {
                       {
                         staticClass: "card",
                         staticStyle: {
-                          "background-color": "hsl(40, 100%, 97%)",
-                          "margin-left": "43px"
+                          "background-color": "hsl(40, 100%, 97%)"
                         }
                       },
                       [
@@ -9443,11 +9441,7 @@ var render = function() {
             "div",
             {
               staticClass: "card",
-              staticStyle: {
-                "background-color": "hsl(40, 100%, 97%)",
-                width: "90rem",
-                "margin-left": "43px"
-              }
+              staticStyle: { "background-color": "hsl(40, 100%, 97%)" }
             },
             [
               _c("div", { staticClass: "card-body" }, [
@@ -10316,11 +10310,7 @@ var render = function() {
                     "div",
                     {
                       staticClass: "card",
-                      staticStyle: {
-                        "background-color": "hsl(40, 100%, 97%)",
-                        width: "90rem",
-                        "margin-left": "43px"
-                      }
+                      staticStyle: { "background-color": "hsl(40, 100%, 97%)" }
                     },
                     [
                       _c(
@@ -11411,7 +11401,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "card-header card-header-primary card-header-icon" },
+      {
+        staticClass: "card-header card-header-primary card-header-icon",
+        staticStyle: { "z-index": "0 !important" }
+      },
       [
         _c("h4", { staticClass: "card-title" }, [
           _c("div", { staticClass: "row" }, [
@@ -11668,11 +11661,7 @@ var render = function() {
                     "div",
                     {
                       staticClass: "card",
-                      staticStyle: {
-                        "background-color": "hsl(40, 100%, 97%)",
-                        width: "90rem",
-                        "margin-left": "43px"
-                      }
+                      staticStyle: { "background-color": "hsl(40, 100%, 97%)" }
                     },
                     [
                       _c(
@@ -12728,7 +12717,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "card-header card-header-primary card-header-icon" },
+      {
+        staticClass: "card-header card-header-primary card-header-icon",
+        staticStyle: { "z-index": "0 !important" }
+      },
       [
         _c("h4", { staticClass: "card-title" }, [
           _c("div", { staticClass: "row" }, [
