@@ -413,7 +413,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    { staticClass: "navbar navbar-expand-lg ipcrms-navbar-color" },
+    {
+      staticClass: "navbar navbar-expand-lg ipcrms-navbar-color",
+      staticStyle: { width: "100vw" }
+    },
     [
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "navbar-wrapper" }, [
