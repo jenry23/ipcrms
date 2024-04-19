@@ -413,10 +413,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    {
-      staticClass: "navbar navbar-expand-lg ipcrms-navbar-color",
-      staticStyle: { width: "100vw" }
-    },
+    { staticClass: "navbar navbar-expand-lg ipcrms-navbar-color" },
     [
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "navbar-wrapper" }, [
@@ -446,7 +443,9 @@ var render = function() {
               _vm._v("Toggle navigation")
             ]),
             _vm._v(" "),
-            _c("span", { staticClass: "navbar-toggler-icon icon-bar" }),
+            _c("span", { staticClass: "navbar-toggler-icon icon-bar" }, [
+              _vm._v("Notification")
+            ]),
             _vm._v(" "),
             _c("span", { staticClass: "navbar-toggler-icon icon-bar" }),
             _vm._v(" "),

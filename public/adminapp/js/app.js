@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "adminapp/js/chunks/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"ec2055eaf94eb5128239","1":"c35db75eefa33c2b34fb","2":"ec271dfec31bd2aec572","3":"c5630ee3d762adefad0b","4":"93ff71d71f7cef9d4633","5":"effc29e2ec1864d2b22c","6":"f5b6108716b9755f1bbb","7":"b3c4addc50b5bba05f46","8":"013c42ffbbe6fff95a5e","9":"8f7e7acb23d3faeb9ddb","10":"aacb18d0fbdefc4c1f99","11":"c4561248c0a18804ec8b","12":"4d27f7075bcbdac2c0eb","13":"afb37bafa26110b548d6","14":"2bc60f73ddfb4d82d83d","15":"170e71d48ab73e5f9592","16":"521aa5ee8d1b96ad6f93","17":"0b4cc1c3325907b5b605","18":"5595bb5355d53906349a","19":"1da1fb4e8582bbd9212d","20":"e601ca5f0c70e9616968"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "adminapp/js/chunks/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"ec2055eaf94eb5128239","1":"c35db75eefa33c2b34fb","2":"4a4db7dd2ac778d5b8a2","3":"789e7ad066956efae34b","4":"93ff71d71f7cef9d4633","5":"effc29e2ec1864d2b22c","6":"f5b6108716b9755f1bbb","7":"b3c4addc50b5bba05f46","8":"013c42ffbbe6fff95a5e","9":"8f7e7acb23d3faeb9ddb","10":"aacb18d0fbdefc4c1f99","11":"c4561248c0a18804ec8b","12":"4d27f7075bcbdac2c0eb","13":"afb37bafa26110b548d6","14":"2bc60f73ddfb4d82d83d","15":"170e71d48ab73e5f9592","16":"521aa5ee8d1b96ad6f93","17":"0b4cc1c3325907b5b605","18":"5595bb5355d53906349a","19":"1da1fb4e8582bbd9212d","20":"e601ca5f0c70e9616968"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -3570,6 +3570,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4240,7 +4262,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.fixed-width[data-v-78ea0fdf] {\n  width: 1.3em;\n  text-align: center;\n  display: inline-block;\n}\n", ""]);
+exports.push([module.i, "\n.fixed-width[data-v-78ea0fdf] {\n\twidth: 1.3em;\n\ttext-align: center;\n\tdisplay: inline-block;\n}\n", ""]);
 
 // exports
 
@@ -58270,11 +58292,56 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("li", { staticClass: "nav-item dropdown" }, [
-    _vm._v("\n  " + _vm._s(_vm.timestamp) + "\n")
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-8" }, [
+      _vm._v("\n\t\t\t" + _vm._s(_vm.timestamp) + "\n  \t")
+    ]),
+    _vm._v(" "),
+    _vm._m(0)
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("li", { staticClass: "nav-item dropdown" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: {
+              href: "http://example.com",
+              id: "navbarDropdownMenuLink",
+              "data-toggle": "dropdown",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("i", { staticClass: "material-icons" }, [
+              _vm._v("notifications")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "notification" }, [_vm._v("0")]),
+            _vm._v(" "),
+            _c("p", { staticClass: "d-lg-none d-md-block" }, [
+              _vm._v("Some Actions")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ripple-container" })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", {
+          staticClass: "dropdown-menu dropdown-menu-right",
+          attrs: { "aria-labelledby": "navbarDropdownMenuLink" }
+        })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

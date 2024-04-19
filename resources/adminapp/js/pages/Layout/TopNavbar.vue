@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-expand-lg ipcrms-navbar-color" style="width: 100vw"
+    class="navbar navbar-expand-lg ipcrms-navbar-color"
   >
     <div class="container-fluid">
       <div class="navbar-wrapper">
@@ -19,7 +19,7 @@
         :class="{ toggled: $sidebar.showSidebar }"
       >
         <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon icon-bar"></span>
+        <span class="navbar-toggler-icon icon-bar">Notification</span>
         <span class="navbar-toggler-icon icon-bar"></span>
         <span class="navbar-toggler-icon icon-bar"></span>
       </button>

@@ -222,12 +222,21 @@
 							</form>
 						</div>
 					</div>
-					<VueHtml2pdf :manual-pagination="true" :enable-download="true" :paginate-elements-by-height="2000"
-						pdf-orientation="landscape" pdf-content-width="1200px" pdf-format="a3" ref="html2Pdf">
-						<section slot="pdf-content">
-							<facultytemplate :templates="templates" :signatures="signatures"></facultytemplate>
-						</section>
-					</VueHtml2pdf>
+					<VueHtml2pdf
+							:manual-pagination="true"
+							:enable-download="true"
+							:paginate-elements-by-height="1200"
+							filename="myPDF"
+							:pdf-quality="2"
+							pdf-format="a3"
+							pdf-orientation="landscape"
+							pdf-content-width="1600px"
+							ref="html2Pdf"
+						>
+							<section slot="pdf-content">
+								<facultytemplate :templates="json" :signatures="signatures"></facultytemplate>
+							</section>
+						</VueHtml2pdf>
 				</div>
 			</div>
 		</div>
@@ -369,6 +378,28 @@ export default {
 
 		downloadFiles (data) {
 			this.json = JSON.parse(data);
+
+			this.signatures = [{
+				'title': 'Discuss with:',
+				'name': data.dean_id ? data.dean.name : null,
+				'signature': data.dean_signature ?? null
+			},
+			{
+				'title': 'Assessed by:',
+				'name': data.campus_director_id ? data.campus_director.name : null,
+				'signature': data.campus_director_signature ?? null
+			},
+			{
+				'title': 'Checked by:',
+				'name': data.hrmo_id ? data.hrmo.name : null,
+				'signature': data.hrmo_signature ?? null
+			},
+			{
+				'title': 'Final Rating:',
+				'name': data.vp_id ? data.vp.name : null,
+				'signature': data.vp_signature ?? null,
+				}]
+
 			this.$refs.html2Pdf.generatePdf()
 		},
 

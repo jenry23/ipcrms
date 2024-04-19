@@ -1423,6 +1423,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1550,7 +1559,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     downloadFiles: function downloadFiles(data) {
+      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+
       this.json = JSON.parse(data);
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+      }];
       this.$refs.html2Pdf.generatePdf();
     },
     openFileInput: function openFileInput() {
@@ -1607,6 +1635,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_html2pdf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html2pdf */ "./node_modules/vue-html2pdf/dist/vue-html2pdf.esm.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2017,7 +2054,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     downloadFiles: function downloadFiles(data) {
+      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+
       this.json = JSON.parse(data);
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+      }];
       this.$refs.html2Pdf.generatePdf();
     },
     openFileInput: function openFileInput() {
@@ -3166,6 +3222,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3296,7 +3361,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     downloadFiles: function downloadFiles(data) {
+      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+
       this.json = JSON.parse(data);
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+      }];
       this.$refs.html2Pdf.generatePdf();
     },
     openFileInput: function openFileInput() {
@@ -3413,6 +3497,15 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _facultytemplate_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./facultytemplate.vue */ "./resources/adminapp/js/cruds/IPCR/facultytemplate.vue");
 /* harmony import */ var vue_html2pdf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html2pdf */ "./node_modules/vue-html2pdf/dist/vue-html2pdf.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3774,7 +3867,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     downloadFiles: function downloadFiles(data) {
+      var _data$dean_signature2, _data$campus_director2, _data$hrmo_signature2, _data$vp_signature2;
+
       this.json = JSON.parse(data);
+      this.signatures = [{
+        'title': 'Discuss with:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature2 = data.dean_signature) !== null && _data$dean_signature2 !== void 0 ? _data$dean_signature2 : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director2 = data.campus_director_signature) !== null && _data$campus_director2 !== void 0 ? _data$campus_director2 : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature2 = data.hrmo_signature) !== null && _data$hrmo_signature2 !== void 0 ? _data$hrmo_signature2 : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.vp_id ? data.vp.name : null,
+        'signature': (_data$vp_signature2 = data.vp_signature) !== null && _data$vp_signature2 !== void 0 ? _data$vp_signature2 : null
+      }];
       this.$refs.html2Pdf.generatePdf();
     },
     openFileInput: function openFileInput() {
@@ -6772,10 +6884,12 @@ var render = function() {
                 attrs: {
                   "manual-pagination": true,
                   "enable-download": true,
-                  "paginate-elements-by-height": 2000,
+                  "paginate-elements-by-height": 1200,
+                  filename: "myPDF",
+                  "pdf-quality": 2,
+                  "pdf-format": "a3",
                   "pdf-orientation": "landscape",
-                  "pdf-content-width": "1200px",
-                  "pdf-format": "a3"
+                  "pdf-content-width": "1600px"
                 }
               },
               [
@@ -6784,10 +6898,7 @@ var render = function() {
                   { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
                   [
                     _c("facultytemplate", {
-                      attrs: {
-                        templates: _vm.templates,
-                        signatures: _vm.signatures
-                      }
+                      attrs: { templates: _vm.json, signatures: _vm.signatures }
                     })
                   ],
                   1
@@ -8123,10 +8234,12 @@ var render = function() {
                 attrs: {
                   "manual-pagination": true,
                   "enable-download": true,
-                  "paginate-elements-by-height": 2000,
+                  "paginate-elements-by-height": 1200,
+                  filename: "myPDF",
+                  "pdf-quality": 2,
+                  "pdf-format": "a3",
                   "pdf-orientation": "landscape",
-                  "pdf-content-width": "1200px",
-                  "pdf-format": "a3"
+                  "pdf-content-width": "1600px"
                 }
               },
               [
@@ -8135,10 +8248,7 @@ var render = function() {
                   { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
                   [
                     _c("facultytemplate", {
-                      attrs: {
-                        templates: _vm.templates,
-                        signatures: _vm.signatures
-                      }
+                      attrs: { templates: _vm.json, signatures: _vm.signatures }
                     })
                   ],
                   1
@@ -11484,10 +11594,12 @@ var render = function() {
                 attrs: {
                   "manual-pagination": true,
                   "enable-download": true,
-                  "paginate-elements-by-height": 2000,
+                  "paginate-elements-by-height": 1200,
+                  filename: "myPDF",
+                  "pdf-quality": 2,
+                  "pdf-format": "a3",
                   "pdf-orientation": "landscape",
-                  "pdf-content-width": "1200px",
-                  "pdf-format": "a3"
+                  "pdf-content-width": "1600px"
                 }
               },
               [
@@ -11496,10 +11608,7 @@ var render = function() {
                   { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
                   [
                     _c("facultytemplate", {
-                      attrs: {
-                        templates: _vm.templates,
-                        signatures: _vm.signatures
-                      }
+                      attrs: { templates: _vm.json, signatures: _vm.signatures }
                     })
                   ],
                   1
@@ -12800,10 +12909,12 @@ var render = function() {
                 attrs: {
                   "manual-pagination": true,
                   "enable-download": true,
-                  "paginate-elements-by-height": 2000,
+                  "paginate-elements-by-height": 1200,
+                  filename: "myPDF",
+                  "pdf-quality": 2,
+                  "pdf-format": "a3",
                   "pdf-orientation": "landscape",
-                  "pdf-content-width": "1200px",
-                  "pdf-format": "a3"
+                  "pdf-content-width": "1600px"
                 }
               },
               [
@@ -12812,10 +12923,7 @@ var render = function() {
                   { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
                   [
                     _c("facultytemplate", {
-                      attrs: {
-                        templates: _vm.templates,
-                        signatures: _vm.signatures
-                      }
+                      attrs: { templates: _vm.json, signatures: _vm.signatures }
                     })
                   ],
                   1
