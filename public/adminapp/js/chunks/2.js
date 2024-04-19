@@ -2337,6 +2337,85 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2519,7 +2598,26 @@ __webpack_require__.r(__webpack_exports__);
       }];
     },
     downloadFiles: function downloadFiles(data) {
+      var _data$faculty_signatu2, _data$dean_signature2, _data$hrmo_signature2, _data$campus_director2;
+
       this.json = JSON.parse(data);
+      this.signatures = [{
+        'title': 'Discussed with:',
+        'name': data.faculty_id ? data.faculty.name : null,
+        'signature': (_data$faculty_signatu2 = data.faculty_signature) !== null && _data$faculty_signatu2 !== void 0 ? _data$faculty_signatu2 : null
+      }, {
+        'title': 'Assessed by:',
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature2 = data.dean_signature) !== null && _data$dean_signature2 !== void 0 ? _data$dean_signature2 : null
+      }, {
+        'title': 'Checked by:',
+        'name': data.hrmo_id ? data.hrmo.name : null,
+        'signature': (_data$hrmo_signature2 = data.hrmo_signature) !== null && _data$hrmo_signature2 !== void 0 ? _data$hrmo_signature2 : null
+      }, {
+        'title': 'Final Rating:',
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director2 = data.campus_director_signature) !== null && _data$campus_director2 !== void 0 ? _data$campus_director2 : null
+      }];
       this.$refs.html2Pdf.generatePdf();
     },
     openFileInput: function openFileInput() {
@@ -3752,7 +3850,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.remove-space {\r\n\tmargin: 0;\r\n\tpadding: 0;\n}\n.ipcr-font-size {\r\n\tfont-size: small !important;\n}\ntable,\r\nth,\r\ntd {\r\n\tborder: 1px solid !important;\r\n\tfont-weight: 500;\n}\n.two-table th {\r\n\tborder: 1px solid black;\r\n\ttext-align: center;\n}\n.two-table th {\r\n\tvertical-align: middle !important;\n}\n.two-table tbody {\r\n\tborder: 1px solid !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.remove-space {\r\n\tmargin: 0;\r\n\tpadding: 0;\n}\n.ipcr-font-size {\r\n\tfont-size: small !important;\n}\ntable {\r\n    page-break-inside: auto;\r\n    page-break-before: avoid;\n}\ntr {\r\n    page-break-inside: avoid;\r\n    page-break-after: auto;\n}\ntable,\r\nth,\r\ntd {\r\n\tborder: 1px solid !important;\r\n\tfont-weight: 500;\n}\n.two-table th {\r\n\tborder: 1px solid black;\r\n\ttext-align: center;\n}\n.two-table th {\r\n\tvertical-align: middle !important;\n}\n.two-table tbody {\r\n\tborder: 1px solid !important;\n}\r\n", ""]);
 
 // exports
 
@@ -8244,7 +8342,7 @@ var render = function() {
                         staticClass: "btn btn-sm btn-primary ml-5",
                         on: { click: _vm.openFileInput }
                       },
-                      [_vm._v("Upload Signature")]
+                      [_vm._v("\n\t\t\t\t\t\t\tUpload Signature\n\t\t\t\t\t\t")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -8469,11 +8567,7 @@ var render = function() {
                                             "text-align": "center"
                                           }
                                         },
-                                        [
-                                          _vm._v(
-                                            "\n\t\t\t\t\t\t\t\t\t\t\t\tRatee\n\t\t\t\t\t\t\t\t\t\t\t"
-                                          )
-                                        ]
+                                        [_vm._v("Ratee")]
                                       ),
                                       _vm._v(" "),
                                       _vm._l(
@@ -9219,7 +9313,11 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Upload Signature")]
+                      [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\tUpload Signature\n\t\t\t\t\t\t\t"
+                        )
+                      ]
                     )
                   ]
                 ],
@@ -9233,10 +9331,12 @@ var render = function() {
                   attrs: {
                     "manual-pagination": true,
                     "enable-download": true,
-                    "paginate-elements-by-height": 2000,
+                    "paginate-elements-by-height": 1200,
+                    filename: "myPDF",
+                    "pdf-quality": 2,
+                    "pdf-format": "a3",
                     "pdf-orientation": "landscape",
-                    "pdf-content-width": "1200px",
-                    "pdf-format": "a1"
+                    "pdf-content-width": "1600px"
                   }
                 },
                 [
@@ -9296,7 +9396,11 @@ var staticRenderFns = [
             staticClass: "ipcr-font-size",
             attrs: { rowspan: "2", colspan: "1" }
           },
-          [_vm._v("PERFORMANCE INDICATOR")]
+          [
+            _vm._v(
+              "\n\t\t\t\t\t\t\t\t\t\t\t\t\tPERFORMANCE INDICATOR\n\t\t\t\t\t\t\t\t\t\t\t\t"
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -9314,7 +9418,11 @@ var staticRenderFns = [
             staticClass: "ipcr-font-size",
             attrs: { rowspan: "2", colspan: "1" }
           },
-          [_vm._v("ACCOMPLISHED")]
+          [
+            _vm._v(
+              "\n\t\t\t\t\t\t\t\t\t\t\t\t\tACCOMPLISHED\n\t\t\t\t\t\t\t\t\t\t\t\t"
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -9323,7 +9431,11 @@ var staticRenderFns = [
             staticClass: "ipcr-font-size",
             attrs: { rowspan: "2", colspan: "1" }
           },
-          [_vm._v("DATE OF SUBMISSION/COMPLETION")]
+          [
+            _vm._v(
+              "\n\t\t\t\t\t\t\t\t\t\t\t\t\tDATE OF SUBMISSION/COMPLETION\n\t\t\t\t\t\t\t\t\t\t\t\t"
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -9332,7 +9444,11 @@ var staticRenderFns = [
             staticClass: "ipcr-font-size",
             attrs: { rowspan: "2", colspan: "1" }
           },
-          [_vm._v("DATE SUBMITTED/COMPLETED")]
+          [
+            _vm._v(
+              "\n\t\t\t\t\t\t\t\t\t\t\t\t\tDATE SUBMITTED/COMPLETED\n\t\t\t\t\t\t\t\t\t\t\t\t"
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -9406,7 +9522,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-4" }, [
-      _c("h3", [_vm._v("To Be Assessed By ")])
+      _c("h3", [_vm._v("To Be Assessed By")])
     ])
   }
 ]
@@ -9441,7 +9557,10 @@ var render = function() {
             "div",
             {
               staticClass: "card",
-              staticStyle: { "background-color": "hsl(40, 100%, 97%)" }
+              staticStyle: {
+                "background-color": "hsl(40, 100%, 97%)",
+                width: "100%"
+              }
             },
             [
               _c("div", { staticClass: "card-body" }, [
