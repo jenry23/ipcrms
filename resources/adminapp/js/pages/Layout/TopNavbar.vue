@@ -1,6 +1,6 @@
 <template>
   <nav
-  class="navbar navbar-expand-lg ipcrms-navbar-color"
+  class="navbar navbar-expand-lg ipcrms-navbar-color" style="width:100vw"
   >
     <div class="container-fluid">
       <div class="navbar-wrapper">

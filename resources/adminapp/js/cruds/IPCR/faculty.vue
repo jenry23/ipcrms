@@ -440,8 +440,6 @@ td {
 					sum = parseInt(value.accomplished) / parseInt(value.target)
 				}
 
-				sum = ;
-
 				return sum > 5 ? 5 : sum;
 			},
 
