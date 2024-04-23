@@ -142,13 +142,13 @@ class UploadFileApiController extends Controller
 
         if ($user->roles()->first()->title === 'Faculty') {
             $ipcr_files = IpcrUploadFiles::with(['ipcrPerformanceFunction', 'uploader'])
+                ->advancedFilter()
                 ->where('faculty_id', $user->id)
-                ->where('ipcr_function_id', $id)
-                ->advancedFilter();
+                ->where('ipcr_function_id', $id);
         } else {
             $ipcr_files = IpcrUploadFiles::with(['ipcrPerformanceFunction', 'uploader'])
-                ->where('ipcr_function_id', $id)
-                ->advancedFilter();
+                ->advancedFilter()
+                ->where('ipcr_function_id', $id);
         }
 
         return new IpcrResource($ipcr_files);
