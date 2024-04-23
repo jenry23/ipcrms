@@ -103,6 +103,9 @@
 				axios.put(`notifications/${notification.id}`)
 					.then((response) => {
 						this.fetchNotification();
+						this.$router.push({
+							name: 'upload-files'
+						})
 					})
 					.catch((error) => {
 						console.error('Error fetching notifications:', error);

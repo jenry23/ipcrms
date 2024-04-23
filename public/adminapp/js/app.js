@@ -3661,6 +3661,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       window.open(notification.url, 'Download');
       axios.put("notifications/".concat(notification.id)).then(function (response) {
         _this3.fetchNotification();
+
+        _this3.$router.push({
+          name: 'upload-files'
+        });
       })["catch"](function (error) {
         console.error('Error fetching notifications:', error);
       });
@@ -4316,7 +4320,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.card-color[data-v-78ea0fdf] {\r\n    background-color: white !important;\n}\n.scrollable-div[data-v-78ea0fdf] {\r\n    height: 500px; /* Set a fixed height */\r\n    overflow-y: auto; /* Add vertical scrollbar */\r\n    /* You can also add additional styling as needed */\n}\r\n", ""]);
+exports.push([module.i, "\n.card-color[data-v-78ea0fdf] {\n    background-color: white !important;\n}\n.scrollable-div[data-v-78ea0fdf] {\n    height: 500px; /* Set a fixed height */\n    overflow-y: auto; /* Add vertical scrollbar */\n    /* You can also add additional styling as needed */\n}\n", ""]);
 
 // exports
 
@@ -4335,7 +4339,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.fixed-width[data-v-78ea0fdf] {\r\n\twidth: 1.3em;\r\n\ttext-align: center;\r\n\tdisplay: inline-block;\n}\r\n", ""]);
+exports.push([module.i, "\n.fixed-width[data-v-78ea0fdf] {\n\twidth: 1.3em;\n\ttext-align: center;\n\tdisplay: inline-block;\n}\n", ""]);
 
 // exports
 
