@@ -187,6 +187,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      notification: false
+    };
+  },
   methods: {
     toggleSidebar: function toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
@@ -413,10 +418,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    {
-      staticClass: "navbar navbar-expand-lg ipcrms-navbar-color",
-      staticStyle: { width: "100vw" }
-    },
+    { staticClass: "navbar navbar-expand-lg ipcrms-navbar-color" },
     [
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "navbar-wrapper" }, [

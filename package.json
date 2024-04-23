@@ -33,7 +33,9 @@
     },
     "dependencies": {
         "jspdf": "^2.5.1",
+        "laravel-echo": "^1.16.1",
         "moment": "^2.29.4",
+        "pusher-js": "^8.4.0-rc2",
         "vue-html2pdf": "^1.8.0",
         "vue-toastification": "^1.7.14",
         "vuedraggable": "^2.24.3",

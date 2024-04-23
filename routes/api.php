@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Abilities
@@ -62,4 +65,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Announcement
     Route::get('announcement/faculty', 'AnnouncementApiController@getFaculty');
     Route::resource('announcement', 'AnnouncementApiController');
+
+    // Notifications
+    Route::resource('notifications', 'NotificationApiController');
 });

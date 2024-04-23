@@ -26,6 +26,18 @@ import GlobalDirectives from './globalDirectives'
 import GlobalMixins from './mixins/global'
 import { mapGetters, mapActions } from 'vuex'
 
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+
+window.Pusher = Pusher;
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    encrypted: true,
+});
+
+
 Vue.use(GlobalComponents)
 Vue.use(GlobalDirectives)
 Vue.use(GlobalMixins)

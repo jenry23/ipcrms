@@ -1,6 +1,6 @@
 <template>
   <nav
-  class="navbar navbar-expand-lg ipcrms-navbar-color" style="width:100vw"
+  class="navbar navbar-expand-lg ipcrms-navbar-color"
   >
     <div class="container-fluid">
       <div class="navbar-wrapper">
@@ -40,10 +40,16 @@
 </style>
 <script>
 export default {
+  data() {
+      return {
+          notification: false,
+      };
+  },
+
   methods: {
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
-    }
+    },
   }
 }
 </script>

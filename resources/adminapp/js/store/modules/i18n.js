@@ -28,6 +28,7 @@ const actions = {
     commit('setAcceptLanguage', locale)
 
     return axios.get('locales/messages').then(response => {
+      localStorage.setItem("userId", response.data.auth.id);
       commit('setMessages', { locale, messages: response.data })
       commit('addAvailableLocale', locale)
     })

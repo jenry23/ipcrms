@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
+use App\Events\FacultyUpload;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\IpcrResource;
 use App\Models\IpcrFacultyAssesstment;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\IpcrFunctionTemplate;
 use App\Models\IpcrTemplates;
 use App\Models\IpcrUploadFiles;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +29,7 @@ class UploadFileApiController extends Controller
         $file = $request->file('files');
 
         $filename = $file->getClientOriginalName();
+
         Storage::disk('public')->put($filename, file_get_contents($file));
 
         $data = [
@@ -36,6 +39,20 @@ class UploadFileApiController extends Controller
             'faculty_id' => Auth::user()->id,
             'file_name' => $filename
         ];
+
+        $ipcr_active = IpcrFacultyAssesstment::latest()->first();
+        $message = 'Successfully Upload File by Faculity' . Auth::user()->name;
+
+        if ($ipcr_active) {
+            Notification::create([
+                'user_id' => $ipcr_active->dean_id,
+                'message' => $message,
+                'file_name' => $filename,
+                'url' => Storage::disk('public')->url($filename)
+            ]);
+
+            event(new FacultyUpload($message, $ipcr_active->dean_id));
+        }
 
         $ipcr_uplopded_files = IpcrUploadFiles::create($data);
 
