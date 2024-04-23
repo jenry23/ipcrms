@@ -186,11 +186,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       notification: false
     };
+  },
+  computed: {
+    currentRouteName: function currentRouteName() {
+      return this.$route.name;
+    }
   },
   methods: {
     toggleSidebar: function toggleSidebar() {
@@ -232,7 +240,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.ipcrms-navbar-color[data-v-040163ec]{\n    background-color: #228B22 !important;\n    color: white;\n}\n", ""]);
+exports.push([module.i, "\n.ipcrms-navbar-color[data-v-040163ec]{\n    background-color: #228B22 !important;\n    color: white;\n}\n.ipcrms-width-navbar[data-v-040163ec] {\n  width: 100vw;\n}\n", ""]);
 
 // exports
 
@@ -418,7 +426,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    { staticClass: "navbar navbar-expand-lg ipcrms-navbar-color" },
+    {
+      staticClass: "navbar navbar-expand-lg ipcrms-navbar-color",
+      class: { "ipcrms-width-navbar": _vm.currentRouteName === "ipcr" }
+    },
     [
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "navbar-wrapper" }, [

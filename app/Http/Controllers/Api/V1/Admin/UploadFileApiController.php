@@ -12,6 +12,9 @@ use App\Models\IpcrFunctionTemplate;
 use App\Models\IpcrTemplates;
 use App\Models\IpcrUploadFiles;
 use App\Models\Notification;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -151,6 +154,15 @@ class UploadFileApiController extends Controller
                 ->where('ipcr_function_id', $id);
         }
 
-        return new IpcrResource($ipcr_files);
+        $data = $this->paginate($ipcr_files);
+
+        return new IpcrResource($data);
+    }
+
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

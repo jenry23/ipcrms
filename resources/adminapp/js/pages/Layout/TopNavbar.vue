@@ -1,6 +1,6 @@
 <template>
   <nav
-  class="navbar navbar-expand-lg ipcrms-navbar-color" style="width:100vw"
+  class="navbar navbar-expand-lg ipcrms-navbar-color" :class="{ 'ipcrms-width-navbar': currentRouteName === 'ipcr' }"
   >
     <div class="container-fluid">
       <div class="navbar-wrapper">
@@ -37,6 +37,9 @@
     background-color: #228B22 !important;
     color: white;
 }
+.ipcrms-width-navbar {
+  width: 100vw;
+}
 </style>
 <script>
 export default {
@@ -44,6 +47,12 @@ export default {
       return {
           notification: false,
       };
+  },
+
+  computed: {
+    currentRouteName() {
+        return this.$route.name;
+    }
   },
 
   methods: {
