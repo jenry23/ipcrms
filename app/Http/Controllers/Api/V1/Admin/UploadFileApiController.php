@@ -21,7 +21,7 @@ class UploadFileApiController extends Controller
 {
     public function index()
     {
-        return new IpcrResource(IpcrFacultyAssesstment::get());
+        return new IpcrResource(IpcrFacultyAssesstment::advancedFilter());
     }
 
     public function store(Request $request)
