@@ -28,7 +28,7 @@
 								Upload Signature
 							</button>
 
-							<div class="card" style="background-color: hsl(40, 100%, 97%)">
+							<div class="card">
 								<form @submit.prevent="submitForm">
 									<div class="card-body">
 										<div class="float-right">

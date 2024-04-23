@@ -1,7 +1,7 @@
 <template>
 	<div v-if="templates.ipcr_function">
 	<slot />
-	<div class="card" style="background-color: hsl(40, 100%, 97%); width: 100%;">
+	<div class="card" style="width: 100%;">
 		<div class="card-body">
 			<div class="float-right">
 				<p class="remove-space">SPMS Form 02</p>

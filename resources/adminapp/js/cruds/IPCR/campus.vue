@@ -39,7 +39,7 @@
 						<input type="file" ref="fileInput" style="display: none;" @change="handleFileUpload" />
 						<button class="btn btn-sm btn-primary ml-5" @click="openFileInput">Upload Signature</button>
 
-						<div class="card" style="background-color: hsl(40, 100%, 97%);">
+						<div class="card">
 							<form @submit.prevent="submitForm">
 								<div class="card-body">
 									<div class="float-right">
