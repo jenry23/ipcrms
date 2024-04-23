@@ -40,7 +40,7 @@ class UploadFileApiController extends Controller
             'file_name' => $filename
         ];
 
-        $ipcr_active = IpcrFacultyAssesstment::latest()->first();
+        $ipcr_active = IpcrFacultyAssesstment::where('faculty_id', Auth::user()->id)->first();
         $message = 'Successfully Upload File by Faculity' . Auth::user()->name;
 
         if ($ipcr_active) {
