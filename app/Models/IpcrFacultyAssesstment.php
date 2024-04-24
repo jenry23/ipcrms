@@ -39,6 +39,11 @@ class IpcrFacultyAssesstment extends Model
         return $this->belongsTo(User::class, 'vp_id');
     }
 
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
     public function ipcr_template(): BelongsTo
     {
         return $this->belongsTo(IpcrTemplates::class);

@@ -50,6 +50,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // IPCR faculty Assesstment function
     Route::get('ipcr-faculty-assesstment/faculty', 'IpcrFacultyAssesstmentApiController@getFacultyAssesstment');
     Route::get('ipcr-faculty-assesstment/campus-director', 'IpcrFacultyAssesstmentApiController@getCampusDirectorAssesstment');
+    Route::get('ipcr-faculty-assesstment/department/{id}', 'IpcrFacultyAssesstmentApiController@getDepartmentAssesstment');
     Route::get('ipcr-faculty-assesstment/download/{id}', 'IpcrFacultyAssesstmentApiController@downloadIPCR');
     Route::post('ipcr-faculty-assesstment/upload-signature', 'IpcrFacultyAssesstmentApiController@uploadSignature');
     Route::resource('ipcr-faculty-assesstment', 'IpcrFacultyAssesstmentApiController');

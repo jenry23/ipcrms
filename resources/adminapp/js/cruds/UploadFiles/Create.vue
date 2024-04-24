@@ -149,7 +149,7 @@
 						this.$router.go(-1);
 					}).catch(error => {
 						let message = error.response.data.message || error.message
-						this.$toast.error(message);
+						this.$toast.error('Dean ID is required');
 					})
 			},
 

@@ -127,10 +127,21 @@ const routes = [
         component: () => import('@cruds/Faculty/index.vue'),
         meta: { title: 'Faculty' }
       },
+      {
+        path: 'department',
+        name: 'department',
+        component: () => import('@cruds/Department/index.vue'),
+        meta: { title: 'Department' }
+      },
+      {
+        path: 'department/:id',
+        name: 'department.show',
+        component: () => import('@cruds/Department/Show.vue'),
+        meta: { title: 'Department' }
+      },
     ]
   }
 ]
-
 
 export default new VueRouter({
   mode: 'history',

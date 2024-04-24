@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\IpcrResource;
+use App\Models\Department;
 use App\Models\IpcrFacultyAssesstment;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -70,6 +71,19 @@ class IpcrFacultyAssesstmentApiController extends Controller
         $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])->get();
 
         return new IpcrResource($ipcr_faculty);
+    }
+
+    public function getDepartmentAssesstment(int $department_id)
+    {
+        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])
+            ->where('department_id', $department_id)
+            ->get();
+        $department_name = Department::find($department_id)->name ?? null;
+
+        return new IpcrResource([
+            'ipcr' => $ipcr_faculty,
+            'department_name' => $department_name
+        ]);
     }
 
 
