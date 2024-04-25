@@ -12,6 +12,7 @@ use App\Models\IpcrFunctionTemplate;
 use App\Models\IpcrTemplates;
 use App\Models\IpcrUploadFiles;
 use App\Models\Notification;
+use App\Models\UserDetail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -147,6 +148,16 @@ class UploadFileApiController extends Controller
             $ipcr_files = IpcrUploadFiles::with(['ipcrPerformanceFunction', 'uploader'])
                 ->advancedFilter()
                 ->where('faculty_id', $user->id)
+                ->where('ipcr_function_id', $id);
+        } else if ($user->roles()->first()->title === 'Dean') {
+            $user_ids = UserDetail::where('department_id', $user->userDetails->department_id)
+                ->get()
+                ->pluck('user_id')
+                ->toArray();
+
+            $ipcr_files = IpcrUploadFiles::with(['ipcrPerformanceFunction', 'uploader'])
+                ->advancedFilter()
+                ->whereIn('faculty_id', $user_ids)
                 ->where('ipcr_function_id', $id);
         } else {
             $ipcr_files = IpcrUploadFiles::with(['ipcrPerformanceFunction', 'uploader'])

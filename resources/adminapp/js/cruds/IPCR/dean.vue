@@ -70,8 +70,7 @@
 											<th v-for="(signatory, index) in signatures" :key="index">
 												<p>{{ signatory.title === 'Discussed with:' ? 'Conforme' : signatory.title }}</p>
 												<span style="margin-left: 30%;">
-												<img :src="signatory.signature" alt="My Image"
-														style=" width: 128px; height: 50px;">
+												<img :src="signatory.signature" alt="My Image" style=" width: 128px; height: 50px;">
 												<p style="margin-left: 30%;">{{ signatory.name }}</p>
 												</span>
 											</th>
