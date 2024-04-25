@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use \DateTimeInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
@@ -87,6 +88,20 @@ class User extends Authenticatable
         if ($input) {
             $this->attributes['password'] = Hash::needsRehash($input) ? Hash::make($input) : $input;
         }
+    }
+
+    public function scopeHasRole(Builder $query, string $role)
+    {
+        return $query->whereHas('roles', function (Builder $q) use ($role) {
+            $q->where('title', $role);
+        });
+    }
+
+    public function scopeHasNotRole(Builder $query, string $role)
+    {
+        return $query->whereHas('roles', function (Builder $q) use ($role) {
+            $q->where('title', '!=', $role);
+        });
     }
 
     public function getRoleNameAttribute()

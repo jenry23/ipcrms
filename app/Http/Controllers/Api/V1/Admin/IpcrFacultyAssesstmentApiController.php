@@ -26,7 +26,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
         $user = Auth::user();
         $roles = $user->roles()->first();
 
-        if ($user->roles()->first()->title === 'Faculty') {
+        if ($roles->title === 'Faculty') {
             $ipcr_active = IpcrTemplates::where('active', true)->first();
             $request['faculty_name'] = $user->name;
             $data = json_encode($request->all(), true);
@@ -68,7 +68,17 @@ class IpcrFacultyAssesstmentApiController extends Controller
 
     public function getCampusDirectorAssesstment()
     {
-        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])->get();
+        $user = Auth::user();
+        $roles = $user->roles()->first();
+
+        if ($roles->title === 'Dean') {
+            $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])
+                ->where('department_id', $user->userDetails->department_id)
+                ->get();
+        } else {
+            $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])
+                ->get();
+        }
 
         return new IpcrResource($ipcr_faculty);
     }

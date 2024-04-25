@@ -46,12 +46,6 @@ export default {
 						gate: 'upload_files_access',
         },
         {
-						title: 'Department',
-						icon: 'folder',
-						path: { name: 'department' },
-						gate: 'department_access',
-        },
-        {
 						title: 'Faculty',
 						icon: 'content_paste',
 						path: { name: 'faculty' },

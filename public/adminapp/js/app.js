@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "adminapp/js/chunks/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"ec2055eaf94eb5128239","1":"cfd8355c4756447f2bbc","2":"9b1bc107dd6b549025fd","3":"902946f98d9b1c86e7d3","4":"31f5faf342262166d708","5":"e09f573d305b49d360cd","6":"7efa8fad881d6268eeab","7":"2dbb7b0c2d73be06a6a1","8":"3b59daa51f521165da3a","9":"22726632d57bd34dc457","10":"d8dc7d997fcb01119ef2","11":"c536825cf184cd3f51d0","12":"a65be98bb736d866b514","13":"23ee8d1572400dcf4748","14":"9ea58c3b31fd8cb0ba25","15":"0374f8161fff6444b775","16":"31f7f2be915ddc9585ff","17":"133c720187f3a35fce3d","18":"97cb1c35937876bf7279","19":"23782f8eb150fe8c7eee","20":"eb6fad9405b59e0b6ed5","21":"d8a9f7c778a0a2738100","22":"02a554a202db3af45142","23":"a7deb6ed9d380f379c41","24":"b1b9d841592c85dc8bb1"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "adminapp/js/chunks/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"ec2055eaf94eb5128239","1":"cfd8355c4756447f2bbc","2":"9b1bc107dd6b549025fd","3":"902946f98d9b1c86e7d3","4":"ee4ea815ae0dc37483ce","5":"bc7e26ae34095bc0eafc","6":"7efa8fad881d6268eeab","7":"2dbb7b0c2d73be06a6a1","8":"3b59daa51f521165da3a","9":"22726632d57bd34dc457","10":"d8dc7d997fcb01119ef2","11":"c536825cf184cd3f51d0","12":"a65be98bb736d866b514","13":"fb95460c6fa775dbafb6","15":"0374f8161fff6444b775","16":"31f7f2be915ddc9585ff","17":"133c720187f3a35fce3d","18":"97cb1c35937876bf7279","19":"23782f8eb150fe8c7eee","20":"eb6fad9405b59e0b6ed5","21":"d8a9f7c778a0a2738100","22":"02a554a202db3af45142","23":"a7deb6ed9d380f379c41","24":"b1b9d841592c85dc8bb1"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -85181,19 +85181,10 @@ var routes = [{
       title: 'Faculty'
     }
   }, {
-    path: 'department',
+    path: 'department/:id',
     name: 'department',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! @cruds/Department/index.vue */ "./resources/adminapp/js/cruds/Department/index.vue"));
-    },
-    meta: {
-      title: 'Department'
-    }
-  }, {
-    path: 'department/:id',
-    name: 'department.show',
-    component: function component() {
-      return Promise.all(/*! import() */[__webpack_require__.e(2), __webpack_require__.e(1), __webpack_require__.e(13)]).then(__webpack_require__.bind(null, /*! @cruds/Department/Show.vue */ "./resources/adminapp/js/cruds/Department/Show.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(2), __webpack_require__.e(1), __webpack_require__.e(13)]).then(__webpack_require__.bind(null, /*! @cruds/IPCR/ShowByDepartment.vue */ "./resources/adminapp/js/cruds/IPCR/ShowByDepartment.vue"));
     },
     meta: {
       title: 'Department'
