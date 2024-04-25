@@ -67,30 +67,12 @@
 									</div>
 									<table class="table table-border">
 										<tr>
-											<th>
-												<p>Conforme:</p>
-													<span style="margin-left: 30%;">
-													<img :src="signatures[0].signature" alt="My Image"
+											<th v-for="(signatory, index) in signatures" :key="index">
+												<p>{{ signatory.title === 'Discussed with:' ? 'Conforme' : signatory.title }}</p>
+												<span style="margin-left: 30%;">
+												<img :src="signatory.signature" alt="My Image"
 														style=" width: 128px; height: 50px;">
-													<p  style="margin-left: 30%;">{{signatures[0].name }}</p>
-												</span>
-											</th>
-											<th v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
-												<p>{{ signatory.level_of_assestment }}</p>
-												<span style="margin-left: 30%;" v-if="signatory.position === 'Dean'">
-													<img :src="signatures[1].signature" alt="My Image"
-														style=" width: 128px; height: 50px;">
-														<p  style="margin-left: 30%;">{{ signatory.name_of_signatories }}</p>
-												</span>
-												<span style="margin-left: 30%;" v-if="signatory.position === 'HRMO'">
-													<img :src="signatures[2].signature" alt="My Image"
-														style=" width: 128px; height: 50px;">
-														<p  style="margin-left: 30%;">{{ signatory.name_of_signatories }}</p>
-												</span>
-												<span style="margin-left: 30%;" v-if="signatory.position === 'Campus Director'">
-													<img :src="signatures[3].signature" alt="My Image"
-														style=" width: 128px; height: 50px;">
-													<p  style="margin-left: 30%;">{{ signatory.name_of_signatories }}</p>
+												<p style="margin-left: 30%;">{{ signatory.name }}</p>
 												</span>
 											</th>
 										</tr>
