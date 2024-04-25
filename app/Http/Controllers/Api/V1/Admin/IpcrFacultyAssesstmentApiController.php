@@ -88,6 +88,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
         $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])
             ->where('department_id', $department_id)
             ->get();
+
         $department_name = Department::find($department_id)->name ?? null;
 
         return new IpcrResource([
