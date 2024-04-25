@@ -12,8 +12,6 @@ class IpcrUploadFiles extends Model
 {
     use HasAdvancedFilter, SoftDeletes, HasFactory;
 
-    protected $guarded = ['id'];
-
     protected $orderable = [
         'id',
         'ipcr_function_id',
@@ -31,6 +29,17 @@ class IpcrUploadFiles extends Model
         'file_name',
         'description',
         'remarks',
+    ];
+
+    protected $fillable = [
+        'id',
+        'ipcr_function_id',
+        'ipcr_performance_function_id',
+        'file_name',
+        'description',
+        'remarks',
+        'faculty_id',
+        'is_approved',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
