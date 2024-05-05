@@ -496,12 +496,25 @@ td {
 			},
 
 			submitForm () {
-				axios.post(`ipcr-faculty-assesstment`, this.templates).then(response => {
-					this.$toast.success("IPCR Assessment successfully saved!");
-					this.fetchFacultyIPCR();
-				}).catch(error => {
-					let message = error.response.data.message || error.message
-					this.$toast.error(message);
+				this.$swal({
+					title: 'Are you sure want to submit?',
+					text: "You won't be able to revert this!",
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'Submit',
+					confirmButtonColor: '#dd4b39',
+					focusCancel: true,
+					reverseButtons: true
+				}).then(result => {
+					if (result.value) {
+						axios.post(`ipcr-faculty-assesstment`, this.templates).then(response => {
+								this.$toast.success("IPCR Assessment successfully saved!");
+								this.fetchFacultyIPCR();
+							}).catch(error => {
+								let message = error.response.data.message || error.message
+								this.$toast.error(message);
+							})
+					}
 				})
 			},
 
