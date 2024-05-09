@@ -3,25 +3,47 @@
 		<form>
 			<div class="row">
 				<div class="col-md-12">
-					<div class="card" style="width: 90vw">
+					<div class="col-md-2">
+						<button class="btn btn-sm btn-warning" @click.prevent="rateYourself">Rate Yourself</button>
+					</div>
+					<div class="card" style="width: 90vw" v-for="(fac, key) in faculty.data" :key="key">
 						<div class="card-header card-header-primary card-header-icon" style="z-index: 0 !important">
 							<h4 class="card-title">
 								<div class="row">
 									<div class="col-md-10">
 										<strong>Faculty</strong>
 									</div>
-									<div class="col-md-2">
-										<button
-											class="btn btn-sm btn-warning"
-											@click.prevent="rateYourself"
-											v-if="availableRate"
-										>
-											Rate Yourself
-										</button>
-									</div>
 								</div>
 							</h4>
 						</div>
+						<div class="card-body">
+							<div class="card">
+								<div class="row">
+									<div class="col-md-4">
+										<h3>To Be Assessed By</h3>
+									</div>
+									<div class="col-md-4 mt-4">
+										<h5>Status: {{ fac.status_id }}</h5>
+									</div>
+
+									<div class="col-md-1 mt-3">
+										<button class="btn btn-sm btn-primary" @click.prevent="viewFiles(fac)">
+											View
+										</button>
+									</div>
+									<div class="col-md-1 mt-3">
+										<button
+											class="btn btn-sm btn-success"
+											@click.prevent="downloadFiles(fac.data)"
+										>
+											Download
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card" style="width: 90vw">
 						<div class="container-fluid" v-if="templates.ipcr_function">
 							<input type="file" ref="fileInput" style="display: none" @change="handleFileUpload" />
 							<button class="btn btn-sm btn-primary ml-5" @click="openFileInput">
@@ -58,7 +80,7 @@
 												measures for the
 												<input type="text" size="5" v-model="templates.semester" /> Semester
 												of Academic Year
-												<input type="text" size="5" v-model="templates.year" />.
+												<input type="text" size="10" v-model="templates.year" />.
 											</p>
 										</div>
 										<table class="table table-border">
@@ -245,32 +267,6 @@
 								</form>
 							</div>
 						</div>
-						<div class="card-body">
-							<div class="card" v-if="Object.keys(faculty).length !== 0">
-								<div class="row">
-									<div class="col-md-4">
-										<h3>To Be Assessed By</h3>
-									</div>
-									<div class="col-md-4 mt-4">
-										<h5>Status: {{ faculty.status_id }}</h5>
-									</div>
-
-									<div class="col-md-1 mt-3">
-										<button class="btn btn-sm btn-primary" @click.prevent="viewFiles(faculty)">
-											View
-										</button>
-									</div>
-									<div class="col-md-1 mt-3">
-										<button
-											class="btn btn-sm btn-success"
-											@click.prevent="downloadFiles(faculty.data)"
-										>
-											Download
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
 						<facultytemplate :templates="json" :signatures="signatures">
 							<template>
 								<input type="file" ref="fileInput" style="display: none" @change="handleFileUpload" />
@@ -311,13 +307,13 @@
 }
 
 table {
-    page-break-inside: auto;
-    page-break-before: avoid;
+	page-break-inside: auto;
+	page-break-before: avoid;
 }
 
 tr {
-    page-break-inside: avoid;
-    page-break-after: auto;
+	page-break-inside: avoid;
+	page-break-after: auto;
 }
 
 table,
@@ -450,8 +446,9 @@ td {
 						this.$toast.error("Please Upload IPCR Template to Admin");
 					} else {
 						this.$toast.success("IPCR Create Rate Yourself!");
+						console.log(data)
 						this.templates = data;
-						this.fetchFacultyIPCR();
+						// this.fetchFacultyIPCR();
 					}
 				}).catch((error) => {
 					console.log(error);
@@ -480,16 +477,12 @@ td {
 					})
 			},
 
-			fetchFacultyIPCRFiles () {
-
-			},
-
 			fetchFacultyIPCR () {
 				axios.get('ipcr-faculty-assesstment/faculty').then((response) => {
 					let data = response.data.data
+					console.log(data);
 					if (Object.keys(data).length !== 0) {
 						this.faculty = response.data;
-						this.availableRate = false
 						this.templates = []
 					}
 				})
@@ -508,12 +501,12 @@ td {
 				}).then(result => {
 					if (result.value) {
 						axios.post(`ipcr-faculty-assesstment`, this.templates).then(response => {
-								this.$toast.success("IPCR Assessment successfully saved!");
-								this.fetchFacultyIPCR();
-							}).catch(error => {
-								let message = error.response.data.message || error.message
-								this.$toast.error(message);
-							})
+							this.$toast.success("IPCR Assessment successfully saved!");
+							this.fetchFacultyIPCR();
+						}).catch(error => {
+							let message = error.response.data.message || error.message
+							this.$toast.error(message);
+						})
 					}
 				})
 			},

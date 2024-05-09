@@ -68,6 +68,7 @@ import GlobalSearch from '@components/Datatables/GlobalSearch'
 import DatatableList from './properties/DatatableList'
 import DatatableRemarks from './properties/DatatableRemarks'
 import DatatableActions from './properties/DatatableActions'
+import DatatableYesOrNo from '@/components/Datatables/DatatableYesOrNo'
 
 	export default {
 		components: {
@@ -111,6 +112,7 @@ import DatatableActions from './properties/DatatableActions'
 						title: 'Is Approved',
 						field: 'is_approved',
 						thComp: TranslatedHeader,
+						tdComp: DatatableYesOrNo,
 					},
 					{
 						title: 'Date Of Submitted',
@@ -137,6 +139,7 @@ import DatatableActions from './properties/DatatableActions'
 				total: 0,
 				xprops: {
 					module: 'PermissionsIndex',
+					uploadedId: this.uploadedId,
 					route: 'permissions',
 					permission_prefix: 'permission_'
 				},

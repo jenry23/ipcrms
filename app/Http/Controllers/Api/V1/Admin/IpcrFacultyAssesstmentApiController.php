@@ -31,10 +31,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
             $request['faculty_name'] = $user->name;
             $data = json_encode($request->all(), true);
 
-            IpcrFacultyAssesstment::updateOrCreate([
-                'ipcr_template_id' => $ipcr_active->id,
-                'faculty_id' => $user->id
-            ], [
+            IpcrFacultyAssesstment::create([
                 'status_id' => 'On Going Assesment',
                 'ipcr_template_id' => $ipcr_active->id,
                 'faculty_id' => $user->id,
@@ -61,7 +58,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
     public function getFacultyAssesstment()
     {
         $user_id = Auth::user()->id;
-        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])->where('faculty_id', $user_id)->first();
+        $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])->where('faculty_id', $user_id)->get();
 
         return new IpcrResource($ipcr_faculty);
     }
@@ -83,7 +80,7 @@ class IpcrFacultyAssesstmentApiController extends Controller
         return new IpcrResource($ipcr_faculty);
     }
 
-    public function getDepartmentAssesstment(int $department_id)
+    public function getDepartmentAssesstment($department_id)
     {
         $ipcr_faculty = IpcrFacultyAssesstment::with(['ipcr_template', 'faculty', 'dean', 'hrmo', 'campus_director'])
             ->where('department_id', $department_id)
@@ -120,6 +117,9 @@ class IpcrFacultyAssesstmentApiController extends Controller
 
     public function uploadSignature(Request $request)
     {
+        $user = Auth::user();
+        $roles = $user->roles()->first();
+
         $assessment_id = $request->assessment_id;
         $ipcr_faculty = IpcrFacultyAssesstment::findOrFail($assessment_id);
 
@@ -130,25 +130,25 @@ class IpcrFacultyAssesstmentApiController extends Controller
         Storage::disk('public')->put($filename, file_get_contents($file));
         $url = URL::asset('storage/' . $filename);
 
-        if ($request->is_dean) {
+        if ($roles->id === 3) {
             $ipcr_faculty->update([
                 'dean_signature' => $url,
                 'dean_id' => Auth::user()->id,
                 'status_id' => 'Done Evaluated by Dean'
             ]);
-        } elseif ($request->is_hrmo) {
+        } elseif ($roles->id === 4) {
             $ipcr_faculty->update([
                 'hrmo_signature' => $url,
                 'hrmo_id' => Auth::user()->id,
                 'status_id' => 'Done Evaluated by HRMO'
             ]);
-        } elseif ($request->is_campus_director) {
+        } elseif ($roles->id === 5) {
             $ipcr_faculty->update([
                 'campus_director_signature' => $url,
                 'campus_director_id' => Auth::user()->id,
                 'status_id' => 'Done Evaluated by Campus Director'
             ]);
-        } elseif ($request->is_faculty) {
+        } elseif ($roles->id === 1) {
             $ipcr_faculty->update([
                 'faculty_signature' => $url,
                 'faculty_id' => Auth::user()->id,

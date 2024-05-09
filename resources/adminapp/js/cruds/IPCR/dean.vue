@@ -62,7 +62,7 @@
 											the
 											<input type="text" size="5" v-model="templates.semester" disabled />
 											Semester of Academic Year
-											<input type="text" size="5" v-model="templates.year" disabled />.
+											<input type="text" size="7" v-model="templates.year" disabled />.
 										</p>
 									</div>
 									<table class="table table-border">

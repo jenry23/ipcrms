@@ -1,5 +1,26 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[3],{
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['field', 'row']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/cruds/UploadFiles/UploadFileDatatables.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/cruds/UploadFiles/UploadFileDatatables.vue?vue&type=script&lang=js& ***!
@@ -16,6 +37,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _properties_DatatableList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./properties/DatatableList */ "./resources/adminapp/js/cruds/UploadFiles/properties/DatatableList.vue");
 /* harmony import */ var _properties_DatatableRemarks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./properties/DatatableRemarks */ "./resources/adminapp/js/cruds/UploadFiles/properties/DatatableRemarks.vue");
 /* harmony import */ var _properties_DatatableActions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./properties/DatatableActions */ "./resources/adminapp/js/cruds/UploadFiles/properties/DatatableActions.vue");
+/* harmony import */ var _components_Datatables_DatatableYesOrNo__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Datatables/DatatableYesOrNo */ "./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue");
 //
 //
 //
@@ -78,6 +100,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -119,7 +142,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'Is Approved',
         field: 'is_approved',
-        thComp: _components_Datatables_TranslatedHeader__WEBPACK_IMPORTED_MODULE_1__["default"]
+        thComp: _components_Datatables_TranslatedHeader__WEBPACK_IMPORTED_MODULE_1__["default"],
+        tdComp: _components_Datatables_DatatableYesOrNo__WEBPACK_IMPORTED_MODULE_7__["default"]
       }, {
         title: 'Date Of Submitted',
         field: 'created_at',
@@ -147,6 +171,7 @@ __webpack_require__.r(__webpack_exports__);
       total: 0,
       xprops: {
         module: 'PermissionsIndex',
+        uploadedId: this.uploadedId,
         route: 'permissions',
         permission_prefix: 'permission_'
       },
@@ -677,7 +702,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["row"],
+  props: ["row", "query", "xprops"],
   data: function data() {
     return {
       role_title: document.querySelector("meta[name='role_title']").getAttribute("content")
@@ -705,7 +730,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("upload-file/remarks/".concat(id, "/").concat(value)).then(function (response) {
         _this.$toast.success("Upload Remarks successfully update!");
 
-        _this.fetchFunctionFiles();
+        setTimeout(function () {
+          window.location.reload();
+        }, 1000); // 5000 milliseconds = 5 seconds
       });
     },
     approvedFiles: function approvedFiles(id) {
@@ -714,7 +741,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("upload-file/approved/".concat(id)).then(function (response) {
         _this2.$toast.success("Upload Files successfully approved!");
 
-        _this2.fetchFunctionFiles();
+        setTimeout(function () {
+          window.location.reload();
+        }, 1000); // 5000 milliseconds = 5 seconds
       });
     }
   }
@@ -781,6 +810,32 @@ __webpack_require__.r(__webpack_exports__);
     };
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=template&id=d329a022&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=template&id=d329a022& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._v("\n  " + _vm._s(_vm.row[_vm.field] ? "Yes" : "No") + "\n")
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
 
 /***/ }),
 
@@ -1449,7 +1504,7 @@ var render = function() {
       ? _c(
           "button",
           {
-            staticClass: "btn btn-sm btn-primary",
+            staticClass: "btn btn-sm btn-primary mt-2",
             on: {
               click: function($event) {
                 return _vm.updateRemarks(_vm.row.id, _vm.row.remarks)
@@ -1463,7 +1518,7 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "btn btn-sm btn-primary",
+        staticClass: "btn btn-sm btn-primary mt-2",
         on: {
           click: function($event) {
             return _vm.downloadFiles(_vm.row.id, _vm.row.file_name)
@@ -1477,7 +1532,7 @@ var render = function() {
       ? _c(
           "button",
           {
-            staticClass: "btn btn-sm btn-primary",
+            staticClass: "btn btn-sm btn-primary mt-2",
             on: {
               click: function($event) {
                 return _vm.approvedFiles(_vm.row.id)
@@ -1567,6 +1622,75 @@ var render = function() {
 }
 var staticRenderFns = []
 render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue":
+/*!**************************************************************************!*\
+  !*** ./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DatatableYesOrNo_vue_vue_type_template_id_d329a022___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DatatableYesOrNo.vue?vue&type=template&id=d329a022& */ "./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=template&id=d329a022&");
+/* harmony import */ var _DatatableYesOrNo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DatatableYesOrNo.vue?vue&type=script&lang=js& */ "./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DatatableYesOrNo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DatatableYesOrNo_vue_vue_type_template_id_d329a022___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DatatableYesOrNo_vue_vue_type_template_id_d329a022___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatatableYesOrNo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DatatableYesOrNo.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatatableYesOrNo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=template&id=d329a022&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=template&id=d329a022& ***!
+  \*********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DatatableYesOrNo_vue_vue_type_template_id_d329a022___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DatatableYesOrNo.vue?vue&type=template&id=d329a022& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/adminapp/js/components/Datatables/DatatableYesOrNo.vue?vue&type=template&id=d329a022&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DatatableYesOrNo_vue_vue_type_template_id_d329a022___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DatatableYesOrNo_vue_vue_type_template_id_d329a022___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

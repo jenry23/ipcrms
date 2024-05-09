@@ -402,7 +402,6 @@ __webpack_require__.r(__webpack_exports__);
 
       var form = new FormData();
       var selectedFile = event.target.files[0];
-      console.log(this.templates.id);
       var data = {
         'assessment_id': this.templates.id,
         'files': selectedFile,
@@ -700,7 +699,7 @@ var render = function() {
                                   ],
                                   attrs: {
                                     type: "text",
-                                    size: "5",
+                                    size: "7",
                                     disabled: ""
                                   },
                                   domProps: { value: _vm.templates.year },
@@ -855,7 +854,8 @@ var render = function() {
                                                           "router-link",
                                                           {
                                                             attrs: {
-                                                              to: "upload-files"
+                                                              to:
+                                                                "/upload-files"
                                                             }
                                                           },
                                                           [

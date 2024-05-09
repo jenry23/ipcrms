@@ -62,7 +62,7 @@
 											the
 											<input type="text" size="5" v-model="templates.semester" disabled />
 											Semester of Academic Year
-											<input type="text" size="5" v-model="templates.year" disabled />.
+											<input type="text" size="7" v-model="templates.year" disabled />.
 										</p>
 									</div>
 									<table class="table table-border">
@@ -115,7 +115,7 @@
 														v-for="(performance, index2) in ipcrSubfunction.ipcr_performance">
 														<tr>
 															<td>
-																<router-link to="upload-files">
+																<router-link to="/upload-files">
 																	{{ performance.name }}
 																</router-link>
 															</td>
@@ -400,7 +400,6 @@ export default {
 			let form = new FormData();
 			let selectedFile = event.target.files[0];
 
-			console.log(this.templates.id);
 			let data = {
 				'assessment_id': this.templates.id,
 				'files': selectedFile,

@@ -132,7 +132,7 @@ const routes = [
         name: 'department',
         component: () => import('@cruds/IPCR/ShowByDepartment.vue'),
         meta: { title: 'Department' }
-      },
+      }
     ]
   }
 ]
