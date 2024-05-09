@@ -122,7 +122,7 @@ class UploadFileApiController extends Controller
                                         ->where('is_approved', true)
                                         ->count();
 
-                                    $json_data['ipcr_function'][$key]['ipcr_subfunctions'][$key1]['ipcr_performance'][$key2]['accomplished']  = $total_approved_ipcr;
+                                    $json_data['ipcr_function'][$key]['ipcr_subfunctions'][$key1]['ipcr_performance'][$key2]['accomplished']  = is_null($total_approved_ipcr) ? 1 : $total_approved_ipcr;
 
                                     $json_data['ipcr_function'][$key]['ipcr_subfunctions'][$key1]['ipcr_performance'][$key2]['date_completed']  = Carbon::parse($upload_files->created_at)->format('Y-m-d');
                                 }

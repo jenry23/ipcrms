@@ -335,7 +335,7 @@ export default {
 				sum = parseInt(value.accomplished) / parseInt(value.target) * 5;
 			}
 
-			sum = sum > 5 ? 5 : sum;
+			sum = sum > 5 ? 5 : Math.ceil(sum);
 
 			this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].quantity = sum;
 

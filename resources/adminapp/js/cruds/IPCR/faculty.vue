@@ -436,7 +436,7 @@ td {
 					sum = parseInt(value.accomplished) / parseInt(value.target)
 				}
 
-				return sum > 5 ? 5 : sum;
+				return sum > 5 ? 5 : Math.ceil(sum);
 			},
 
 			rateYourself () {
