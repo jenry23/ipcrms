@@ -368,26 +368,26 @@ export default {
 		downloadFiles (data) {
 			this.json = JSON.parse(data);
 
-			this.signatures = [{
-				'title': 'Discuss with:',
-				'name': data.dean_id ? data.dean.name : null,
-				'signature': data.dean_signature ?? null
-			},
-			{
-				'title': 'Assessed by:',
-				'name': data.campus_director_id ? data.campus_director.name : null,
-				'signature': data.campus_director_signature ?? null
-			},
-			{
-				'title': 'Checked by:',
-				'name': data.hrmo_id ? data.hrmo.name : null,
-				'signature': data.hrmo_signature ?? null
-			},
-			{
-				'title': 'Final Rating:',
-				'name': data.vp_id ? data.vp.name : null,
-				'signature': data.vp_signature ?? null,
-			}]
+			this.signatures = [
+				{
+					'title': 'Discussed with:',
+					'name': data.faculty_id ? data.faculty.name : null,
+					'signature': data.faculty_signature ?? null,
+				}, {
+					'title': 'Assessed by:',
+					'name': data.dean_id ? data.dean.name : null,
+					'signature':  this.numericalRating > 0 ? data.dean_signature : null
+				},
+				{
+					'title': 'Checked by:',
+					'name': data.hrmo_id ? data.hrmo.name : null,
+					'signature': this.numericalRating > 0 ? data.hrmo_signature : null
+				},
+				{
+					'title': 'Final Rating:',
+					'name': data.campus_director_id ? data.campus_director.name : null,
+					'signature': this.numericalRating > 0 ? data.campus_director_signature : null
+				}]
 			this.$refs.html2Pdf.generatePdf()
 		},
 
