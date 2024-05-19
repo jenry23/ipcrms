@@ -331,11 +331,15 @@ export default {
 		setQuantity (value, index2, index1, index) {
 			let sum = 0;
 
-			if (value.target) {
-				sum = parseInt(value.accomplished) / parseInt(value.target) * 5;
-			}
+			// Check if value and target are defined and are numbers
+			if (value && value.accomplished && value.target) {
+				let accomplished = parseInt(value.accomplished, 10);
+				let target = parseInt(value.target, 10);
 
-			sum = sum > 5 ? 5 : Math.ceil(sum);
+				if (!isNaN(accomplished) && !isNaN(target) && target !== 0) {
+					sum = accomplished / target * 5;
+				}
+			}
 
 			this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].quantity = sum;
 
