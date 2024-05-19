@@ -21,31 +21,28 @@
 					of the Laguna State Polytechnic University, commit to deliver and agree to the rated of
 					the following in accordance with the indicated measures for the
 					<input type="text" size="5" v-model="templates.semester" disabled /> Semester of Academic
-					Year <input type="text" size="20" v-model="templates.year" disabled />.
+					Year <input type="text" size="10" v-model="templates.year" disabled />.
 				</p>
 			</div>
 			<table class="table table-border">
 			<tr>
-				<th>
-					Conforme:
-					{{ $t('auth.name') }}
-				</th>
-				<th v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
-					{{ signatory.level_of_assestment }} :
-					{{ signatory.name_of_signatories }}
+				<th v-for="(signatory, index) in signatures" :key="index">
+					<p>{{ signatory.title === 'Discussed with:' ? 'Conforme' : signatory.title }}</p>
+					<span style="margin-left: 30%;">
+					<img :src="signatory.signature" alt="My Image" style=" width: 128px; height: 50px;">
+					<p style="margin-left: 30%;">{{ signatory.name }}</p>
+					</span>
 				</th>
 			</tr>
 			<tr>
-				<th style="text-align: center">Ratee</th>
-				<th
-					style="text-align: center"
-					v-for="signatory in templates.ipcr_signatory"
-					:key="signatory.id"
-				>
+				<th style="text-align: center;">
+					Ratee
+				</th>
+				<th style="text-align: center;" v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
 					{{ signatory.position }}
 				</th>
 			</tr>
-		</table>
+			</table>
 			<table class="table table-border two-table">
 				<tr>
 					<th rowspan="2" colspan="1">PERFORMANCE INDICATOR</th>

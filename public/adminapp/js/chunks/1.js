@@ -175,25 +175,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     templates: {},
@@ -397,7 +378,7 @@ var render = function() {
                         expression: "templates.year"
                       }
                     ],
-                    attrs: { type: "text", size: "5", disabled: "" },
+                    attrs: { type: "text", size: "10", disabled: "" },
                     domProps: { value: _vm.templates.year },
                     on: {
                       input: function($event) {
@@ -415,128 +396,38 @@ var render = function() {
               _c("table", { staticClass: "table table-border" }, [
                 _c(
                   "tr",
-                  [
-                    _c("th", [
-                      _c("p", [_vm._v("Conforme:")]),
+                  _vm._l(_vm.signatures, function(signatory, index) {
+                    return _c("th", { key: index }, [
+                      _c("p", [
+                        _vm._v(
+                          _vm._s(
+                            signatory.title === "Discussed with:"
+                              ? "Conforme"
+                              : signatory.title
+                          )
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("span", { staticStyle: { "margin-left": "30%" } }, [
                         _c("img", {
                           staticStyle: { width: "128px", height: "50px" },
-                          attrs: {
-                            src: _vm.signatures[0].signature,
-                            alt: "My Image"
-                          }
+                          attrs: { src: signatory.signature, alt: "My Image" }
                         }),
                         _vm._v(" "),
                         _c("p", { staticStyle: { "margin-left": "30%" } }, [
-                          _vm._v(_vm._s(_vm.signatures[0].name))
+                          _vm._v(_vm._s(signatory.name))
                         ])
                       ])
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.templates.ipcr_signatory, function(signatory) {
-                      return _c("th", { key: signatory.id }, [
-                        _c("p", [
-                          _vm._v(_vm._s(signatory.level_of_assestment))
-                        ]),
-                        _vm._v(" "),
-                        signatory.position === "Dean"
-                          ? _c(
-                              "span",
-                              { staticStyle: { "margin-left": "30%" } },
-                              [
-                                _c("img", {
-                                  staticStyle: {
-                                    width: "128px",
-                                    height: "50px"
-                                  },
-                                  attrs: {
-                                    src: _vm.signatures[1].signature,
-                                    alt: "My Image"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticStyle: { "margin-left": "30%" } },
-                                  [
-                                    _vm._v(
-                                      _vm._s(signatory.name_of_signatories)
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        signatory.position === "HRMO"
-                          ? _c(
-                              "span",
-                              { staticStyle: { "margin-left": "30%" } },
-                              [
-                                _c("img", {
-                                  staticStyle: {
-                                    width: "128px",
-                                    height: "50px"
-                                  },
-                                  attrs: {
-                                    src: _vm.signatures[2].signature,
-                                    alt: "My Image"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticStyle: { "margin-left": "30%" } },
-                                  [
-                                    _vm._v(
-                                      _vm._s(signatory.name_of_signatories)
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        signatory.position === "Campus Director"
-                          ? _c(
-                              "span",
-                              { staticStyle: { "margin-left": "30%" } },
-                              [
-                                _c("img", {
-                                  staticStyle: {
-                                    width: "128px",
-                                    height: "50px"
-                                  },
-                                  attrs: {
-                                    src: _vm.signatures[3].signature,
-                                    alt: "My Image"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticStyle: { "margin-left": "30%" } },
-                                  [
-                                    _vm._v(
-                                      _vm._s(signatory.name_of_signatories)
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          : _vm._e()
-                      ])
-                    })
-                  ],
-                  2
+                    ])
+                  }),
+                  0
                 ),
                 _vm._v(" "),
                 _c(
                   "tr",
                   [
                     _c("th", { staticStyle: { "text-align": "center" } }, [
-                      _vm._v("\n\t\t\t\t\tRatee\n\t\t\t\t")
+                      _vm._v("\n\t\t\t\tRatee\n\t\t\t")
                     ]),
                     _vm._v(" "),
                     _vm._l(_vm.templates.ipcr_signatory, function(signatory) {
@@ -548,9 +439,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n\t\t\t\t\t" +
+                            "\n\t\t\t\t" +
                               _vm._s(signatory.position) +
-                              "\n\t\t\t\t"
+                              "\n\t\t\t"
                           )
                         ]
                       )

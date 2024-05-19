@@ -1582,13 +1582,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     setQuantity: function setQuantity(value, index2, index1, index) {
-      var sum = 0;
+      var sum = 0; // Check if value and target are defined and are numbers
 
-      if (value.target) {
-        sum = parseInt(value.accomplished) / parseInt(value.target) * 5;
+      if (value && value.accomplished && value.target) {
+        var accomplished = parseInt(value.accomplished, 10);
+        var target = parseInt(value.target, 10);
+
+        if (!isNaN(accomplished) && !isNaN(target) && target !== 0) {
+          sum = accomplished / target * 5;
+        }
       }
 
-      sum = sum > 5 ? 5 : Math.ceil(sum);
       this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].quantity = sum;
       return sum;
     },
@@ -1644,7 +1648,6 @@ __webpack_require__.r(__webpack_exports__);
         'name': data.campus_director_id ? data.campus_director.name : null,
         'signature': this.numericalRating > 0 ? data.campus_director_signature : null
       }];
-      console.log(this.signatures);
     },
     submitForm: function submitForm() {
       var _this2 = this;
@@ -1660,25 +1663,25 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     downloadFiles: function downloadFiles(data) {
-      var _data$dean_signature, _data$campus_director, _data$hrmo_signature, _data$vp_signature;
+      var _data$faculty_signatu2, _data$dean_signature, _data$hrmo_signature, _data$campus_director;
 
-      this.json = JSON.parse(data);
+      this.json = JSON.parse(data.data);
       this.signatures = [{
-        'title': 'Discuss with:',
-        'name': data.dean_id ? data.dean.name : null,
-        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
+        'title': 'Discussed with:',
+        'name': data.faculty_id ? data.faculty.name : null,
+        'signature': (_data$faculty_signatu2 = data.faculty_signature) !== null && _data$faculty_signatu2 !== void 0 ? _data$faculty_signatu2 : null
       }, {
         'title': 'Assessed by:',
-        'name': data.campus_director_id ? data.campus_director.name : null,
-        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
+        'name': data.dean_id ? data.dean.name : null,
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
       }, {
         'title': 'Checked by:',
         'name': data.hrmo_id ? data.hrmo.name : null,
         'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
       }, {
         'title': 'Final Rating:',
-        'name': data.vp_id ? data.vp.name : null,
-        'signature': (_data$vp_signature = data.vp_signature) !== null && _data$vp_signature !== void 0 ? _data$vp_signature : null
+        'name': data.campus_director_id ? data.campus_director.name : null,
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
       }];
       this.$refs.html2Pdf.generatePdf();
     },
@@ -2267,7 +2270,7 @@ __webpack_require__.r(__webpack_exports__);
       }];
     },
     downloadFiles: function downloadFiles(data) {
-      var _data$faculty_signatu2, _data$dean_signature2, _data$hrmo_signature2, _data$campus_director2;
+      var _data$faculty_signatu2;
 
       this.json = JSON.parse(data);
       this.signatures = [{
@@ -2277,15 +2280,15 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         'title': 'Assessed by:',
         'name': data.dean_id ? data.dean.name : null,
-        'signature': (_data$dean_signature2 = data.dean_signature) !== null && _data$dean_signature2 !== void 0 ? _data$dean_signature2 : null
+        'signature': this.numericalRating > 0 ? data.dean_signature : null
       }, {
         'title': 'Checked by:',
         'name': data.hrmo_id ? data.hrmo.name : null,
-        'signature': (_data$hrmo_signature2 = data.hrmo_signature) !== null && _data$hrmo_signature2 !== void 0 ? _data$hrmo_signature2 : null
+        'signature': this.numericalRating > 0 ? data.hrmo_signature : null
       }, {
         'title': 'Final Rating:',
         'name': data.campus_director_id ? data.campus_director.name : null,
-        'signature': (_data$campus_director2 = data.campus_director_signature) !== null && _data$campus_director2 !== void 0 ? _data$campus_director2 : null
+        'signature': this.numericalRating > 0 ? data.campus_director_signature : null
       }];
       this.$refs.html2Pdf.generatePdf();
     },
@@ -4429,7 +4432,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  return _vm.downloadFiles(fac.data)
+                                  return _vm.downloadFiles(fac)
                                 }
                               }
                             },
