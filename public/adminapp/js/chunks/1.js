@@ -786,7 +786,7 @@ var render = function() {
                       _vm._v(
                         "\n\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t"
                       ),
-                      _c("input", {
+                      _c("textarea", {
                         directives: [
                           {
                             name: "model",
@@ -795,7 +795,9 @@ var render = function() {
                             expression: "templates.recommendation"
                           }
                         ],
-                        attrs: { type: "text", size: "70", disabled: "" },
+                        staticClass: "form-control",
+                        staticStyle: { border: "1px solid" },
+                        attrs: { disabled: "" },
                         domProps: { value: _vm.templates.recommendation },
                         on: {
                           input: function($event) {

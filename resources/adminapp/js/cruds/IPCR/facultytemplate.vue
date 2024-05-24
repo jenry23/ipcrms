@@ -107,7 +107,7 @@
 					<tr>
 						<td colspan="5">
 							Comments and Recommendations for Development Purposes:
-							<input type="text" v-model="templates.recommendation" size="70" disabled />
+							<textarea v-model="templates.recommendation" class="form-control" style="border: 1px solid;" disabled />
 						</td>
 						<td>Numerical Rating: {{ numericalRating }}</td>
 						<td colspan="4">Adjectival Rating: {{ adjectivalRating }}</td>

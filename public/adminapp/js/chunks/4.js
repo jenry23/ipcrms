@@ -2076,7 +2076,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -5252,37 +5251,31 @@ var render = function() {
                               _vm._v(" "),
                               _c("tfoot", [
                                 _c("tr", [
-                                  _c("td", { attrs: { colspan: "5" } }, [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t\t\t\t\t\t\t"
-                                    ),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
+                                  _c(
+                                    "td",
+                                    { attrs: { colspan: "5" } },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                      ),
+                                      _c("textare", {
+                                        staticClass: "form-control",
+                                        staticStyle: { border: "1px solid" },
+                                        model: {
                                           value: _vm.templates.recommendation,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.templates,
+                                              "recommendation",
+                                              $$v
+                                            )
+                                          },
                                           expression: "templates.recommendation"
                                         }
-                                      ],
-                                      attrs: { type: "text", size: "70" },
-                                      domProps: {
-                                        value: _vm.templates.recommendation
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.templates,
-                                            "recommendation",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ]),
+                                      })
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c("td", [
                                     _vm._v(
@@ -6437,7 +6430,7 @@ var render = function() {
                                         _vm._v(
                                           "\n\t\t\t\t\t\t\t\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t\t\t\t\t\t\t\t"
                                         ),
-                                        _c("input", {
+                                        _c("textarea", {
                                           directives: [
                                             {
                                               name: "model",
@@ -6448,11 +6441,9 @@ var render = function() {
                                                 "templates.recommendation"
                                             }
                                           ],
-                                          attrs: {
-                                            type: "text",
-                                            size: "70",
-                                            disabled: ""
-                                          },
+                                          staticClass: "form-control",
+                                          staticStyle: { border: "1px solid" },
+                                          attrs: { disabled: "" },
                                           domProps: {
                                             value: _vm.templates.recommendation
                                           },

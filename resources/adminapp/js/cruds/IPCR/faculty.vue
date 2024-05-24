@@ -225,10 +225,9 @@
 												<tr>
 													<td colspan="5">
 														Comments and Recommendations for Development Purposes:
-														<input
-															type="text"
+														<textarea
 															v-model="templates.recommendation"
-															size="70"
+															class="form-control" style="border: 1px solid;"
 															disabled
 														/>
 													</td>
