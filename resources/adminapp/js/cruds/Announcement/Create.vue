@@ -8,7 +8,8 @@
 							<div class="card-icon">
 								<i class="material-icons">add</i>
 							</div>
-							<h4 class="card-title">Create
+							<h4 class="card-title">
+								Create
 								<strong>Announcement</strong>
 							</h4>
 						</div>
@@ -22,7 +23,7 @@
 									<label>Title</label>
 									<input type="text" class="form-control" v-model="form.title" />
 								</div>
-                                <div class="col-md-12">
+								<div class="col-md-12">
 									<label>Date Of Submission</label>
 									<input type="date" class="form-control" v-model="form.date_of_submission" />
 								</div>
@@ -34,13 +35,18 @@
 										:key="'ipcr-function-id-field'"
 										item-value="id"
 										v-model="form.faculty_id"
-                                        multiple
+										multiple
 										:options="facultyList"
 									/>
 								</div>
 								<div class="col-md-12 mt-4">
 									<label>Message</label>
-									<textarea class="form-control" v-model="form.message" rows="3"></textarea>
+									<textarea
+										class="form-control"
+										name="recommendation"
+										v-model="form.message"
+										style="border: 1px solid"
+									></textarea>
 								</div>
 							</div>
 						</div>
@@ -70,8 +76,8 @@
 				form: {
 					title: null,
 					date_of_submission: null,
-                    faculty_id: [],
-                    message: '',
+					faculty_id: [],
+					message: '',
 				},
 				loading: false,
 				facultyList: [],
@@ -90,7 +96,7 @@
 
 			fetchCreateData () {
 				axios.get('announcement/faculty')
-                      .then(response => {
+					.then(response => {
 						this.facultyList = response.data;
 					}).catch(error => {
 						let message = error.response.data.message || error.message

@@ -93,6 +93,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -335,7 +340,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { rows: "3" },
+                        attrs: { name: "description", rows: "3" },
                         domProps: { value: _vm.form.description },
                         on: {
                           input: function($event) {

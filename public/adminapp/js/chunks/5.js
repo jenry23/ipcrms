@@ -192,7 +192,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      notification: false
+      notification: false,
+      role_title: document.querySelector("meta[name='role_title']").getAttribute('content')
     };
   },
   computed: {
@@ -427,8 +428,15 @@ var render = function() {
   return _c(
     "nav",
     {
-      staticClass: "navbar navbar-expand-lg ipcrms-navbar-color",
-      class: { "ipcrms-width-navbar": _vm.currentRouteName === "ipcr" }
+      class: [
+        "navbar",
+        "navbar-expand-lg",
+        "ipcrms-navbar-color",
+        {
+          "ipcrms-width-navbar":
+            _vm.currentRouteName === "ipcr" || _vm.role_title !== null
+        }
+      ]
     },
     [
       _c("div", { staticClass: "container-fluid" }, [

@@ -238,6 +238,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -731,11 +789,13 @@ var render = function() {
                                 return _c("th", { key: index }, [
                                   _c("p", [
                                     _vm._v(
-                                      _vm._s(
-                                        signatory.title === "Discussed with:"
-                                          ? "Conforme"
-                                          : signatory.title
-                                      )
+                                      "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                        _vm._s(
+                                          signatory.title === "Discussed with:"
+                                            ? "Conforme"
+                                            : signatory.title
+                                        ) +
+                                        "\n\t\t\t\t\t\t\t\t\t\t\t"
                                     )
                                   ]),
                                   _vm._v(" "),
@@ -774,11 +834,7 @@ var render = function() {
                                 _c(
                                   "th",
                                   { staticStyle: { "text-align": "center" } },
-                                  [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\tRatee\n\t\t\t\t\t\t\t\t\t\t"
-                                    )
-                                  ]
+                                  [_vm._v("Ratee")]
                                 ),
                                 _vm._v(" "),
                                 _vm._l(_vm.templates.ipcr_signatory, function(
@@ -1327,7 +1383,12 @@ var render = function() {
                                           expression: "templates.recommendation"
                                         }
                                       ],
-                                      attrs: { size: "70", disabled: "" },
+                                      staticClass: "form-control",
+                                      staticStyle: { border: "1px solid" },
+                                      attrs: {
+                                        name: "recommendation",
+                                        disabled: ""
+                                      },
                                       domProps: {
                                         value: _vm.templates.recommendation
                                       },

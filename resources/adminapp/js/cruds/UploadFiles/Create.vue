@@ -60,7 +60,12 @@
 								</div>
 								<div class="col-md-12 mt-4">
 									<label>Description</label>
-									<textarea class="form-control" v-model="form.description" rows="3"></textarea>
+									<textarea
+										name="description"
+										class="form-control"
+										v-model="form.description"
+										rows="3"
+									></textarea>
 								</div>
 							</div>
 						</div>
@@ -110,11 +115,11 @@
 				this.form.files = events;
 			},
 
-  			selectFunction (value) {
+			selectFunction (value) {
 				this.subFunctionList = value.ipcr_sub_function;
 			},
 
-  			selectSubFunctionList (value) {
+			selectSubFunctionList (value) {
 				this.performanceFunctionList = value.ipcr_performance;
 			},
 
@@ -139,7 +144,7 @@
 				})
 				let config = {
 					header: {
-                        'Content-Type': 'multipart/form-data',
+						'Content-Type': 'multipart/form-data',
 					}
 				}
 				axios

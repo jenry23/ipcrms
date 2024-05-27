@@ -73,6 +73,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -269,7 +275,8 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { rows: "3" },
+                        staticStyle: { border: "1px solid" },
+                        attrs: { name: "recommendation" },
                         domProps: { value: _vm.form.message },
                         on: {
                           input: function($event) {
@@ -302,9 +309,9 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n\t\t\t\t\t\t\t\t" +
+                        "\n\t\t\t\t\t\t\t" +
                           _vm._s(_vm.$t("global.save")) +
-                          "\n\t\t\t\t\t\t\t"
+                          "\n\t\t\t\t\t\t"
                       )
                     ]
                   )
@@ -332,7 +339,7 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("h4", { staticClass: "card-title" }, [
-          _vm._v("Create\n\t\t\t\t\t\t\t\t"),
+          _vm._v("\n\t\t\t\t\t\t\tCreate\n\t\t\t\t\t\t\t"),
           _c("strong", [_vm._v("Announcement")])
         ])
       ]

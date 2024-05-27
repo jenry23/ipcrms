@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card" style="width: 90vw">
-					<div class="card-header card-header-primary card-header-icon" style="z-index: 0 !important; ">
+					<div class="card-header card-header-primary card-header-icon" style="z-index: 0 !important">
 						<h4 class="card-title">
 							<div class="row">
 								<div class="col-md-10">
@@ -36,7 +36,7 @@
 						</div>
 					</div>
 					<div class="container-fluid" v-if="templates.ipcr_function">
-						<input type="file" ref="fileInput" style="display: none;" @change="handleFileUpload" />
+						<input type="file" ref="fileInput" style="display: none" @change="handleFileUpload" />
 						<button class="btn btn-sm btn-primary ml-5" @click="openFileInput">Upload Signature</button>
 
 						<div class="card">
@@ -68,19 +68,30 @@
 									<table class="table table-border">
 										<tr>
 											<th v-for="(signatory, index) in signatures" :key="index">
-												<p>{{ signatory.title === 'Discussed with:' ? 'Conforme' : signatory.title }}</p>
-												<span style="margin-left: 30%;">
-												<img :src="signatory.signature" alt="My Image"
-														style=" width: 128px; height: 50px;">
-												<p style="margin-left: 30%;">{{ signatory.name }}</p>
+												<p>
+													{{
+														signatory.title === 'Discussed with:'
+															? 'Conforme'
+															: signatory.title
+													}}
+												</p>
+												<span style="margin-left: 30%">
+													<img
+														:src="signatory.signature"
+														alt="My Image"
+														style="width: 128px; height: 50px"
+													/>
+													<p style="margin-left: 30%">{{ signatory.name }}</p>
 												</span>
 											</th>
 										</tr>
 										<tr>
-											<th style="text-align: center;">
-												Ratee
-											</th>
-											<th style="text-align: center;" v-for="signatory in templates.ipcr_signatory" :key="signatory.id">
+											<th style="text-align: center">Ratee</th>
+											<th
+												style="text-align: center"
+												v-for="signatory in templates.ipcr_signatory"
+												:key="signatory.id"
+											>
 												{{ signatory.position }}
 											</th>
 										</tr>
@@ -107,12 +118,18 @@
 													<td colspan="10">{{ ipcrFunction.name }}</td>
 												</tr>
 												<template
-													v-for="(ipcrSubfunction, index1) in ipcrFunction.ipcr_subfunctions">
+													v-for="(
+														ipcrSubfunction, index1
+													) in ipcrFunction.ipcr_subfunctions"
+												>
 													<tr>
 														<td colspan="10">{{ ipcrSubfunction.name }}</td>
 													</tr>
 													<template
-														v-for="(performance, index2) in ipcrSubfunction.ipcr_performance">
+														v-for="(
+															performance, index2
+														) in ipcrSubfunction.ipcr_performance"
+													>
 														<tr>
 															<td>
 																<router-link to="/upload-files">
@@ -123,40 +140,71 @@
 																<input type="text" v-model="performance.id" />
 															</td>
 															<td>
-																<input type="number" v-model="performance.target"
-																	disabled />
+																<input
+																	type="number"
+																	v-model="performance.target"
+																	disabled
+																/>
 															</td>
 															<td>
-																<input type="number" v-model="performance.accomplished"
-																	disabled />
+																<input
+																	type="number"
+																	v-model="performance.accomplished"
+																	disabled
+																/>
 															</td>
 															<td>
-																<input type="date"
-																	v-model="performance.date_of_submission" disabled />
+																<input
+																	type="date"
+																	v-model="performance.date_of_submission"
+																	disabled
+																/>
 															</td>
 															<td>
-																<input type="date" v-model="performance.date_completed"
-																	disabled />
+																<input
+																	type="date"
+																	v-model="performance.date_completed"
+																	disabled
+																/>
 															</td>
 															<td>
-																<input type="number" v-model="performance.quantity"
-																	style="width: 50px" disabled />
+																<input
+																	type="number"
+																	v-model="performance.quantity"
+																	style="width: 50px"
+																	disabled
+																/>
 															</td>
 															<td>
-																<input type="number" v-model="performance.quality"
-																	style="width: 50px" disabled />
+																<input
+																	type="number"
+																	v-model="performance.quality"
+																	style="width: 50px"
+																	disabled
+																/>
 															</td>
 															<td>
-																<input type="number" v-model="performance.tar"
-																	style="width: 50px" disabled />
+																<input
+																	type="number"
+																	v-model="performance.tar"
+																	style="width: 50px"
+																	disabled
+																/>
 															</td>
 															<td>
-																<input type="number" v-model="performance.asc"
-																	style="width: 50px" disabled />
+																<input
+																	type="number"
+																	v-model="performance.asc"
+																	style="width: 50px"
+																	disabled
+																/>
 															</td>
 															<td>
-																<input type="text" v-model="performance.remarks"
-																	disabled />
+																<input
+																	type="text"
+																	v-model="performance.remarks"
+																	disabled
+																/>
 															</td>
 														</tr>
 													</template>
@@ -167,22 +215,32 @@
 											<tr>
 												<td colspan="5">
 													Comments and Recommendations for Development Purposes:
-													<textarea v-model="templates.recommendation" class="form-control" style="border: 1px solid;"
-														disabled />
+													<textarea
+														name="recommendation"
+														v-model="templates.recommendation"
+														class="form-control"
+														style="border: 1px solid"
+														disabled
+													></textarea>
 												</td>
 												<td>Numerical Rating: {{ numericalRating }}</td>
 												<td colspan="4">Adjectival Rating: {{ adjectivalRating }}</td>
 											</tr>
 											<tr>
-												<td v-for="(signatory, index) in signatures"
+												<td
+													v-for="(signatory, index) in signatures"
 													:colspan="signatory.title === 'Final Rating:' ? '4' : '2'"
-													:key="index">
+													:key="index"
+												>
 													<p>{{ signatory.title }}</p>
-													<span style="margin-left: 102px;" v-if="signatory.name">
-														<img :src="signatory.signature" alt="My Image"
-															style=" width: 128px; height: 50px;">
-														<br>
-														<p style="margin-left: 102px;">{{ signatory.name }}</p>
+													<span style="margin-left: 102px" v-if="signatory.name">
+														<img
+															:src="signatory.signature"
+															alt="My Image"
+															style="width: 128px; height: 50px"
+														/>
+														<br />
+														<p style="margin-left: 102px">{{ signatory.name }}</p>
 													</span>
 												</td>
 											</tr>
@@ -205,20 +263,20 @@
 						</div>
 					</div>
 					<VueHtml2pdf
-							:manual-pagination="true"
-							:enable-download="true"
-							:paginate-elements-by-height="1200"
-							filename="myPDF"
-							:pdf-quality="2"
-							pdf-format="a3"
-							pdf-orientation="landscape"
-							pdf-content-width="1600px"
-							ref="html2Pdf"
-						>
-							<section slot="pdf-content">
-								<facultytemplate :templates="json" :signatures="signatures"></facultytemplate>
-							</section>
-						</VueHtml2pdf>
+						:manual-pagination="true"
+						:enable-download="true"
+						:paginate-elements-by-height="1200"
+						filename="myPDF"
+						:pdf-quality="2"
+						pdf-format="a3"
+						pdf-orientation="landscape"
+						pdf-content-width="1600px"
+						ref="html2Pdf"
+					>
+						<section slot="pdf-content">
+							<facultytemplate :templates="json" :signatures="signatures"></facultytemplate>
+						</section>
+					</VueHtml2pdf>
 				</div>
 			</div>
 		</div>
@@ -226,207 +284,207 @@
 </template>
 
 <script>
-import facultytemplate from '@cruds/IPCR/facultytemplate.vue'
-import VueHtml2pdf from 'vue-html2pdf'
+	import facultytemplate from '@cruds/IPCR/facultytemplate.vue'
+	import VueHtml2pdf from 'vue-html2pdf'
 
-export default {
-	components: {
-		facultytemplate,
-		VueHtml2pdf
-	},
+	export default {
+		components: {
+			facultytemplate,
+			VueHtml2pdf
+		},
 
-	data () {
-		return {
-			status: '',
-			activeField: '',
-			faculty: [],
-			templates: [],
-			json: [],
-			assestment_id: '',
-			template_id: '',
-			signatures: [],
-			department_name: null,
-		}
-	},
+		data () {
+			return {
+				status: '',
+				activeField: '',
+				faculty: [],
+				templates: [],
+				json: [],
+				assestment_id: '',
+				template_id: '',
+				signatures: [],
+				department_name: null,
+			}
+		},
 
-	mounted () {
-		this.fetchPerDepartment();
-	},
+		mounted () {
+			this.fetchPerDepartment();
+		},
 
-	computed: {
-		numericalRating () {
-			let result = 0;
-			let total_ipcr_performance1 = 0;
+		computed: {
+			numericalRating () {
+				let result = 0;
+				let total_ipcr_performance1 = 0;
 
-			_.each(this.templates.ipcr_function, (value, key) => {
-				let sum1 = 0;
-				let total_ipcr_performance2 = 0;
+				_.each(this.templates.ipcr_function, (value, key) => {
+					let sum1 = 0;
+					let total_ipcr_performance2 = 0;
 
-				_.each(value.ipcr_subfunctions, (value2, key2) => {
-					let sum = 0;
-					let total_ipcr_performance3 = 0;
+					_.each(value.ipcr_subfunctions, (value2, key2) => {
+						let sum = 0;
+						let total_ipcr_performance3 = 0;
 
-					_.each(value2.ipcr_performance, (value3, key4) => {
-						if (value3.asc) {
-							sum += parseFloat(value3.asc);
-						}
-						total_ipcr_performance3 = key4 + 1;
+						_.each(value2.ipcr_performance, (value3, key4) => {
+							if (value3.asc) {
+								sum += parseFloat(value3.asc);
+							}
+							total_ipcr_performance3 = key4 + 1;
+						})
+						total_ipcr_performance2 += total_ipcr_performance3
+						sum1 += sum;
 					})
-					total_ipcr_performance2 += total_ipcr_performance3
-					sum1 += sum;
-				})
-				total_ipcr_performance1 += total_ipcr_performance2;
-				result += sum1;
-			});
+					total_ipcr_performance1 += total_ipcr_performance2;
+					result += sum1;
+				});
 
-			let compute = result / total_ipcr_performance1;
+				let compute = result / total_ipcr_performance1;
 
-			return parseFloat(compute.toFixed(2));
-		},
+				return parseFloat(compute.toFixed(2));
+			},
 
-		adjectivalRating () {
-			let value = null;
+			adjectivalRating () {
+				let value = null;
 
-			if(this.numericalRating >= 4 && this.numericalRating < 5) {
-				value = 'Very Satisfactory';
-			} else if(this.numericalRating >= 3 && this.numericalRating < 4) {
-				value = 'Satisfactory';
-			} else if(this.numericalRating >= 2 && this.numericalRating < 3) {
-				value = 'Unsatisfactory';
-			} else if(this.numericalRating >= 1 && this.numericalRating < 2) {
-				value = 'Poor';
-			} else {
-				value = 'Outstanding';
-			}
-
-			return value;
-		},
-
-		dateToday () {
-			let date = new Date();
-			this.templates.date_today = `${date.getMonth()}, ${date.getFullYear()}`;
-			return this.templates.date_today;
-		},
-	},
-
-	methods: {
-		focusField (name) {
-			this.activeField = name
-		},
-
-		clearFocus () {
-			this.activeField = ''
-		},
-
-		fetchPerDepartment () {
-			let department_id = this.$route.params.id;
-
-			axios.get(`ipcr-faculty-assesstment/department/${department_id}`).then((response) => {
-				let data = response.data.data
-				this.faculty = data.ipcr;
-				this.department_name = data.department_name
-			})
-		},
-
-		editFiles (data) {
-			this.templates = JSON.parse(data.data);
-			this.templates.id = data.id;
-			// this.templates.status_id = "Done Evaluate By Campus Director";
-
-			this.signatures = [
-				{
-					'title': 'Discussed with:',
-					'name': data.faculty_id ? data.faculty.name : null,
-					'signature': data.faculty_signature ?? null,
-				}, {
-					'title': 'Assessed by:',
-					'name': data.dean_id ? data.dean.name : null,
-					'signature':  this.numericalRating > 0 ? data.dean_signature : null
-				},
-				{
-					'title': 'Checked by:',
-					'name': data.hrmo_id ? data.hrmo.name : null,
-					'signature': this.numericalRating > 0 ? data.hrmo_signature : null
-				},
-				{
-					'title': 'Final Rating:',
-					'name': data.campus_director_id ? data.campus_director.name : null,
-					'signature': this.numericalRating > 0 ? data.campus_director_signature : null
-				}]
-		},
-
-		submitForm () {
-			axios.post(`ipcr-faculty-assesstment`, this.templates).then(response => {
-				this.$toast.success("IPCR Evaluate successfully saved!");
-				window.location.reload();
-			}).catch(error => {
-				let message = error.response.data.message || error.message
-				this.$toast.error(message);
-			})
-		},
-
-		downloadFiles (data) {
-			this.json = JSON.parse(data);
-
-			this.signatures = [
-				{
-					'title': 'Discussed with:',
-					'name': data.faculty_id ? data.faculty.name : null,
-					'signature': data.faculty_signature ?? null,
-				}, {
-					'title': 'Assessed by:',
-					'name': data.dean_id ? data.dean.name : null,
-					'signature':  this.numericalRating > 0 ? data.dean_signature : null
-				},
-				{
-					'title': 'Checked by:',
-					'name': data.hrmo_id ? data.hrmo.name : null,
-					'signature': this.numericalRating > 0 ? data.hrmo_signature : null
-				},
-				{
-					'title': 'Final Rating:',
-					'name': data.campus_director_id ? data.campus_director.name : null,
-					'signature': this.numericalRating > 0 ? data.campus_director_signature : null
-				}]
-			this.$refs.html2Pdf.generatePdf()
-		},
-
-		openFileInput () {
-			// Trigger a click event on the hidden file input when the button is clicked
-			this.$refs.fileInput.click();
-		},
-
-		handleFileUpload (event) {
-			let form = new FormData();
-			let selectedFile = event.target.files[0];
-
-			let data = {
-				'assessment_id': this.templates.id,
-				'files': selectedFile,
-				'is_hrmo': 1
-			}
-
-			_.each(data, (value, key) => {
-				form.append(key, value);
-			})
-
-			let config = {
-				header: {
-					'Content-Type': 'multipart/form-data',
+				if (this.numericalRating >= 4 && this.numericalRating < 5) {
+					value = 'Very Satisfactory';
+				} else if (this.numericalRating >= 3 && this.numericalRating < 4) {
+					value = 'Satisfactory';
+				} else if (this.numericalRating >= 2 && this.numericalRating < 3) {
+					value = 'Unsatisfactory';
+				} else if (this.numericalRating >= 1 && this.numericalRating < 2) {
+					value = 'Poor';
+				} else {
+					value = 'Outstanding';
 				}
-			}
 
-			axios.post(`ipcr-faculty-assesstment/upload-signature`, form, config).then(response => {
-				this.$toast.success("Signature Sucessfully Saved!");
-				window.location.reload();
-				this.fetchPerDepartment();
-			}).catch(error => {
-				let message = error.response.data.message || error.message
-				this.$toast.error(message);
-			})
-			// You can now use the selectedFile object as needed
+				return value;
+			},
+
+			dateToday () {
+				let date = new Date();
+				this.templates.date_today = `${date.getMonth()}, ${date.getFullYear()}`;
+				return this.templates.date_today;
+			},
 		},
 
+		methods: {
+			focusField (name) {
+				this.activeField = name
+			},
+
+			clearFocus () {
+				this.activeField = ''
+			},
+
+			fetchPerDepartment () {
+				let department_id = this.$route.params.id;
+
+				axios.get(`ipcr-faculty-assesstment/department/${department_id}`).then((response) => {
+					let data = response.data.data
+					this.faculty = data.ipcr;
+					this.department_name = data.department_name
+				})
+			},
+
+			editFiles (data) {
+				this.templates = JSON.parse(data.data);
+				this.templates.id = data.id;
+				// this.templates.status_id = "Done Evaluate By Campus Director";
+
+				this.signatures = [
+					{
+						'title': 'Discussed with:',
+						'name': data.faculty_id ? data.faculty.name : null,
+						'signature': data.faculty_signature ?? null,
+					}, {
+						'title': 'Assessed by:',
+						'name': data.dean_id ? data.dean.name : null,
+						'signature': this.numericalRating > 0 ? data.dean_signature : null
+					},
+					{
+						'title': 'Checked by:',
+						'name': data.hrmo_id ? data.hrmo.name : null,
+						'signature': this.numericalRating > 0 ? data.hrmo_signature : null
+					},
+					{
+						'title': 'Final Rating:',
+						'name': data.campus_director_id ? data.campus_director.name : null,
+						'signature': this.numericalRating > 0 ? data.campus_director_signature : null
+					}]
+			},
+
+			submitForm () {
+				axios.post(`ipcr-faculty-assesstment`, this.templates).then(response => {
+					this.$toast.success("IPCR Evaluate successfully saved!");
+					window.location.reload();
+				}).catch(error => {
+					let message = error.response.data.message || error.message
+					this.$toast.error(message);
+				})
+			},
+
+			downloadFiles (data) {
+				this.json = JSON.parse(data);
+
+				this.signatures = [
+					{
+						'title': 'Discussed with:',
+						'name': data.faculty_id ? data.faculty.name : null,
+						'signature': data.faculty_signature ?? null,
+					}, {
+						'title': 'Assessed by:',
+						'name': data.dean_id ? data.dean.name : null,
+						'signature': this.numericalRating > 0 ? data.dean_signature : null
+					},
+					{
+						'title': 'Checked by:',
+						'name': data.hrmo_id ? data.hrmo.name : null,
+						'signature': this.numericalRating > 0 ? data.hrmo_signature : null
+					},
+					{
+						'title': 'Final Rating:',
+						'name': data.campus_director_id ? data.campus_director.name : null,
+						'signature': this.numericalRating > 0 ? data.campus_director_signature : null
+					}]
+				this.$refs.html2Pdf.generatePdf()
+			},
+
+			openFileInput () {
+				// Trigger a click event on the hidden file input when the button is clicked
+				this.$refs.fileInput.click();
+			},
+
+			handleFileUpload (event) {
+				let form = new FormData();
+				let selectedFile = event.target.files[0];
+
+				let data = {
+					'assessment_id': this.templates.id,
+					'files': selectedFile,
+					'is_hrmo': 1
+				}
+
+				_.each(data, (value, key) => {
+					form.append(key, value);
+				})
+
+				let config = {
+					header: {
+						'Content-Type': 'multipart/form-data',
+					}
+				}
+
+				axios.post(`ipcr-faculty-assesstment/upload-signature`, form, config).then(response => {
+					this.$toast.success("Signature Sucessfully Saved!");
+					window.location.reload();
+					this.fetchPerDepartment();
+				}).catch(error => {
+					let message = error.response.data.message || error.message
+					this.$toast.error(message);
+				})
+				// You can now use the selectedFile object as needed
+			},
+
+		}
 	}
-}
 </script>

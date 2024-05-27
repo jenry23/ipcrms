@@ -707,6 +707,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1259,6 +1262,86 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_html2pdf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html2pdf */ "./node_modules/vue-html2pdf/dist/vue-html2pdf.esm.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2076,6 +2159,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2181,7 +2266,6 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           _this.$toast.success("IPCR Create Rate Yourself!");
 
-          console.log(data);
           _this.templates = data; // this.fetchFacultyIPCR();
         }
       })["catch"](function (error) {
@@ -2212,7 +2296,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('ipcr-faculty-assesstment/faculty').then(function (response) {
         var data = response.data.data;
-        console.log(data);
 
         if (Object.keys(data).length !== 0) {
           _this2.faculty = response.data;
@@ -2250,6 +2333,7 @@ __webpack_require__.r(__webpack_exports__);
       var _data$faculty_signatu, _data$dean_signature, _data$hrmo_signature, _data$campus_director;
 
       this.json = JSON.parse(data.data);
+      this.templates.id = data.id;
       this.signatures = [{
         'title': 'Discussed with:',
         'name': data.faculty_id ? data.faculty.name : null,
@@ -2301,7 +2385,7 @@ __webpack_require__.r(__webpack_exports__);
       var form = new FormData();
       var selectedFile = event.target.files[0];
       var data = {
-        'assessment_id': this.faculty.id,
+        'assessment_id': this.templates.id,
         'files': selectedFile,
         'is_faculty': 1
       };
@@ -3032,6 +3116,7 @@ var render = function() {
                         attrs: {
                           name: "sub_function",
                           label: "name",
+                          placeholder: "Please Select Functions",
                           options: _vm.functionList
                         },
                         on: {
@@ -3411,6 +3496,7 @@ var render = function() {
                         attrs: {
                           name: "performance_function",
                           label: "name",
+                          placeholder: "Please Select Functions",
                           options: _vm.functionList
                         },
                         on: {
@@ -3436,6 +3522,7 @@ var render = function() {
                         attrs: {
                           name: "performance_function",
                           label: "name",
+                          placeholder: "Please Select Sub Functions",
                           options: _vm.selectedSubFunctionList
                         },
                         on: {
@@ -4642,11 +4729,13 @@ var render = function() {
                                 return _c("th", { key: index }, [
                                   _c("p", [
                                     _vm._v(
-                                      _vm._s(
-                                        signatory.title === "Discussed with:"
-                                          ? "Conforme"
-                                          : signatory.title
-                                      )
+                                      "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                        _vm._s(
+                                          signatory.title === "Discussed with:"
+                                            ? "Conforme"
+                                            : signatory.title
+                                        ) +
+                                        "\n\t\t\t\t\t\t\t\t\t\t\t"
                                     )
                                   ]),
                                   _vm._v(" "),
@@ -4685,11 +4774,7 @@ var render = function() {
                                 _c(
                                   "th",
                                   { staticStyle: { "text-align": "center" } },
-                                  [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\tRatee\n\t\t\t\t\t\t\t\t\t\t"
-                                    )
-                                  ]
+                                  [_vm._v("Ratee")]
                                 ),
                                 _vm._v(" "),
                                 _vm._l(_vm.templates.ipcr_signatory, function(
@@ -4758,6 +4843,13 @@ var render = function() {
                                               function(performance, index2) {
                                                 return [
                                                   _c("tr", [
+                                                    _vm._v(
+                                                      "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                        _vm._s(
+                                                          ipcrSubfunction
+                                                        ) +
+                                                        "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                                    ),
                                                     _c(
                                                       "td",
                                                       [
@@ -5251,31 +5343,39 @@ var render = function() {
                               _vm._v(" "),
                               _c("tfoot", [
                                 _c("tr", [
-                                  _c(
-                                    "td",
-                                    { attrs: { colspan: "5" } },
-                                    [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t\t\t\t\t\t\t"
-                                      ),
-                                      _c("textare", {
-                                        staticClass: "form-control",
-                                        staticStyle: { border: "1px solid" },
-                                        model: {
+                                  _c("td", { attrs: { colspan: "5" } }, [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                    ),
+                                    _c("textarea", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
                                           value: _vm.templates.recommendation,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.templates,
-                                              "recommendation",
-                                              $$v
-                                            )
-                                          },
                                           expression: "templates.recommendation"
                                         }
-                                      })
-                                    ],
-                                    1
-                                  ),
+                                      ],
+                                      staticClass: "form-control",
+                                      staticStyle: { border: "1px solid" },
+                                      attrs: { name: "recommendation" },
+                                      domProps: {
+                                        value: _vm.templates.recommendation
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.templates,
+                                            "recommendation",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]),
                                   _vm._v(" "),
                                   _c("td", [
                                     _vm._v(
@@ -6443,7 +6543,10 @@ var render = function() {
                                           ],
                                           staticClass: "form-control",
                                           staticStyle: { border: "1px solid" },
-                                          attrs: { disabled: "" },
+                                          attrs: {
+                                            name: "recommendation",
+                                            disabled: ""
+                                          },
                                           domProps: {
                                             value: _vm.templates.recommendation
                                           },

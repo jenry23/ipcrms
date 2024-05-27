@@ -175,6 +175,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     templates: {},
@@ -335,7 +367,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", [
                 _c("p", { staticStyle: { "word-wrap": "break-word" } }, [
-                  _vm._v("\n\t\t\t\tI,"),
+                  _vm._v("\n\t\t\t\t\tI,"),
                   _c("input", {
                     attrs: { type: "text", size: "15", disabled: "" },
                     domProps: { value: _vm.$t("auth.name") }
@@ -346,7 +378,7 @@ var render = function() {
                     domProps: { value: _vm.$t("auth.role_name") }
                   }),
                   _vm._v(
-                    "\n\t\t\t\tof the Laguna State Polytechnic University, commit to deliver and agree to the rated of\n\t\t\t\tthe following in accordance with the indicated measures for the\n\t\t\t\t"
+                    "\n\t\t\t\t\tof the Laguna State Polytechnic University, commit to deliver and agree to the rated of the\n\t\t\t\t\tfollowing in accordance with the indicated measures for the\n\t\t\t\t\t"
                   ),
                   _c("input", {
                     directives: [
@@ -368,7 +400,7 @@ var render = function() {
                       }
                     }
                   }),
-                  _vm._v(" Semester of Academic\n\t\t\t\tYear "),
+                  _vm._v(" Semester of Academic Year\n\t\t\t\t\t"),
                   _c("input", {
                     directives: [
                       {
@@ -389,7 +421,7 @@ var render = function() {
                       }
                     }
                   }),
-                  _vm._v(".\n\t\t\t")
+                  _vm._v(".\n\t\t\t\t")
                 ])
               ]),
               _vm._v(" "),
@@ -427,7 +459,7 @@ var render = function() {
                   "tr",
                   [
                     _c("th", { staticStyle: { "text-align": "center" } }, [
-                      _vm._v("\n\t\t\t\tRatee\n\t\t\t")
+                      _vm._v("Ratee")
                     ]),
                     _vm._v(" "),
                     _vm._l(_vm.templates.ipcr_signatory, function(signatory) {
@@ -439,9 +471,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n\t\t\t\t" +
+                            "\n\t\t\t\t\t\t" +
                               _vm._s(signatory.position) +
-                              "\n\t\t\t"
+                              "\n\t\t\t\t\t"
                           )
                         ]
                       )
@@ -784,7 +816,7 @@ var render = function() {
                   _c("tr", [
                     _c("td", { attrs: { colspan: "5" } }, [
                       _vm._v(
-                        "\n\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t"
+                        "\n\t\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t\t"
                       ),
                       _c("textarea", {
                         directives: [
@@ -797,7 +829,7 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         staticStyle: { border: "1px solid" },
-                        attrs: { disabled: "" },
+                        attrs: { name: "recommendation", disabled: "" },
                         domProps: { value: _vm.templates.recommendation },
                         on: {
                           input: function($event) {

@@ -1,6 +1,6 @@
 <template>
   <nav
-  class="navbar navbar-expand-lg ipcrms-navbar-color" :class="{ 'ipcrms-width-navbar': currentRouteName === 'ipcr' }"
+  :class="['navbar', 'navbar-expand-lg', 'ipcrms-navbar-color', { 'ipcrms-width-navbar': currentRouteName === 'ipcr' || role_title !== null }]"
   >
     <div class="container-fluid">
       <div class="navbar-wrapper">
@@ -45,12 +45,13 @@
 export default {
   data() {
       return {
-          notification: false,
+        notification: false,
+        role_title: document.querySelector("meta[name='role_title']").getAttribute('content')
       };
   },
 
   computed: {
-    currentRouteName() {
+    currentRouteName () {
         return this.$route.name;
     }
   },

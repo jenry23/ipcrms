@@ -130,7 +130,13 @@ class IpcrFacultyAssesstmentApiController extends Controller
         Storage::disk('public')->put($filename, file_get_contents($file));
         $url = URL::asset('storage/' . $filename);
 
-        if ($roles->id === 3) {
+        if ($roles->id === 2) {
+            $ipcr_faculty->update([
+                'faculty_signature' => $url,
+                'faculty_id' => Auth::user()->id,
+                'status_id' => 'On Going Assessment'
+            ]);
+        } elseif ($roles->id === 3) {
             $ipcr_faculty->update([
                 'dean_signature' => $url,
                 'dean_id' => Auth::user()->id,
@@ -147,12 +153,6 @@ class IpcrFacultyAssesstmentApiController extends Controller
                 'campus_director_signature' => $url,
                 'campus_director_id' => Auth::user()->id,
                 'status_id' => 'Done Evaluated by Campus Director'
-            ]);
-        } elseif ($roles->id === 1) {
-            $ipcr_faculty->update([
-                'faculty_signature' => $url,
-                'faculty_id' => Auth::user()->id,
-                'status_id' => 'On Going Assessment'
             ]);
         }
 

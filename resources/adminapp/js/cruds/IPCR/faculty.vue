@@ -227,9 +227,11 @@
 														Comments and Recommendations for Development Purposes:
 														<textarea
 															v-model="templates.recommendation"
-															class="form-control" style="border: 1px solid;"
+															name="recommendation"
+															class="form-control"
+															style="border: 1px solid;"
 															disabled
-														/>
+														></textarea>
 													</td>
 													<td>Numerical Rating: {{ numericalRating }}</td>
 													<td colspan="4">Adjectival Rating: {{ adjectivalRating }}</td>
@@ -445,7 +447,6 @@ td {
 						this.$toast.error("Please Upload IPCR Template to Admin");
 					} else {
 						this.$toast.success("IPCR Create Rate Yourself!");
-						console.log(data)
 						this.templates = data;
 						// this.fetchFacultyIPCR();
 					}
@@ -479,7 +480,6 @@ td {
 			fetchFacultyIPCR () {
 				axios.get('ipcr-faculty-assesstment/faculty').then((response) => {
 					let data = response.data.data
-					console.log(data);
 					if (Object.keys(data).length !== 0) {
 						this.faculty = response.data;
 						this.templates = []
@@ -512,6 +512,7 @@ td {
 
 			viewFiles (data) {
 				this.json = JSON.parse(data.data);
+				this.templates.id = data.id;
 
 				this.signatures = [
 					{
@@ -571,11 +572,10 @@ td {
 				let selectedFile = event.target.files[0];
 
 				let data = {
-					'assessment_id': this.faculty.id,
+					'assessment_id': this.templates.id,
 					'files': selectedFile,
 					'is_faculty': 1
 				}
-
 				_.each(data, (value, key) => {
 					form.append(key, value);
 				})
