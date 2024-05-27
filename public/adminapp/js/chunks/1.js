@@ -203,10 +203,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     templates: {},
@@ -818,32 +814,13 @@ var render = function() {
                       _vm._v(
                         "\n\t\t\t\t\t\t\tComments and Recommendations for Development Purposes:\n\t\t\t\t\t\t\t"
                       ),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.templates.recommendation,
-                            expression: "templates.recommendation"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        staticStyle: { border: "1px solid" },
-                        attrs: { name: "recommendation", disabled: "" },
-                        domProps: { value: _vm.templates.recommendation },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.templates,
-                              "recommendation",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
+                      _c("p", { staticStyle: { border: "1px solid" } }, [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\t" +
+                            _vm._s(_vm.templates.recommendation) +
+                            "\n\t\t\t\t\t\t\t"
+                        )
+                      ])
                     ]),
                     _vm._v(" "),
                     _c("td", [
