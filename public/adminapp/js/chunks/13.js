@@ -429,9 +429,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     downloadFiles: function downloadFiles(data) {
-      var _data$faculty_signatu2;
+      var _data$faculty_signatu2, _data$dean_signature, _data$hrmo_signature, _data$campus_director;
 
-      this.json = JSON.parse(data);
+      this.json = JSON.parse(data.data);
       this.signatures = [{
         'title': 'Discussed with:',
         'name': data.faculty_id ? data.faculty.name : null,
@@ -439,15 +439,15 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         'title': 'Assessed by:',
         'name': data.dean_id ? data.dean.name : null,
-        'signature': this.numericalRating > 0 ? data.dean_signature : null
+        'signature': (_data$dean_signature = data.dean_signature) !== null && _data$dean_signature !== void 0 ? _data$dean_signature : null
       }, {
         'title': 'Checked by:',
         'name': data.hrmo_id ? data.hrmo.name : null,
-        'signature': this.numericalRating > 0 ? data.hrmo_signature : null
+        'signature': (_data$hrmo_signature = data.hrmo_signature) !== null && _data$hrmo_signature !== void 0 ? _data$hrmo_signature : null
       }, {
         'title': 'Final Rating:',
         'name': data.campus_director_id ? data.campus_director.name : null,
-        'signature': this.numericalRating > 0 ? data.campus_director_signature : null
+        'signature': (_data$campus_director = data.campus_director_signature) !== null && _data$campus_director !== void 0 ? _data$campus_director : null
       }];
       this.$refs.html2Pdf.generatePdf();
     },
@@ -578,7 +578,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  return _vm.downloadFiles(fac.data)
+                                  return _vm.downloadFiles(fac)
                                 }
                               }
                             },

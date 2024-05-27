@@ -14,6 +14,8 @@ class Role extends Model
 
     public $table = 'roles';
 
+    public const FACULTY = 'Faculty';
+
     protected $orderable = [
         'id',
         'title',

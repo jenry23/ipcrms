@@ -12,27 +12,38 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 
 class AnnouncementApiController extends Controller
 {
     public function index()
     {
-        $user_id = Auth::user()->id;
+        $user = Auth::user();
+        $user_id = $user->id;
+        $roles = $user->roles()->first();
 
-        $announcement = Announcement::with(['faculty'])->get()
-            ->filter(function (Announcement $announcement) use ($user_id) {
+        $announcement = Announcement::with(['faculty'])
+            ->when($roles->id !== 2, function ($query) use ($user_id) {
+                $query->where('from', $user_id);
+            })
+            ->get();
+
+        if ($roles !== 2) {
+            $announcement->filter(function (Announcement $announcement) use ($user_id) {
                 $faculty_ids = explode(',', $announcement->faculty_ids);
 
                 return in_array($user_id, $faculty_ids);
             });
+        }
+
 
         return new IpcrResource($announcement);
     }
 
     public function getFaculty()
     {
-        $ipcr_faculty = User::all();
+        $ipcr_faculty = User::hasRole(Role::FACULTY)->get();
 
         return response()->json($ipcr_faculty);
     }

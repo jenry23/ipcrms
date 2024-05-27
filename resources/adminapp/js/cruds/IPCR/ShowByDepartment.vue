@@ -28,7 +28,7 @@
 									</button>
 								</div>
 								<div class="col-md-1 mt-3">
-									<button class="btn btn-sm btn-success" @click.prevent="downloadFiles(fac.data)">
+									<button class="btn btn-sm btn-success" @click.prevent="downloadFiles(fac)">
 										Download
 									</button>
 								</div>
@@ -424,7 +424,7 @@
 			},
 
 			downloadFiles (data) {
-				this.json = JSON.parse(data);
+				this.json = JSON.parse(data.data);
 
 				this.signatures = [
 					{
@@ -434,18 +434,19 @@
 					}, {
 						'title': 'Assessed by:',
 						'name': data.dean_id ? data.dean.name : null,
-						'signature': this.numericalRating > 0 ? data.dean_signature : null
+						'signature': data.dean_signature ?? null
 					},
 					{
 						'title': 'Checked by:',
 						'name': data.hrmo_id ? data.hrmo.name : null,
-						'signature': this.numericalRating > 0 ? data.hrmo_signature : null
+						'signature': data.hrmo_signature ?? null
 					},
 					{
 						'title': 'Final Rating:',
 						'name': data.campus_director_id ? data.campus_director.name : null,
-						'signature': this.numericalRating > 0 ? data.campus_director_signature : null
+						'signature': data.campus_director_signature ?? null
 					}]
+
 				this.$refs.html2Pdf.generatePdf()
 			},
 

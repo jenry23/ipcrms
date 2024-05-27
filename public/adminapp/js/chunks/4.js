@@ -1557,20 +1557,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2245,14 +2231,20 @@ __webpack_require__.r(__webpack_exports__);
     clearFocus: function clearFocus() {
       this.activeField = '';
     },
-    setQuantity: function setQuantity(value) {
-      var sum = 0;
+    setQuantity: function setQuantity(value, index2, index1, index) {
+      var sum = 0; // Check if value and target are defined and are numbers
 
-      if (value.target) {
-        sum = parseInt(value.accomplished) / parseInt(value.target);
+      if (value && value.accomplished && value.target) {
+        var accomplished = parseInt(value.accomplished, 10);
+        var target = parseInt(value.target, 10);
+
+        if (!isNaN(accomplished) && !isNaN(target) && target !== 0) {
+          sum = accomplished / target * 5;
+        }
       }
 
-      return sum > 5 ? 5 : Math.ceil(sum);
+      this.templates.ipcr_function[index].ipcr_subfunctions[index1].ipcr_performance[index2].quantity = sum;
+      return sum;
     },
     rateYourself: function rateYourself() {
       var _this = this;
@@ -5085,65 +5077,47 @@ var render = function() {
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      performance.quantity
-                                                        ? _c("input", {
-                                                            directives: [
-                                                              {
-                                                                name: "model",
-                                                                rawName:
-                                                                  "v-model",
-                                                                value:
-                                                                  performance.quantity,
-                                                                expression:
-                                                                  "performance.quantity"
-                                                              }
-                                                            ],
-                                                            staticStyle: {
-                                                              width: "50px"
-                                                            },
-                                                            attrs: {
-                                                              type: "number",
-                                                              disabled: ""
-                                                            },
-                                                            domProps: {
-                                                              value:
-                                                                performance.quantity
-                                                            },
-                                                            on: {
-                                                              input: function(
-                                                                $event
-                                                              ) {
-                                                                if (
-                                                                  $event.target
-                                                                    .composing
-                                                                ) {
-                                                                  return
-                                                                }
-                                                                _vm.$set(
-                                                                  performance,
-                                                                  "quantity",
-                                                                  $event.target
-                                                                    .value
-                                                                )
-                                                              }
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              performance.quantity,
+                                                            expression:
+                                                              "performance.quantity"
+                                                          }
+                                                        ],
+                                                        staticStyle: {
+                                                          width: "50px"
+                                                        },
+                                                        attrs: {
+                                                          type: "number",
+                                                          disabled: ""
+                                                        },
+                                                        domProps: {
+                                                          value:
+                                                            performance.quantity
+                                                        },
+                                                        on: {
+                                                          input: function(
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
                                                             }
-                                                          })
-                                                        : _c("input", {
-                                                            staticStyle: {
-                                                              width: "50px"
-                                                            },
-                                                            attrs: {
-                                                              disabled: ""
-                                                            },
-                                                            domProps: {
-                                                              value: _vm.setQuantity(
-                                                                performance,
-                                                                index2,
-                                                                index1,
-                                                                index
-                                                              )
-                                                            }
-                                                          })
+                                                            _vm.$set(
+                                                              performance,
+                                                              "quantity",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          }
+                                                        }
+                                                      })
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [

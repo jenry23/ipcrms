@@ -179,20 +179,6 @@
 																	type="number"
 																	v-model="performance.quantity"
 																	style="width: 50px"
-																	v-if="performance.quantity"
-																	disabled
-																/>
-																<input
-																	v-else
-																	:value="
-																		setQuantity(
-																			performance,
-																			index2,
-																			index1,
-																			index
-																		)
-																	"
-																	style="width: 50px"
 																	disabled
 																/>
 															</td>

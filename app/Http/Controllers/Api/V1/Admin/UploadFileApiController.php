@@ -47,7 +47,7 @@ class UploadFileApiController extends Controller
         $ipcr_active = IpcrFacultyAssesstment::where('faculty_id', Auth::user()->id)->first();
         $message = 'Successfully Upload File by Faculity' . Auth::user()->name;
 
-        if ($ipcr_active) {
+        if (isset($ipcr_active->dean_id)) {
             Notification::create([
                 'user_id' => $ipcr_active->dean_id,
                 'message' => $message,
@@ -121,6 +121,12 @@ class UploadFileApiController extends Controller
                                         ->where('ipcr_performance_function_id',  $upload_files->ipcr_performance_function_id)
                                         ->where('is_approved', true)
                                         ->count();
+
+                                    $accomplished = is_null($total_approved_ipcr) ? 1 : $total_approved_ipcr;
+
+                                    if (isset($ipcr_performance['tar'])) {
+                                        $json_data['ipcr_function'][$key]['ipcr_subfunctions'][$key1]['ipcr_performance'][$key2]['quantity']  = ($accomplished / $ipcr_performance['tar']) * 5;
+                                    }
 
                                     $json_data['ipcr_function'][$key]['ipcr_subfunctions'][$key1]['ipcr_performance'][$key2]['accomplished']  = is_null($total_approved_ipcr) ? 1 : $total_approved_ipcr;
 
