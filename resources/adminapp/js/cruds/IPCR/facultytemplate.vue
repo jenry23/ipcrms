@@ -128,13 +128,9 @@
 						<tr>
 							<td colspan="5">
 								Comments and Recommendations for Development Purposes:
-								<textarea
-									v-model="templates.recommendation"
-									class="form-control"
-									name="recommendation"
-									style="border: 1px solid"
-									disabled
-								></textarea>
+								<p style="border: 1px solid">
+									{{ templates.recommendation }}
+								</p>
 							</td>
 							<td>Numerical Rating: {{ numericalRating }}</td>
 							<td colspan="4">Adjectival Rating: {{ adjectivalRating }}</td>
