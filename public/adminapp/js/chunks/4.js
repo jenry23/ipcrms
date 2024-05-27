@@ -1571,7 +1571,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -2355,7 +2354,7 @@ __webpack_require__.r(__webpack_exports__);
     downloadFiles: function downloadFiles(data) {
       var _data$faculty_signatu2;
 
-      this.json = JSON.parse(data);
+      this.json = JSON.parse(data.data);
       this.signatures = [{
         'title': 'Discussed with:',
         'name': data.faculty_id ? data.faculty.name : null,
@@ -4843,13 +4842,6 @@ var render = function() {
                                               function(performance, index2) {
                                                 return [
                                                   _c("tr", [
-                                                    _vm._v(
-                                                      "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                                        _vm._s(
-                                                          ipcrSubfunction
-                                                        ) +
-                                                        "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                                                    ),
                                                     _c(
                                                       "td",
                                                       [
@@ -5706,7 +5698,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  return _vm.downloadFiles(fac.data)
+                                  return _vm.downloadFiles(fac)
                                 }
                               }
                             },

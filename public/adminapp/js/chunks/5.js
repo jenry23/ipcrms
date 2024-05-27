@@ -434,7 +434,9 @@ var render = function() {
         "ipcrms-navbar-color",
         {
           "ipcrms-width-navbar":
-            _vm.currentRouteName === "ipcr" || _vm.role_title !== null
+            _vm.currentRouteName === "ipcr" ||
+            _vm.role_title !== null ||
+            _vm.role_title !== ""
         }
       ]
     },

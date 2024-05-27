@@ -34,7 +34,7 @@
 									<div class="col-md-1 mt-3">
 										<button
 											class="btn btn-sm btn-success"
-											@click.prevent="downloadFiles(fac.data)"
+											@click.prevent="downloadFiles(fac)"
 										>
 											Download
 										</button>
@@ -537,7 +537,7 @@ td {
 			},
 
 			downloadFiles (data) {
-				this.json = JSON.parse(data);
+				this.json = JSON.parse(data.data);
 
 				this.signatures = [
 				{

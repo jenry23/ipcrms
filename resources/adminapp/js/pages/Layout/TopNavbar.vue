@@ -1,6 +1,6 @@
 <template>
   <nav
-  :class="['navbar', 'navbar-expand-lg', 'ipcrms-navbar-color', { 'ipcrms-width-navbar': currentRouteName === 'ipcr' || role_title !== null }]"
+  :class="['navbar', 'navbar-expand-lg', 'ipcrms-navbar-color', { 'ipcrms-width-navbar': currentRouteName === 'ipcr' || role_title !== null || role_title !== '' }]"
   >
     <div class="container-fluid">
       <div class="navbar-wrapper">
